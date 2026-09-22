@@ -1,0 +1,20 @@
+# Original copyrighted game files — never commit. Supply your own legally
+# obtained copy locally to run the extraction pipeline (see README.md).
+original/
+
+# Raw assets extracted directly from the original binary — regenerated
+# locally by the extraction tooling, not redistributed.
+extraction/resources/
+extraction/forms/
+extraction/pcode/
+
+# Node / Vite
+port/node_modules/
+port/dist/
+port/.vite/
+
+# Wine prefix used for the reference oracle
+.wine32/
+
+# Editor/OS cruft
+.DS_Store
