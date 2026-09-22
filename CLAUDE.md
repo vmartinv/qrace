@@ -1,5 +1,30 @@
 # Quibble Race Decompile/Port — Project Plan
 
+## Progress log
+
+- **Phase 1 (reference oracle): done.** `qrace.exe` runs under stock Wine
+  (no `WINEARCH=win32`/extra packages needed — Wine's own
+  `syswow64\winevdm.exe` handles it) and renders correctly, verified
+  headlessly via Xvfb. Details: `docs/gameplay-notes.md`.
+- **Phase 2 (resource extraction): done.** `tools/ne_parser.py` +
+  `tools/extract_bitmaps.py` extract everything from the NE resource table
+  — 34 `RT_RCDATA` entries pairing a control name-table with a compiled
+  form/picture data blob per form (no `RT_STRING`/`RT_BITMAP`/`RT_DIALOG`
+  resources exist at all); embedded BMP sprites extract and open cleanly
+  (visually verified). Details: `docs/resource-format-notes.md`.
+- **Phase 3 (p-code disassembly): in progress, structural recovery done,
+  opcode decoding not started.** `tools/segment_parser.py` parses the NE
+  segment table and recovered 174 inline string literals (VB3 embeds
+  strings directly in the code segment as `<u16 length><raw bytes>`, no
+  separate string pool — confirmed empirically). Checked public VB p-code
+  references (AndreaGeddon's paper: VB6-native-only, not applicable;
+  vb-decompiler.org's opcode table: explicitly VB5/6, and confirmed
+  incompatible since VB5/6 uses indirect Unicode string references while
+  VB3 embeds ASCII inline) — **no usable VB3 opcode reference exists
+  publicly**, decoding VB3's actual instruction encoding is original work
+  from here. Details: `docs/pcode-notes.md`.
+- Phases 4-7: not started.
+
 ## Context
 
 `~/qrace/original/` contains "Quibble Race v1.5" by Blackeye Software (Derek Yu's
