@@ -13,8 +13,13 @@ port/node_modules/
 port/dist/
 port/.vite/
 
-# Wine prefix used for the reference oracle
+# Wine prefix(es) used for the reference oracle
 .wine32/
+.winedefault/
 
 # Editor/OS cruft
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc

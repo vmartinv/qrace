@@ -1,0 +1,290 @@
+[
+  {
+    "type": "RT_GROUP_ICON",
+    "id": 1,
+    "name": null,
+    "offset": 44800,
+    "length": 256,
+    "file": "resources/RT_GROUP_ICON_1.bin"
+  },
+  {
+    "type": "RT_ICON",
+    "id": 1,
+    "name": null,
+    "offset": 45056,
+    "length": 768,
+    "file": "resources/RT_ICON_1.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 1,
+    "name": null,
+    "offset": 45824,
+    "length": 768,
+    "file": "resources/RT_RCDATA_1.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 2,
+    "name": null,
+    "offset": 46592,
+    "length": 5632,
+    "file": "resources/RT_RCDATA_2.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 4,
+    "name": null,
+    "offset": 52224,
+    "length": 221952,
+    "file": "resources/RT_RCDATA_4.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 5,
+    "name": null,
+    "offset": 274176,
+    "length": 256,
+    "file": "resources/RT_RCDATA_5.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 6,
+    "name": null,
+    "offset": 274432,
+    "length": 647680,
+    "file": "resources/RT_RCDATA_6.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 7,
+    "name": null,
+    "offset": 922112,
+    "length": 256,
+    "file": "resources/RT_RCDATA_7.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 8,
+    "name": null,
+    "offset": 922368,
+    "length": 88832,
+    "file": "resources/RT_RCDATA_8.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 9,
+    "name": null,
+    "offset": 1011200,
+    "length": 256,
+    "file": "resources/RT_RCDATA_9.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 10,
+    "name": null,
+    "offset": 1011456,
+    "length": 53760,
+    "file": "resources/RT_RCDATA_10.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 11,
+    "name": null,
+    "offset": 1065216,
+    "length": 256,
+    "file": "resources/RT_RCDATA_11.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 12,
+    "name": null,
+    "offset": 1065472,
+    "length": 18944,
+    "file": "resources/RT_RCDATA_12.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 13,
+    "name": null,
+    "offset": 1084416,
+    "length": 256,
+    "file": "resources/RT_RCDATA_13.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 14,
+    "name": null,
+    "offset": 1084672,
+    "length": 2304,
+    "file": "resources/RT_RCDATA_14.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 15,
+    "name": null,
+    "offset": 1086976,
+    "length": 256,
+    "file": "resources/RT_RCDATA_15.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 16,
+    "name": null,
+    "offset": 1087232,
+    "length": 70144,
+    "file": "resources/RT_RCDATA_16.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 17,
+    "name": null,
+    "offset": 1157376,
+    "length": 256,
+    "file": "resources/RT_RCDATA_17.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 18,
+    "name": null,
+    "offset": 1157632,
+    "length": 1280,
+    "file": "resources/RT_RCDATA_18.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 19,
+    "name": null,
+    "offset": 1158912,
+    "length": 256,
+    "file": "resources/RT_RCDATA_19.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 20,
+    "name": null,
+    "offset": 1159168,
+    "length": 1536,
+    "file": "resources/RT_RCDATA_20.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 21,
+    "name": null,
+    "offset": 1160704,
+    "length": 256,
+    "file": "resources/RT_RCDATA_21.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 22,
+    "name": null,
+    "offset": 1160960,
+    "length": 1280,
+    "file": "resources/RT_RCDATA_22.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 23,
+    "name": null,
+    "offset": 1162240,
+    "length": 256,
+    "file": "resources/RT_RCDATA_23.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 24,
+    "name": null,
+    "offset": 1162496,
+    "length": 53760,
+    "file": "resources/RT_RCDATA_24.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 25,
+    "name": null,
+    "offset": 1216256,
+    "length": 256,
+    "file": "resources/RT_RCDATA_25.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 26,
+    "name": null,
+    "offset": 1216512,
+    "length": 1536,
+    "file": "resources/RT_RCDATA_26.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 27,
+    "name": null,
+    "offset": 1218048,
+    "length": 256,
+    "file": "resources/RT_RCDATA_27.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 28,
+    "name": null,
+    "offset": 1218304,
+    "length": 1280,
+    "file": "resources/RT_RCDATA_28.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 29,
+    "name": null,
+    "offset": 1219584,
+    "length": 256,
+    "file": "resources/RT_RCDATA_29.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 30,
+    "name": null,
+    "offset": 1219840,
+    "length": 1536,
+    "file": "resources/RT_RCDATA_30.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 31,
+    "name": null,
+    "offset": 1221376,
+    "length": 256,
+    "file": "resources/RT_RCDATA_31.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 32,
+    "name": null,
+    "offset": 1221632,
+    "length": 52992,
+    "file": "resources/RT_RCDATA_32.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 33,
+    "name": null,
+    "offset": 1274624,
+    "length": 256,
+    "file": "resources/RT_RCDATA_33.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 34,
+    "name": null,
+    "offset": 1274880,
+    "length": 18944,
+    "file": "resources/RT_RCDATA_34.bin"
+  },
+  {
+    "type": "RT_RCDATA",
+    "id": 35,
+    "name": null,
+    "offset": 1293824,
+    "length": 256,
+    "file": "resources/RT_RCDATA_35.bin"
+  }
+]
