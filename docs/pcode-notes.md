@@ -13,7 +13,8 @@ python3 ../vb3-decompiler/tools/pcode_disasm.py original/qrace.exe \
 
 19 segments: 1 stub, 2 data, 3 procedure table (101 records), 4–19 code.
 All 101 procedures decode exactly to their end offsets (9,537
-instructions).
+instructions). Every handler is named, and all 536 control/form references
+resolve to names (e.g. `frmStatus!cmdTrain`).
 
 | seg | form | procs | content (from strings) |
 |---|---|---|---|
@@ -36,8 +37,6 @@ instructions).
 
 ## Next steps
 
-1. Name the remaining handlers and builtins (`vb3-decompiler`), with
-   priority on those used in segments 5, 6, 8, 12, 17 and 19 (race,
-   money, loans).
-2. Map procedure records to event names (control index + event).
+1. Map procedure records to event names (control index + event).
+2. Property names (per control class).
 3. Lift to pseudo-BASIC, then write `docs/game-spec.md`.

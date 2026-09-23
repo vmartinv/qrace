@@ -7,7 +7,9 @@ General format: `vb3-decompiler/RESOURCE_FORMAT.md`. Regenerate with
 
 - `RT_GROUP_ICON` 1, `RT_ICON` 1: app icon.
 - `RT_RCDATA` 1: project directory (`QRACE`, `QUIBBLES`, 16 `.FRM` files).
-- `RT_RCDATA` 2 (5,632 B): unidentified. No magic, strings or bitmaps.
+- `RT_RCDATA` 2 (5,632 B): initial data images (globals incl. array
+  descriptors, per-form control/form slots). Used to name every control
+  and form reference in the code.
 - `RT_RCDATA` 4–35: 16 forms as (data blob, name table) pairs.
 
 ## Forms
@@ -43,4 +45,3 @@ Extracted with `vb3-decompiler/tools/extract_bitmaps.py` (24-bit BMPs):
 ## Next steps
 
 - Decode control layout in the blobs: positions and sizes for the port.
-- Identify `RT_RCDATA` 2.
