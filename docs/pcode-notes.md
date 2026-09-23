@@ -101,21 +101,88 @@ Conclusion: no usable VB3-specific p-code opcode reference exists
 publicly (or at least none turned up). Proceeding on VB3's own opcodes
 requires original empirical work, not adaptation of VB5/6 documentation.
 
-### Path forward (not started)
+### Path forward: empirical diffing against a real VB3 compiler (in progress)
 
-Most reliable option: source an actual VB3 IDE/compiler, write minimal
-test programs with known source (single `Sub` with one statement at a
-time — start with something like `x = 1 + 2` or `Print "hi"`), compile
-each, and diff the resulting segment bytecode against the previous
-program to isolate individual opcodes incrementally. This needs a real
-copy of VB3 (an old, no-longer-sold Microsoft product) — worth checking
-with the project owner before sourcing one from anywhere, since that's
-its own separate acquisition/legality question distinct from qrace.exe's
-own freeware status.
+The project owner supplied a WinWorld-sourced VB3 Professional install
+image (9 floppy disks as a `.7z`, kept outside the repo entirely — see
+below). This unblocks the plan from the previous section: write minimal
+known-source test programs, compile each with the real VB3 compiler, and
+diff the resulting segment bytecode to isolate individual opcodes
+empirically.
 
-Slower fallback without a VB3 compiler: pure black-box inference from
-qrace.exe's own bytecode alone — cross-referencing the 174 recovered
-strings' surrounding bytes (which operations touch them, what precedes/
-follows) against what those code paths are known to *do* (from playing
-the reference oracle) to guess at opcode meanings. Much slower and more
-error-prone than having known source-to-bytecode pairs, but possible.
+**Licensing note**: same posture as `qrace.exe` itself — used only as a
+local research tool, never committed or redistributed. `.gitignore` now
+also excludes `vb3_install/` and `*.7z` at the repo root.
+
+**Getting VB.EXE running needed no installer at all.** The graphical
+`SETUP.EXE` (Microsoft Setup Toolkit 3.x) reliably fails with "Insufficient
+memory or disk space" under Wine's built-in `winevdm` regardless of actual
+free space (tried both the real multi-hundred-GB filesystem and a
+purpose-built small loop-mounted ext4 image as the target drive — same
+failure either way, so it's a memory-check incompatibility, not a real
+disk-space overflow; not root-caused further since it turned out to be
+unnecessary). Instead:
+
+1. The disk images are FAT12 (`7z x` reads them directly, no mounting
+   needed). All 9 disks merge into one flat directory with no filename
+   collisions (604 files total).
+2. Most files on the disks are individually KWAJ-compressed (`file`
+   identifies them as `MS Compress archive data, KWAJ variant`). Batch
+   decompressed with `tools/vb3ide/kwaj_extract.c` (uses `libmspack`,
+   already packaged on Arch as `extra/libmspack`; build with
+   `gcc kwaj_extract.c -o kwaj_extract -lmspack`).
+3. `VB.EX_` decompresses straight to a valid win16 NE executable — the VB3
+   IDE itself. It runs under the same stock-Wine win16 shim as `qrace.exe`
+   (see `docs/gameplay-notes.md`), needing only `VBRUN300.DLL` copied
+   alongside it (already have this from `original/`). No install, no
+   registry setup, no other support files needed to reach a working IDE
+   with toolbox/properties window/code editor and a working **File > Make
+   EXE File** compiler.
+4. GUI-automated via `xdotool` against a headless Xvfb display, with a
+   minimal `openbox` window manager running (needed for `xdotool
+   windowactivate`/focus to work at all — bare Xvfb has no window manager
+   and Wine windows never receive input focus without one).
+
+**Empirical diffing methodology (confirmed working)**: compile a baseline
+project, compile a variant with exactly one small change, diff the NE
+segment tables (`tools/segment_parser.py`'s `parse_segments()`) byte for
+byte.
+
+Concrete results from a first diffing pass (blank `Form1` with an empty
+`Form_Load`, vs. adding one statement to it):
+
+- **Segment 1 (25 bytes) is byte-identical across every VB3 p-code
+  executable checked so far** — a blank test project, `x = 1`, `x = 2`,
+  `x = 3`, *and* `qrace.exe` itself all have the exact same 25-byte
+  segment 1. Strong evidence this is a fixed, universal bootstrap/entry
+  stub emitted by the VB3 linker for every p-code executable, unrelated to
+  any particular project's code.
+- **Adding one statement (`x = 1`) to `Form_Load`** grows segment 3 (the
+  form's compiled record — same segment that carries the header/caption
+  structure documented above) from 200 to 256 bytes, and adds a **new,
+  separate 18-byte CODE segment** that doesn't exist in the zero-statement
+  baseline at all. Working interpretation: segment 3 is a per-module
+  procedure descriptor table (one fixed-size entry per `Sub`/`Function`,
+  including empty ones), and each procedure's actual compiled instructions
+  live in their own dedicated small segment.
+- That 18-byte segment for `x = 1`:
+  `4b49ed37b00ed42f1a004b49d9655e0e5b0e`. Changing only the literal (`x =
+  2`, `x = 3`) changes **exactly one byte**, at offset 2, and nothing else
+  in the 18 bytes: `0xED` (1), `0xF8` (2), `0xFE` (3). This is the
+  strongest lead so far for where the integer-literal encoding lives — but
+  the value isn't a simple linear function of the literal (diffs are +11
+  then +6, not a constant step), so it's not yet clear whether this byte
+  *is* the literal (via some biased/table-driven encoding — e.g. a
+  dedicated single-byte opcode per small integer constant, common in
+  threaded p-code VMs) or something else that merely correlates with it
+  (e.g. a per-procedure checksum). Not resolved.
+
+**Next steps** (not started): automate the compile-and-diff cycle (script
+the `xdotool` sequence end to end, including typing arbitrary code and
+reading back the compiled segment) instead of doing it by hand one value
+at a time, then sweep enough integer literals to determine whether offset
+2 is linear/table-driven/checksummed. Once literals are nailed down, apply
+the same methodology to isolate the actual arithmetic/assignment opcodes
+themselves (everything in the 18 bytes *other* than the one literal byte
+is presumably fixed "assign literal to variable" scaffolding, not yet
+individually identified).

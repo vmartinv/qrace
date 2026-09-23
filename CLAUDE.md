@@ -21,16 +21,27 @@
   unidentified resources (`id2`, and `id4` — likely an orphaned duplicate
   title-screen blob). Details: `docs/resource-format-notes.md`.
 - **Phase 3 (p-code disassembly): in progress, structural recovery done,
-  opcode decoding not started.** `tools/segment_parser.py` parses the NE
-  segment table and recovered 174 inline string literals (VB3 embeds
-  strings directly in the code segment as `<u16 length><raw bytes>`, no
-  separate string pool — confirmed empirically). Checked public VB p-code
-  references (AndreaGeddon's paper: VB6-native-only, not applicable;
-  vb-decompiler.org's opcode table: explicitly VB5/6, and confirmed
-  incompatible since VB5/6 uses indirect Unicode string references while
-  VB3 embeds ASCII inline) — **no usable VB3 opcode reference exists
-  publicly**, decoding VB3's actual instruction encoding is original work
-  from here. Details: `docs/pcode-notes.md`.
+  empirical opcode research now unblocked and underway.**
+  `tools/segment_parser.py` parses the NE segment table and recovered 174
+  inline string literals (VB3 embeds strings directly in the code segment
+  as `<u16 length><raw bytes>`, no separate string pool — confirmed
+  empirically). Checked public VB p-code references (AndreaGeddon's paper:
+  VB6-native-only, not applicable; vb-decompiler.org's opcode table:
+  explicitly VB5/6, confirmed incompatible with VB3's inline-ASCII string
+  scheme) — no usable public reference exists. Project owner supplied a
+  real VB3 Professional install image (used only as a local research tool,
+  never committed — see `.gitignore`); got the VB3 IDE (`VB.EXE`) running
+  under Wine with no installer needed at all (just `VBRUN300.DLL`
+  alongside it), and validated an empirical compile-and-diff methodology:
+  compile minimal test programs, diff the NE segment tables byte for byte.
+  First concrete results: segment 1 (25B) is a byte-identical universal
+  bootstrap stub across every VB3 p-code executable tested, including
+  `qrace.exe` itself; a form's compiled record (segment 3) is a per-module
+  procedure descriptor table that grows per added statement, with each
+  procedure's actual instructions landing in their own small dedicated
+  segment; found the likely byte-offset for integer-literal encoding
+  within one such segment, but its exact encoding (table-driven opcode vs.
+  something else) isn't resolved yet. Details: `docs/pcode-notes.md`.
 - Phases 4-7: not started.
 
 ## Context

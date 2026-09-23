@@ -13,9 +13,10 @@ port/node_modules/
 port/dist/
 port/.vite/
 
-# Wine prefix(es) used for the reference oracle
+# Wine prefix(es) used for the reference oracle / VB3 IDE research
 .wine32/
 .winedefault/
+.winevb3/
 
 # Editor/OS cruft
 .DS_Store
