@@ -16,9 +16,9 @@ port/.vite/
 # Wine prefix(es) used for the reference oracle, and for local VB3 IDE
 # research (that workflow now lives in the vb3-decompiler companion repo,
 # but this directory may still exist locally).
-.wine32/
-.winedefault/
-.winevb3/
+.wine32
+.winedefault
+.winevb3
 
 # Local VB3 IDE research workspace -- superseded by the vb3-decompiler
 # companion repo's work/ directory, but ignore here too in case it

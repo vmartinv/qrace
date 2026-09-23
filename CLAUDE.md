@@ -1,178 +1,39 @@
-# Quibble Race Decompile/Port — Project Plan
+# Quibble Race Decompile/Port
 
-## Progress log
+Faithful modern port of **Quibble Race v1.5** (Blackeye Software / Derek
+Yu), a 16-bit Windows 3.0 VB3 p-code exe in `original/`. Game rules are
+recovered from disassembly, not guessed. The running original is used only
+as an automated correctness oracle. Target: TypeScript + Phaser 3 + Vite
+(`port/`, scaffolded, unused).
 
-- **Phase 1 (reference oracle): done.** `qrace.exe` runs under stock Wine
-  (no `WINEARCH=win32`/extra packages needed — Wine's own
-  `syswow64\winevdm.exe` handles it) and renders correctly, verified
-  headlessly via Xvfb. Details: `docs/gameplay-notes.md`.
-- **Phase 2 (resource extraction): done, plus follow-up structural work.**
-  All 34 `RT_RCDATA` form entries decoded (name-table/data-blob pairing,
-  fixed data-blob header, all 15/16 form captions recovered), embedded BMP
-  sprites extracted and verified. One open question (possible off-by-one
-  in caption/form pairing) and two unidentified resources (`id2`, `id4`)
-  flagged. Details: `docs/resource-format-notes.md`.
-- **Phase 3 (p-code disassembly): in progress.** 174 inline string
-  literals recovered from the segment table (VB3 embeds strings directly
-  in code, no string pool). A real VB3 compiler is now running locally
-  (via Wine, no installer needed), driving an empirical compile-and-diff
-  methodology that has decoded a real slice of the opcode set: variable
-  LOAD/STORE with positional (not name-based) slots, integer arithmetic
-  (ADD/SUB/MUL as a linear opcode table), integer and floating-point
-  literal encoding, unary negate. First real opcode-level decode of VB3
-  p-code, anywhere. Details: `docs/pcode-notes.md`.
-- **The general VB3 format/opcode tooling and findings (not specific to
-  this game) were split out into a companion repo,
-  [`vb3-decompiler`](https://github.com/vmartinv/vb3-decompiler)** — not
-  yet published (kept local at `~/vb3-decompiler` until the project owner
-  is ready). This repo's `tools/` no longer contains the NE/resource/
-  p-code parsers or the VB3 IDE automation scripts; clone `vb3-decompiler`
-  alongside this repo to regenerate anything referenced in `docs/`.
-- Phases 4-7: not started.
+General VB3 tooling lives in the companion repo `~/vb3-decompiler`
+(local, not yet published). This repo holds qrace-specific findings.
 
-## Context
+## Rules
 
-`~/qrace/original/` contains "Quibble Race v1.5" by Blackeye Software (Derek Yu's
-early freeware game, pre-dating the 2004 Newgrounds Flash version and the 2020
-UFO 50 remake). It's a 16-bit Windows 3.0 executable (NE format), built with
-Visual Basic 3.0 (confirmed via bundled `VBRUN300.DLL`) — meaning the game logic
-is compiled to VB p-code, not native x86. A web search turned up no prior
-decompilation, remake, or port of this specific version — this would be first.
+- `.md` files hold **current findings and next steps only**, kept
+  succinct. When something is superseded, rewrite it in place. Don't keep
+  retractions, dead ends or history (git has that).
+- Commit after each validated milestone (in whichever repo changed).
+- Never commit `original/` (exe, `VBRUN300.DLL`) or anything extracted
+  byte-for-byte from it (`extraction/resources|forms|pcode`). Recovered
+  text/rules written in our own words are fine. Port art is re-authored.
 
-Goal: produce a **faithful** modern port — exact game rules/formulas recovered
-from disassembly (not guessed from observed behavior), exact resources
-recovered from the executable's resource table, running original used only as
-an automated correctness oracle, not for "eyeballing." Target stack: TypeScript
-+ Phaser 3, scaffolded via Vite (already scaffolded at `~/qrace/port/`, unused
-so far — no dependencies installed, no code written).
+## Status
 
-**Repo will go public eventually**, which fixes an important constraint: the
-original binary (`qrace.exe`, `VBRUN300.DLL`) and any raw assets extracted
-byte-for-byte from it (sprites, sounds) must never be committed. Freeware ≠
-redistribution rights, and the DLL is Microsoft runtime code. This follows the
-convention used by console decompilation projects (e.g. N64 decomp scene):
-ship only our own code + recovered logic/data + re-authored art; anyone
-building the project supplies their own legally-obtained copy of the original
-locally, and a gitignored extraction step regenerates assets from it.
+| phase | state | notes |
+|---|---|---|
+| 1 Reference oracle (Wine) | done | `docs/gameplay-notes.md` |
+| 2 Resource extraction | done | `docs/resource-format-notes.md`; control layout not decoded |
+| 3 P-code disassembly | in progress | `docs/pcode-notes.md`; all 101 procedures decode, handler naming partial |
+| 4 Game spec (`docs/game-spec.md`) | not started | our own description of recovered rules |
+| 5 Port (Phaser scenes 1:1 with forms) | not started | |
+| 6 Oracle diff harness (xdotool) | not started | |
+| 7 Polish & publish | not started | |
 
-## Repo & Licensing Setup (do first)
+## Next steps
 
-- `git init` already done at `~/qrace/` (no commits yet — clean state).
-- `.gitignore` at repo root:
-  - `original/` — never commit the exe/DLL.
-  - `extraction/resources/`, `extraction/forms/` (raw extracted binary
-    assets — bitmaps, icons, any binary blobs pulled straight from the exe).
-    `extraction/strings/` (recovered text) is fine to commit — short UI
-    strings aren't meaningfully protectable and we need them versioned as
-    part of the recovered spec.
-  - Standard `node_modules/`, `dist/`, etc. inside `port/`.
-- Write `~/qrace/PLAN.md` (this plan, committed) and `~/qrace/README.md`
-  explaining: what this project is, credit to Derek Yu / Blackeye Software,
-  a disclaimer that the repo contains no original copyrighted binaries, and
-  instructions that building the extraction pipeline requires the user to
-  supply their own copy of `qrace.exe` in `original/` (gitignored).
-- Initial commit: `PLAN.md`, `README.md`, `.gitignore`, empty tool/doc dir
-  structure, the vite scaffold in `port/` (that's our own boilerplate, fine
-  to commit).
-
-## Phase 1 — Reference oracle (Wine)
-
-Get the original actually running on this Arch machine so we have ground
-truth to validate against later:
-- 16-bit NE apps need Win16 support, which 64-bit Wine dropped. Use a
-  32-bit `WINEPREFIX` (Arch's `wine` package supports multilib/32-bit) —
-  `WINEARCH=win32 WINEPREFIX=~/qrace/.wine32 winecfg`, then run
-  `qrace.exe` from `original/`. Fall back to `winevdm`/`otvdm` (AUR) if
-  plain 32-bit Wine can't load the NE binary.
-- Confirm it boots, plays a full round (setup → bet → race → results), and
-  note anything not obvious from static analysis (turn flow, dialog
-  sequence) into `docs/gameplay-notes.md`.
-
-## Phase 2 — NE resource extraction
-
-Write Python tooling under `tools/` to parse the executable's NE resource
-table:
-- Parse NE header + resource table (segment offsets already visible via
-  `xxd`/`file`; need a proper parser, no existing Linux tool handles VB3's
-  resource layout out of the box).
-- Extract: string table (matches what plain `strings` already surfaced —
-  need the *structured* table, not just a flat string dump, to map strings
-  to their usage context), bitmaps/icons, and — this needs investigation —
-  VB3 form resources. VB3 forms are **not** standard Win32 `RT_DIALOG`
-  templates; layout/control data is VB's own proprietary compiled-form
-  format embedded in the exe (originally a `.FRX` file at design time).
-  Document findings as we go in `docs/resource-format-notes.md` since this
-  part is genuinely unexplored territory.
-- Output raw extracted assets into `extraction/resources/` and
-  `extraction/forms/` (gitignored, regenerated locally by anyone building
-  the project from their own copy).
-
-## Phase 3 — P-code disassembly (highest effort/risk)
-
-- No modern decompiler targets VB3 p-code (VB Decompiler-class tools target
-  VB5/6). Likely path: write a custom Python disassembler for the VB3
-  p-code opcode set (stack-based VM, documented in scattered old reverse
-  engineering references) under `tools/pcode/`.
-- Output: raw disassembly listings per form/module event procedure
-  (`Form_Load`, `cmdBet_Click`, etc.) into `extraction/pcode/` (gitignored —
-  derived directly from the copyrighted binary).
-- Manually work disassembly back into readable pseudo-BASIC, procedure by
-  procedure, prioritizing: betting math, payout/odds formulas, race
-  simulation, AI opponent behavior, the loan-shark interest mechanic, RNG
-  usage (VB3 `Rnd`/`Randomize` use a documented fixed LCG, so once we see
-  how the code seeds/scales it, results are exactly reproducible).
-- Flag explicitly: this phase may not fully automate — budget for genuine
-  manual RE effort per routine, and expect this to span many sessions.
-
-## Phase 4 — Recovered design spec
-
-Turn Phase 3's findings into `docs/game-spec.md`: a human-readable,
-cross-referenced (to disassembly) description of every game rule — this
-becomes the spec the TypeScript port implements against, and is the
-*committable* artifact (our own writing describing recovered facts/rules,
-not the copyrighted code/assets themselves).
-
-## Phase 5 — Build the port (TS + Phaser 3 + Vite)
-
-- `port/` already scaffolded (vanilla-ts vite template, no deps installed
-  yet). Add Phaser 3 dependency.
-- Structure Phaser scenes 1:1 with original screens: Setup, Betting/Menu,
-  Race, Results, Loan Shark dialog, Info Broker dialog.
-- Art: re-author sprites/backgrounds ourselves (referencing extracted
-  originals locally as a guide, never committing or shipping the source
-  bitmaps) so the shipped repo is redistribution-safe.
-- Implement Phase 4's spec exactly — data tables (quibble stats, odds,
-  prices) and formulas ported verbatim from recovered logic.
-
-## Phase 6 — Validation harness
-
-Use the Wine-run original (Phase 1) as an automated oracle, not visual
-comparison: script fixed input sequences through both original and port
-(via Wine automation / UI scripting where feasible), diff numeric outputs
-(bet results, race outcomes, payouts) programmatically. Use this to catch
-places where disassembly was misread, not as the primary accuracy method
-(that's Phase 3/4).
-
-## Phase 7 — Polish & publish
-
-Vite static build, README finalized with credits/disclaimers, publish
-(GitHub + optionally a playable static hosting target) once the licensing
-posture from the setup phase has been double-checked.
-
-## Notes on scope
-
-This is a multi-session reverse-engineering project — Phases 2 and 3 in
-particular are open-ended research, not a fixed-size coding task. This plan
-covers the roadmap and the immediate next actions (repo/licensing setup +
-starting Phase 1/2); later phases will get more detailed sub-plans as we
-reach them and learn more about the actual resource/p-code formats involved.
-
-## Verification
-
-- Phase 1: original game visibly runs and is playable end-to-end under Wine.
-- Phase 2: extracted strings match the flat `strings` output already seen;
-  extracted bitmaps open as valid images.
-- Phase 3/4: spot-check disassembled formulas against observed behavior in
-  the Wine oracle for a handful of manual test cases.
-- Phase 5/6: `npm run build` in `port/` succeeds; automated diff harness
-  (Phase 6) passes for the scripted scenarios.
+1. Name the remaining p-code handlers and builtins (Rnd, Int, …).
+2. Map procedure records to event names.
+3. Lift the race, betting, loan and sabotage logic to pseudo-BASIC, then
+   write the spec.
