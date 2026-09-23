@@ -168,14 +168,69 @@ Concrete results from a first diffing pass (blank `Form1` with an empty
 - That 18-byte segment for `x = 1`:
   `4b49ed37b00ed42f1a004b49d9655e0e5b0e`. Changing only the literal (`x =
   2`, `x = 3`) changes **exactly one byte**, at offset 2, and nothing else
-  in the 18 bytes: `0xED` (1), `0xF8` (2), `0xFE` (3). This is the
-  strongest lead so far for where the integer-literal encoding lives — but
-  the value isn't a simple linear function of the literal (diffs are +11
-  then +6, not a constant step), so it's not yet clear whether this byte
-  *is* the literal (via some biased/table-driven encoding — e.g. a
-  dedicated single-byte opcode per small integer constant, common in
-  threaded p-code VMs) or something else that merely correlates with it
-  (e.g. a per-procedure checksum). Not resolved.
+  in the 18 bytes.
+
+### Confirmed: integer literal encoding (`tools/vb3ide/sweep_literal.sh`)
+
+Followed up with an automated sweep (`x = N` for 34 values of `N` from 0 to
+32767, each compiled fresh through the real IDE and diffed) — full
+methodology and script below. Two distinct encodings, cleanly separated at
+N=10/11:
+
+**N = 0 to 10: dedicated single-byte "push small int" opcodes**, emitted as
+an 18-byte procedure segment
+(`4b49<OP>37b00ed42f1a004b49d9655e0e5b0e`) where `<OP>` (byte offset 2) is:
+
+| N | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| opcode | `E5` | `ED` | `F8` | `FE` | `04` | `0A` | `10` | `16` | `1C` | `22` | `28` |
+
+N=2 through N=10 are **evenly spaced by exactly 6** (`F8, FE, 04, 0A, 10,
+16, 1C, 22, 28` — each +6 from the last, mod 256), strongly suggesting a
+linear opcode table with a fixed 6-byte stride per entry (consistent with
+"threaded code" p-code VMs where each opcode indexes a table of small
+fixed-size handler stubs). N=0 and N=1 don't fit that same linear
+extrapolation (`E5`→`ED` is +8, `ED`→`F8` is +11) — most likely separate,
+earlier table slots (0 and 1 being by far the most common integer literals
+in real code, worth a dedicated opcode outside the generic small-int
+table), but not confirmed independent of the byte pattern itself.
+
+**N = 11 to 32767 (and presumably up to the 16-bit `Integer` max):
+generic "push u16 literal" opcode + raw little-endian operand**, a 20-byte
+procedure segment (`4b493438<NN NN>b00ed42f1a004b49d9655e0e5b0e`) where
+bytes 4-5 are the literal value as a plain **little-endian u16** — verified
+exactly: `0x000B`=11, `0x0064`=100, `0x0100`=256, `0x03E8`=1000,
+`0x7FFF`=32767 (max positive 16-bit signed `Integer`, VB3's default
+numeric type). `3438` (bytes 2-3) is the constant 2-byte opcode for this
+form.
+
+In both forms, everything after the literal encoding is fixed scaffolding
+— presumably "assign top-of-stack to local variable `x`" plus procedure
+epilogue — not yet individually decoded. Cross-checked against segment 3
+(the per-module procedure descriptor table): it also stays byte-identical
+across the entire sweep except for one length field that exactly tracks
+the procedure segment's total size (12 for the 18-byte form, 14 for the
+20-byte form) — confirms segment 3 really is just recording "how long is
+this procedure's code", not encoding anything about the literal itself.
+
+**Reproducing this**: `tools/vb3ide/sweep_literal.sh <value...>` drives the
+whole cycle unattended — rewrites `vb3_install/proj/Form1.frm` (plain text;
+VB3's "Save as Text" project format, requires CRLF line endings) with a new
+`x = <value>` body, launches `VB.EXE` directly against the saved
+`Project1.mak` (skips the New Project dialog entirely), automates **File >
+Make EXE File** via `xdotool` against a fixed set of screen coordinates
+(stable across relaunches since the IDE always opens at the same default
+window layout), and writes the result to `vb3_install/sweep/`. Needs one
+retry per value in practice (first compile attempt after each fresh Wine
+launch reliably fails, second reliably succeeds — root cause not
+identified, but the script retries automatically and this has been 100%
+reliable across 34/34 values).
+
+**Next steps**: apply the same methodology to isolate the *other* opcodes
+in each procedure segment — vary the statement type (arithmetic operators,
+`Print`, string assignment, `If`/loop constructs, calling a built-in
+function) instead of the literal, using the same one-variable-at-a-time
+diffing approach that cracked the literal encoding above.
 
 **Next steps** (not started): automate the compile-and-diff cycle (script
 the `xdotool` sequence end to end, including typing arbitrary code and

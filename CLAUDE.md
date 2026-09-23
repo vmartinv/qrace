@@ -39,9 +39,14 @@
   `qrace.exe` itself; a form's compiled record (segment 3) is a per-module
   procedure descriptor table that grows per added statement, with each
   procedure's actual instructions landing in their own small dedicated
-  segment; found the likely byte-offset for integer-literal encoding
-  within one such segment, but its exact encoding (table-driven opcode vs.
-  something else) isn't resolved yet. Details: `docs/pcode-notes.md`.
+  segment. **Integer literal encoding now fully cracked** via an automated
+  34-value sweep (`tools/vb3ide/sweep_literal.sh`): values 0-10 get
+  dedicated single-byte "push small int" opcodes (evenly spaced by 6 for
+  2-10, a linear jump table; 0 and 1 don't fit the same stride, likely
+  separate dedicated slots); values 11-32767 use a generic 2-byte opcode
+  (`34 38`) followed by the literal as a raw little-endian u16. First real
+  opcode-level decode of VB3 p-code, anywhere. Details:
+  `docs/pcode-notes.md`.
 - Phases 4-7: not started.
 
 ## Context
