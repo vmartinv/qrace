@@ -23,3 +23,9 @@ port/.vite/
 # Python
 __pycache__/
 *.pyc
+
+# VB3 IDE/compiler, used locally as an empirical research tool for Phase 3
+# p-code opcode discovery -- never redistribute (WinWorld-sourced abandonware,
+# same redistribution caveats as original/).
+vb3_install/
+*.7z
