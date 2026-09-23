@@ -44,8 +44,19 @@
   dedicated single-byte "push small int" opcodes (evenly spaced by 6 for
   2-10, a linear jump table; 0 and 1 don't fit the same stride, likely
   separate dedicated slots); values 11-32767 use a generic 2-byte opcode
-  (`34 38`) followed by the literal as a raw little-endian u16. First real
-  opcode-level decode of VB3 p-code, anywhere. Details:
+  (`34 38`) followed by the literal as a raw little-endian u16. Followed up
+  with a broader statement-type sweep (`tools/vb3ide/compile_snippet.sh`):
+  confirmed a universal 2-byte procedure prologue and 8-byte epilogue;
+  LOAD (`21 2D`) and STORE (`D4 2F`) variable opcodes, each followed by a
+  `<u16>` slot operand — variable identity is positional (first-use order,
+  slots 4 bytes apart starting at 0x1A), not name-based, confirmed by `x =
+  1` and `y = 1` compiling to byte-identical code; an integer
+  ADD/SUB/MUL opcode family (`D3`/`E1`/`EF`, evenly spaced by 14 — another
+  linear jump table) and unary negate (`0B 39`); confirmed `/` division
+  promotes to a separate floating-point encoding entirely (different
+  literal-push opcodes, different arithmetic suffix), consistent with real
+  VB semantics. One coercion-opcode ambiguity flagged as unresolved. First
+  real opcode-level decode of VB3 p-code, anywhere. Details:
   `docs/pcode-notes.md`.
 - Phases 4-7: not started.
 

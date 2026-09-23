@@ -226,18 +226,112 @@ launch reliably fails, second reliably succeeds — root cause not
 identified, but the script retries automatically and this has been 100%
 reliable across 34/34 values).
 
-**Next steps**: apply the same methodology to isolate the *other* opcodes
-in each procedure segment — vary the statement type (arithmetic operators,
-`Print`, string assignment, `If`/loop constructs, calling a built-in
-function) instead of the literal, using the same one-variable-at-a-time
-diffing approach that cracked the literal encoding above.
+### Confirmed: procedure prologue/epilogue, LOAD/STORE, arithmetic family
 
-**Next steps** (not started): automate the compile-and-diff cycle (script
-the `xdotool` sequence end to end, including typing arbitrary code and
-reading back the compiled segment) instead of doing it by hand one value
-at a time, then sweep enough integer literals to determine whether offset
-2 is linear/table-driven/checksummed. Once literals are nailed down, apply
-the same methodology to isolate the actual arithmetic/assignment opcodes
-themselves (everything in the 18 bytes *other* than the one literal byte
-is presumably fixed "assign literal to variable" scaffolding, not yet
-individually identified).
+Generalized the tooling (`tools/vb3ide/compile_snippet.sh`, takes an
+arbitrary `Form_Load` body instead of just a literal) and ran a batch of
+minimal one-change-at-a-time statements: `y = 1` (different variable name),
+`x = 1 + 2` / `1 - 2` / `1 * 2` / `1 / 2` (arithmetic operators), `x = -1`
+(unary negate), `x = x + 1` (self-reference), `y = x` (pure variable copy,
+no arithmetic), `x = 1` then `y = 2` (two statements), `Print "hi"`
+(built-in call + string literal). Results, all cross-checked against each
+other for consistency:
+
+- **Universal procedure prologue**: every procedure segment seen so far
+  (12+ variants) starts with the same 2 bytes, `4B 49`.
+- **Universal procedure epilogue**: every procedure segment ends with the
+  same 8 bytes, `4B 49 D9 65 5E 0E 5B 0E` — identical regardless of what
+  the procedure does, including `Print` (no variable involved at all).
+- **`x = 1` and `y = 1` compile to byte-for-byte identical procedure
+  segments.** Variable *identity* (the name `x` vs. `y`) is not encoded in
+  the procedure segment at all.
+- **LOAD variable**: opcode `21 2D` + a `<u16 LE slot>` operand (4 bytes
+  total). Confirmed via `y = x` (`4B49 | 212D 1A00 | D42F 1E00 | <epilogue>`
+  — loads x's slot, stores to y's slot) and `x = x + 1`.
+- **STORE variable**: opcode `D4 2F` + a `<u16 LE slot>` operand (4 bytes
+  total). Same evidence as LOAD.
+- **Variable slots are positional, not name-based**: the first local
+  variable referenced in a procedure (by any name) always gets slot
+  `0x001A`; a second, distinct variable gets `0x001E` — exactly +4 from the
+  first. Confirmed by the two-statement test (`x = 1` / `y = 2`: x's store
+  uses slot `1A00`, y's store uses slot `1E00`) and by `y = x` (x loads
+  from `1A00`, y stores to `1E00`, even though x is textually second in
+  that snippet — slots are assigned in first-*use* order during
+  compilation, not textual declaration order within the statement).
+- **Integer arithmetic opcode family**, all sharing a `38` second byte —
+  the same second byte as the u16-literal-push opcode (`34 38`), suggesting
+  `38` marks a general "integer stack operation" class:
+
+  | op | ADD | SUB | MUL |
+  |---|---|---|---|
+  | opcode | `D3 38` | `E1 38` | `EF 38` |
+
+  `D3`, `E1`, `EF` are evenly spaced by exactly 14 (211, 225, 239) — a
+  second linear opcode table, same pattern as the small-int push table but
+  with a different stride. Each op is inserted directly between the two
+  pushed operands and the store: `PUSH 1, PUSH 2, ADD, <coerce>, STORE`.
+- **Unary negate**: opcode `0B 39` (own family suffix, `39`, distinct from
+  both `37` used by literal pushes and `38` used by binary arithmetic).
+  Inserted directly after the pushed operand, before the store:
+  `x = -1` → `PUSH 1, NEGATE, STORE`.
+- **An unidentified 2-byte opcode, `B0 0E`**, appears between a
+  freshly-computed Integer value (from a literal push or an arithmetic op)
+  and the following STORE — but is **absent** when storing a value that
+  came directly from a LOAD with no computation (`y = x` has no `B0 0E` at
+  all). Working hypothesis: some kind of "prepare freshly-computed Integer
+  for assignment" coercion step (VB3's variables are Variant-backed
+  internally even when holding what looks like a plain Integer), distinct
+  from a LOADed value which is presumably already in the right
+  representation. Not confirmed — `x = x + 1`'s exact instruction ordering
+  around `B0 0E` vs. the ADD opcode is still ambiguous (see below).
+- **Division (`/`) behaves completely differently**, consistent with real
+  VB semantics where `/` always produces a floating-point result even for
+  integer operands (unlike `\`, integer division, not yet tested): `x = 1
+  / 2` pushes its operands with **different opcodes** (`91 37`, `9A 37` —
+  same `37` family suffix as the integer push table, but different values
+  than integer-1/2's `ED`/`F8`, implying a **separate small-constant table
+  for `Double`/floating literals**), then divides with `89 3B` (a third
+  family suffix, `3B`, distinct from arithmetic's `38`), then a
+  pre-store opcode `F1 10` (distinct from `B0 0E`, consistent with a
+  Double-specific coercion rather than the Integer one). Only structurally
+  understood so far, not decoded in detail.
+- **String literal encoding inside `Print "hi"` matches the inline
+  `<u16 length><raw ASCII>` scheme found earlier by raw byte-scanning
+  qrace.exe's segments** (see above) — independent cross-confirmation of
+  that finding from the opposite direction (compiled from known source,
+  rather than reverse-engineered from an unknown binary). `Print`'s call
+  sequence itself (`15 4A 37 21 9A 38 08 00 0C 00` before the string, `00
+  00 32 61` after it) is not yet decoded.
+
+`x = x + 1`'s full breakdown, still partially ambiguous:
+`4B49 | 212D 1A00 (LOAD x) | ED37 (PUSH 1) | B00E (?) | DF40 (ADD?) | D42F
+1A00 (STORE x) | <epilogue>`. `DF40` doesn't match `D338` (the ADD opcode
+found in `x = 1 + 2`) — plausibly a *different* ADD variant specific to
+"loaded-variable plus literal" vs. "literal plus literal" operand
+provenance (a common p-code technique — the compiler picking a specialized
+opcode per known operand-type combination rather than one generic op with
+runtime dispatch), but this is not confirmed. Next experiment to resolve
+it: `x = y + z` (two LOADs, no literal at all) should isolate ADD cleanly
+without `B0 0E` in the mix, if the coercion hypothesis is right.
+
+**Reproducing this**: `tools/vb3ide/compile_snippet.sh <name>
+<code-file>` — same mechanism as `sweep_literal.sh` but takes an arbitrary
+`Form_Load` body from a text file instead of just a literal value.
+Snippets used for the above live in `vb3_install/snippets/` (gitignored).
+
+### Next steps (not started)
+
+- Resolve the `x = x + 1` ADD-vs-coercion ambiguity (`x = y + z` test
+  above).
+- Decode the `B0 0E` / `F1 10` coercion-opcode hypothesis properly —
+  vary just the *source* of a stored value (literal vs. LOAD vs. arithmetic
+  result) while holding everything else constant.
+- Decode `Print`'s call sequence and the floating-point arithmetic family
+  in the same way arithmetic-on-integers was decoded.
+- Extend to comparison operators (`=`, `<`, `>`), `If`/loop constructs, and
+  calling other procedures/built-in functions — none attempted yet.
+- Once enough of the opcode set is decoded, start applying it to
+  `qrace.exe`'s actual segments (4-19) rather than only test programs —
+  the 174 recovered strings and their segment locations are a natural
+  starting point for finding recognizable code (e.g. betting math, RNG
+  usage) once LOAD/STORE/arithmetic/comparison are all identifiable.
