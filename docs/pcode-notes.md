@@ -1,43 +1,44 @@
 # P-code / Segment Notes — qrace.exe
 
+The general VB3 NE/p-code reverse-engineering tooling and findings (how to
+parse the segment table, how to decompress/run a VB3 compiler, the
+decoded opcode set) moved to a standalone repo:
+**[vmartinv/vb3-decompiler](https://github.com/vmartinv/vb3-decompiler)**
+(see `OPCODES.md` there). This file only covers what's specific to
+`qrace.exe` itself — clone that repo alongside this one to regenerate any
+of the findings below.
+
 ## Segment table
 
-19 NE segments (`tools/segment_parser.py`). Segment 2 has `seg_data_offset =
-0` (no on-disk image — a zero-initialized/moveable data segment, presumably
-VB3's runtime global/automatic data area). All others are `CODE` segments
-(flag bit 0 clear) except segment 2. Segment table *index* order doesn't
-match file layout order — e.g. segment 3 (6880 bytes) is laid out in the
-file *after* segments 4 through 19, even though it's numbered lower. This is
-normal for NE linkers (table index reflects intersegment fixup numbering,
-not physical position) but worth remembering when reasoning about offsets.
+19 NE segments (`vb3-decompiler/tools/segment_parser.py`). Segment 2 has
+`seg_data_offset = 0` (no on-disk image — a zero-initialized/moveable
+data segment, presumably VB3's runtime global/automatic data area). All
+others are `CODE` segments (flag bit 0 clear) except segment 2. Segment
+table *index* order doesn't match file layout order — e.g. segment 3
+(6880 bytes) is laid out in the file *after* segments 4 through 19, even
+though it's numbered lower. This is normal for NE linkers (table index
+reflects intersegment fixup numbering, not physical position) but worth
+remembering when reasoning about offsets.
 
-Segment 1 is tiny (25 bytes) — likely a startup/stub segment, not
-investigated yet. Segment 3 (6880 bytes, the second-largest) is a strong
-candidate for shared runtime glue code (VB3 program startup, shared helper
-routines called from every form) rather than a specific form's logic, since
-it doesn't correlate with any single form's string content the way segments
+Segment 1 (25 bytes) matches the universal VB3 bootstrap stub documented
+in vb3-decompiler's `OPCODES.md` — confirmed byte-identical to the same
+segment in from-scratch test programs compiled through a real VB3
+compiler. Segment 3 (6880 bytes, the second-largest) is a strong candidate
+for shared runtime glue code (VB3 program startup, shared helper routines
+called from every form) rather than a specific form's logic, since it
+doesn't correlate with any single form's string content the way segments
 4-19 do — not confirmed yet though.
 
-## Confirmed: inline string-literal encoding
+## Recovered strings: 174 total
 
-No separate string pool/table exists anywhere in the file. VB3's compiled
-p-code embeds every string literal **directly inline in the code segment**
-as:
-
-```
-<u16 length, little-endian><raw ASCII bytes, no terminator>
-```
-
-Verified empirically (not from any external reference — nothing documenting
-this was found) by checking that the 2 bytes immediately preceding several
-different known UI strings always exactly equal that string's byte length:
-`"Your bet is too low."` → 20, `"You can't afford that."` → 22,
-`"Player One"` → 10, `"steroids"` → 8. All four matched exactly.
-
-`tools/segment_parser.py`'s `find_inline_strings()` scans every segment for
-this pattern and recovered **174 strings** total, each attributed to a
-segment + byte offset, written to `extraction/pcode/inline_strings.json`
-(gitignored — derived directly from the binary).
+VB3 embeds string literals directly inline in the code segment (`<u16
+length><raw bytes>`, no separate string pool — see vb3-decompiler's
+`OPCODES.md` for how this was confirmed and cross-validated). Scanning
+every segment of `qrace.exe` for this pattern recovers **174 strings**,
+each attributed to a segment + byte offset, written to
+`extraction/pcode/inline_strings.json` (gitignored — derived directly from
+the binary; regenerate with `vb3-decompiler/tools/segment_parser.py
+original/qrace.exe`).
 
 **Known false-positive source**: length-2 matches (`'XK'`, etc.) show up
 repeatedly and are almost certainly coincidental — a bytecode operand byte
@@ -46,7 +47,7 @@ value. Not filtered out yet; treat any 2-character "string" in the output
 as noise unless it's independently plausible (e.g. `"#1"`, `"#2"`, `"#3"`
 in segment 18 are clearly real — player rank labels — despite being short).
 
-## Rough segment → game-system correlation (from string content only)
+## Segment → game-system correlation (from string content only)
 
 Purely from what text shows up in each segment, *not* from actually
 decoding any procedure boundaries yet:
@@ -68,256 +69,12 @@ This lines up well with `docs/resource-format-notes.md`'s form name-tables
 segment↔form pairing (likely each form module compiles to one CODE
 segment, in the same order as the RT_RCDATA name-table entries).
 
-## Not yet done: actual opcode disassembly
+## Next steps
 
-Everything above is structural/string recovery — genuinely useful for
-Phase 4 (recovering all game text and roughly which system it belongs to)
-but **not** the bytecode-to-logic reconstruction Phase 3 ultimately needs
-(bet formulas, odds math, AI decisions, RNG usage). That requires decoding
-the actual VB3 p-code instruction encoding, which we have not attempted
-yet.
-
-### Research pass on existing references (done, negative result)
-
-Checked the obvious public sources:
-- ["VISUAL BASIC REVERSED - A decompiling approach"](https://sandsprite.com/vb-reversing/files/VISUAL%20BASIC%20REVERSED.pdf)
-  (AndreaGeddon) — **not applicable**. Covers VB6 apps compiled to
-  *native x86*, not p-code at all (VB6 could target either). Entirely
-  about walking VB6's native-code COM/runtime structures in IDA.
-- [vb-decompiler.org's p-code decompiling article](https://www.vb-decompiler.org/pcode_decompiling.htm)
-  and its linked [opcode table](https://www.vb-decompiler.org/vb_pcode_table.htm)
-  — real p-code documentation, but **explicitly VB5/6 (32-bit) only**.
-  Confirmed incompatible with what we're seeing in qrace.exe: VB5/6
-  string literals are Unicode, referenced indirectly via an offset into
-  a `ProcTable.DataConst` table; VB3 (per our own empirical finding above)
-  embeds ASCII strings directly inline in the instruction stream with a
-  length prefix, no indirection at all. Different enough that the VB5/6
-  opcode byte values should **not** be assumed to carry over to VB3 — VB3
-  was a 16-bit, real/protected-mode segmented interpreter, an older/
-  different VM generation. Not using this table for qrace.exe without
-  independent verification against our own binary.
-
-Conclusion: no usable VB3-specific p-code opcode reference exists
-publicly (or at least none turned up). Proceeding on VB3's own opcodes
-requires original empirical work, not adaptation of VB5/6 documentation.
-
-### Path forward: empirical diffing against a real VB3 compiler (in progress)
-
-The project owner supplied a WinWorld-sourced VB3 Professional install
-image (9 floppy disks as a `.7z`, kept outside the repo entirely — see
-below). This unblocks the plan from the previous section: write minimal
-known-source test programs, compile each with the real VB3 compiler, and
-diff the resulting segment bytecode to isolate individual opcodes
-empirically.
-
-**Licensing note**: same posture as `qrace.exe` itself — used only as a
-local research tool, never committed or redistributed. `.gitignore` now
-also excludes `vb3_install/` and `*.7z` at the repo root.
-
-**Getting VB.EXE running needed no installer at all.** The graphical
-`SETUP.EXE` (Microsoft Setup Toolkit 3.x) reliably fails with "Insufficient
-memory or disk space" under Wine's built-in `winevdm` regardless of actual
-free space (tried both the real multi-hundred-GB filesystem and a
-purpose-built small loop-mounted ext4 image as the target drive — same
-failure either way, so it's a memory-check incompatibility, not a real
-disk-space overflow; not root-caused further since it turned out to be
-unnecessary). Instead:
-
-1. The disk images are FAT12 (`7z x` reads them directly, no mounting
-   needed). All 9 disks merge into one flat directory with no filename
-   collisions (604 files total).
-2. Most files on the disks are individually KWAJ-compressed (`file`
-   identifies them as `MS Compress archive data, KWAJ variant`). Batch
-   decompressed with `tools/vb3ide/kwaj_extract.c` (uses `libmspack`,
-   already packaged on Arch as `extra/libmspack`; build with
-   `gcc kwaj_extract.c -o kwaj_extract -lmspack`).
-3. `VB.EX_` decompresses straight to a valid win16 NE executable — the VB3
-   IDE itself. It runs under the same stock-Wine win16 shim as `qrace.exe`
-   (see `docs/gameplay-notes.md`), needing only `VBRUN300.DLL` copied
-   alongside it (already have this from `original/`). No install, no
-   registry setup, no other support files needed to reach a working IDE
-   with toolbox/properties window/code editor and a working **File > Make
-   EXE File** compiler.
-4. GUI-automated via `xdotool` against a headless Xvfb display, with a
-   minimal `openbox` window manager running (needed for `xdotool
-   windowactivate`/focus to work at all — bare Xvfb has no window manager
-   and Wine windows never receive input focus without one).
-
-**Empirical diffing methodology (confirmed working)**: compile a baseline
-project, compile a variant with exactly one small change, diff the NE
-segment tables (`tools/segment_parser.py`'s `parse_segments()`) byte for
-byte.
-
-Concrete results from a first diffing pass (blank `Form1` with an empty
-`Form_Load`, vs. adding one statement to it):
-
-- **Segment 1 (25 bytes) is byte-identical across every VB3 p-code
-  executable checked so far** — a blank test project, `x = 1`, `x = 2`,
-  `x = 3`, *and* `qrace.exe` itself all have the exact same 25-byte
-  segment 1. Strong evidence this is a fixed, universal bootstrap/entry
-  stub emitted by the VB3 linker for every p-code executable, unrelated to
-  any particular project's code.
-- **Adding one statement (`x = 1`) to `Form_Load`** grows segment 3 (the
-  form's compiled record — same segment that carries the header/caption
-  structure documented above) from 200 to 256 bytes, and adds a **new,
-  separate 18-byte CODE segment** that doesn't exist in the zero-statement
-  baseline at all. Working interpretation: segment 3 is a per-module
-  procedure descriptor table (one fixed-size entry per `Sub`/`Function`,
-  including empty ones), and each procedure's actual compiled instructions
-  live in their own dedicated small segment.
-- That 18-byte segment for `x = 1`:
-  `4b49ed37b00ed42f1a004b49d9655e0e5b0e`. Changing only the literal (`x =
-  2`, `x = 3`) changes **exactly one byte**, at offset 2, and nothing else
-  in the 18 bytes.
-
-### Confirmed: integer literal encoding (`tools/vb3ide/sweep_literal.sh`)
-
-Followed up with an automated sweep (`x = N` for 34 values of `N` from 0 to
-32767, each compiled fresh through the real IDE and diffed) — full
-methodology and script below. Two distinct encodings, cleanly separated at
-N=10/11:
-
-**N = 0 to 10: dedicated single-byte "push small int" opcodes**, emitted as
-an 18-byte procedure segment
-(`4b49<OP>37b00ed42f1a004b49d9655e0e5b0e`) where `<OP>` (byte offset 2) is:
-
-| N | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| opcode | `E5` | `ED` | `F8` | `FE` | `04` | `0A` | `10` | `16` | `1C` | `22` | `28` |
-
-N=2 through N=10 are **evenly spaced by exactly 6** (`F8, FE, 04, 0A, 10,
-16, 1C, 22, 28` — each +6 from the last, mod 256), strongly suggesting a
-linear opcode table with a fixed 6-byte stride per entry (consistent with
-"threaded code" p-code VMs where each opcode indexes a table of small
-fixed-size handler stubs). N=0 and N=1 don't fit that same linear
-extrapolation (`E5`→`ED` is +8, `ED`→`F8` is +11) — most likely separate,
-earlier table slots (0 and 1 being by far the most common integer literals
-in real code, worth a dedicated opcode outside the generic small-int
-table), but not confirmed independent of the byte pattern itself.
-
-**N = 11 to 32767 (and presumably up to the 16-bit `Integer` max):
-generic "push u16 literal" opcode + raw little-endian operand**, a 20-byte
-procedure segment (`4b493438<NN NN>b00ed42f1a004b49d9655e0e5b0e`) where
-bytes 4-5 are the literal value as a plain **little-endian u16** — verified
-exactly: `0x000B`=11, `0x0064`=100, `0x0100`=256, `0x03E8`=1000,
-`0x7FFF`=32767 (max positive 16-bit signed `Integer`, VB3's default
-numeric type). `3438` (bytes 2-3) is the constant 2-byte opcode for this
-form.
-
-In both forms, everything after the literal encoding is fixed scaffolding
-— presumably "assign top-of-stack to local variable `x`" plus procedure
-epilogue — not yet individually decoded. Cross-checked against segment 3
-(the per-module procedure descriptor table): it also stays byte-identical
-across the entire sweep except for one length field that exactly tracks
-the procedure segment's total size (12 for the 18-byte form, 14 for the
-20-byte form) — confirms segment 3 really is just recording "how long is
-this procedure's code", not encoding anything about the literal itself.
-
-**Reproducing this**: `tools/vb3ide/sweep_literal.sh <value...>` drives the
-whole cycle unattended — rewrites `vb3_install/proj/Form1.frm` (plain text;
-VB3's "Save as Text" project format, requires CRLF line endings) with a new
-`x = <value>` body, launches `VB.EXE` directly against the saved
-`Project1.mak` (skips the New Project dialog entirely), automates **File >
-Make EXE File** via `xdotool` against a fixed set of screen coordinates
-(stable across relaunches since the IDE always opens at the same default
-window layout), and writes the result to `vb3_install/sweep/`. Needs one
-retry per value in practice (first compile attempt after each fresh Wine
-launch reliably fails, second reliably succeeds — root cause not
-identified, but the script retries automatically and this has been 100%
-reliable across 34/34 values).
-
-### Confirmed: procedure prologue/epilogue, LOAD/STORE, arithmetic family
-
-Generalized the tooling (`tools/vb3ide/compile_snippet.sh`, takes an
-arbitrary `Form_Load` body instead of just a literal) and ran a batch of
-minimal one-change-at-a-time statements: `y = 1` (different variable name),
-`x = 1 + 2` / `1 - 2` / `1 * 2` / `1 / 2` (arithmetic operators), `x = -1`
-(unary negate), `x = x + 1` (self-reference), `y = x` (pure variable copy,
-no arithmetic), `x = 1` then `y = 2` (two statements), `Print "hi"`
-(built-in call + string literal). Results, all cross-checked against each
-other for consistency:
-
-- **Universal procedure prologue**: every procedure segment seen so far
-  (12+ variants) starts with the same 2 bytes, `4B 49`.
-- **Universal procedure epilogue**: every procedure segment ends with the
-  same 8 bytes, `4B 49 D9 65 5E 0E 5B 0E` — identical regardless of what
-  the procedure does, including `Print` (no variable involved at all).
-- **`x = 1` and `y = 1` compile to byte-for-byte identical procedure
-  segments.** Variable *identity* (the name `x` vs. `y`) is not encoded in
-  the procedure segment at all.
-- **LOAD variable**: opcode `21 2D` + a `<u16 LE slot>` operand (4 bytes
-  total). Confirmed via `y = x` (`4B49 | 212D 1A00 | D42F 1E00 | <epilogue>`
-  — loads x's slot, stores to y's slot) and `x = x + 1`.
-- **STORE variable**: opcode `D4 2F` + a `<u16 LE slot>` operand (4 bytes
-  total). Same evidence as LOAD.
-- **Variable slots are positional, not name-based**: the first local
-  variable referenced in a procedure (by any name) always gets slot
-  `0x001A`; a second, distinct variable gets `0x001E` — exactly +4 from the
-  first. Confirmed by the two-statement test (`x = 1` / `y = 2`: x's store
-  uses slot `1A00`, y's store uses slot `1E00`) and by `y = x` (x loads
-  from `1A00`, y stores to `1E00`, even though x is textually second in
-  that snippet — slots are assigned in first-*use* order during
-  compilation, not textual declaration order within the statement).
-- **Integer arithmetic opcode family**, all sharing a `38` second byte —
-  the same second byte as the u16-literal-push opcode (`34 38`), suggesting
-  `38` marks a general "integer stack operation" class:
-
-  | op | ADD | SUB | MUL |
-  |---|---|---|---|
-  | opcode | `D3 38` | `E1 38` | `EF 38` |
-
-  `D3`, `E1`, `EF` are evenly spaced by exactly 14 (211, 225, 239) — a
-  second linear opcode table, same pattern as the small-int push table but
-  with a different stride. Each op is inserted directly between the two
-  pushed operands and the store: `PUSH 1, PUSH 2, ADD, <coerce>, STORE`.
-- **Unary negate**: opcode `0B 39` (own family suffix, `39`, distinct from
-  both `37` used by literal pushes and `38` used by binary arithmetic).
-  Inserted directly after the pushed operand, before the store:
-  `x = -1` → `PUSH 1, NEGATE, STORE`.
-- **`B0 0E` is a "coerce literal for use in a Variant op" opcode — confirmed.**
-  ADD has *two* forms depending on operand provenance: `D3 38` when both
-  operands came from literal pushes (`x = 1 + 2`), `DF 40` when both came
-  from LOADs (`x = y + z` → `LOAD y, LOAD z, DF40 (ADD), STORE x` — no
-  `B0 0E` anywhere). Mixing the two (`x = x + 1` → `LOAD x, PUSH 1, B00E,
-  DF40 (ADD), STORE x`) needs `B0 0E` to convert the freshly-pushed literal
-  into whatever representation LOAD results are already in before `DF 40`
-  can combine them — resolved by comparing `add_yz` (`x = y + z`, no
-  literal, no `B0 0E`) against `self_add` (`x = x + 1`, one literal, one
-  `B0 0E`) and `add_1_2` (`x = 1 + 2`, two literals, no `B0 0E`, uses the
-  literal-only `D3 38` form instead). Also confirms slot allocation extends
-  cleanly to 3 variables: `add_yz`'s y/z/x get slots `1A`/`1E`/`22`.
-- **Division (`/`) behaves completely differently**, consistent with real
-  VB semantics where `/` always produces a floating-point result even for
-  integer operands (unlike `\`, integer division, not yet tested): `x = 1
-  / 2` pushes its operands with **different opcodes** (`91 37`, `9A 37` —
-  same `37` family suffix as the integer push table, but different values
-  than integer-1/2's `ED`/`F8`, implying a **separate small-constant table
-  for `Double`/floating literals**), then divides with `89 3B` (a third
-  family suffix, `3B`, distinct from arithmetic's `38`), then a
-  pre-store opcode `F1 10` (distinct from `B0 0E`, consistent with a
-  Double-specific coercion rather than the Integer one). Only structurally
-  understood so far, not decoded in detail.
-- **String literal encoding inside `Print "hi"` matches the inline
-  `<u16 length><raw ASCII>` scheme found earlier by raw byte-scanning
-  qrace.exe's segments** (see above) — independent cross-confirmation of
-  that finding from the opposite direction (compiled from known source,
-  rather than reverse-engineered from an unknown binary). `Print`'s call
-  sequence itself (`15 4A 37 21 9A 38 08 00 0C 00` before the string, `00
-  00 32 61` after it) is not yet decoded.
-
-**Reproducing this**: `tools/vb3ide/compile_snippet.sh <name>
-<code-file>` — same mechanism as `sweep_literal.sh` but takes an arbitrary
-`Form_Load` body from a text file instead of just a literal value.
-Snippets used for the above live in `vb3_install/snippets/` (gitignored).
-
-### Next steps (not started)
-
-- Decode `Print`'s call sequence and the floating-point arithmetic family
-  in the same way arithmetic-on-integers was decoded.
-- Extend to comparison operators (`=`, `<`, `>`), `If`/loop constructs, and
-  calling other procedures/built-in functions — none attempted yet.
-- Once enough of the opcode set is decoded, start applying it to
-  `qrace.exe`'s actual segments (4-19) rather than only test programs —
-  the 174 recovered strings and their segment locations are a natural
-  starting point for finding recognizable code (e.g. betting math, RNG
-  usage) once LOAD/STORE/arithmetic/comparison are all identifiable.
+- Once vb3-decompiler's opcode set covers enough of the instruction set
+  (comparisons, control flow, procedure calls — see its "Open questions"
+  section), apply it to segments 4-19 above, starting with the
+  already-recovered strings as landmarks (e.g. the betting-flow segments
+  are a natural place to look for the actual bet/payout formulas).
+- Confirm exact segment↔form pairing against `docs/resource-format-notes.md`'s
+  name-tables.

@@ -9,6 +9,11 @@ specific version before.
 
 Full roadmap: [`CLAUDE.md`](./CLAUDE.md).
 
+The general VB3 executable format tooling this relies on (NE resource
+parsing, p-code opcode decoding) lives in a separate, reusable companion
+repo: [`vb3-decompiler`](https://github.com/vmartinv/vb3-decompiler) —
+clone it alongside this repo to regenerate anything referenced in `docs/`.
+
 ## Credits
 
 Quibble Race was created by Derek Yu / Blackeye Software. This project is an
@@ -41,8 +46,8 @@ game itself, which isn't included here (see above).
 ## Layout
 
 - `original/` — (gitignored) your local copy of the original game files.
-- `tools/` — extraction & p-code disassembly tooling (Python).
-- `extraction/` — tooling output. `strings/` is committed (recovered text);
+- `extraction/` — output of `vb3-decompiler`'s tooling run against
+  `original/qrace.exe`. `strings/` is committed (recovered text);
   `resources/`, `forms/`, `pcode/` are gitignored (raw binary-derived data).
 - `docs/` — recovered design spec, gameplay notes, resource-format notes.
 - `port/` — the TypeScript + Phaser 3 + Vite port.

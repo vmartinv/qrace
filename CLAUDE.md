@@ -7,60 +7,27 @@
   `syswow64\winevdm.exe` handles it) and renders correctly, verified
   headlessly via Xvfb. Details: `docs/gameplay-notes.md`.
 - **Phase 2 (resource extraction): done, plus follow-up structural work.**
-  `tools/ne_parser.py` + `tools/extract_bitmaps.py` extract everything from
-  the NE resource table — 34 `RT_RCDATA` entries pairing a control
-  name-table with a compiled form/picture data blob per form (no
-  `RT_STRING`/`RT_BITMAP`/`RT_DIALOG` resources exist at all); embedded BMP
-  sprites extract and open cleanly (visually verified). Follow-up:
-  `tools/parse_form_headers.py` decoded the fixed-format header every data
-  blob starts with and recovered all 15/16 forms' real window captions
-  (`frmLoan` has no data-blob resource in the file at all — confirmed, not
-  just an empty slot); flagged one open question (possible off-by-one in
-  the name-table/data-blob pairing — captions read like they describe the
-  *next* form in ~12/15 cases, not conclusively resolved) and two
-  unidentified resources (`id2`, and `id4` — likely an orphaned duplicate
-  title-screen blob). Details: `docs/resource-format-notes.md`.
-- **Phase 3 (p-code disassembly): in progress, structural recovery done,
-  empirical opcode research now unblocked and underway.**
-  `tools/segment_parser.py` parses the NE segment table and recovered 174
-  inline string literals (VB3 embeds strings directly in the code segment
-  as `<u16 length><raw bytes>`, no separate string pool — confirmed
-  empirically). Checked public VB p-code references (AndreaGeddon's paper:
-  VB6-native-only, not applicable; vb-decompiler.org's opcode table:
-  explicitly VB5/6, confirmed incompatible with VB3's inline-ASCII string
-  scheme) — no usable public reference exists. Project owner supplied a
-  real VB3 Professional install image (used only as a local research tool,
-  never committed — see `.gitignore`); got the VB3 IDE (`VB.EXE`) running
-  under Wine with no installer needed at all (just `VBRUN300.DLL`
-  alongside it), and validated an empirical compile-and-diff methodology:
-  compile minimal test programs, diff the NE segment tables byte for byte.
-  First concrete results: segment 1 (25B) is a byte-identical universal
-  bootstrap stub across every VB3 p-code executable tested, including
-  `qrace.exe` itself; a form's compiled record (segment 3) is a per-module
-  procedure descriptor table that grows per added statement, with each
-  procedure's actual instructions landing in their own small dedicated
-  segment. **Integer literal encoding now fully cracked** via an automated
-  34-value sweep (`tools/vb3ide/sweep_literal.sh`): values 0-10 get
-  dedicated single-byte "push small int" opcodes (evenly spaced by 6 for
-  2-10, a linear jump table; 0 and 1 don't fit the same stride, likely
-  separate dedicated slots); values 11-32767 use a generic 2-byte opcode
-  (`34 38`) followed by the literal as a raw little-endian u16. Followed up
-  with a broader statement-type sweep (`tools/vb3ide/compile_snippet.sh`):
-  confirmed a universal 2-byte procedure prologue and 8-byte epilogue;
-  LOAD (`21 2D`) and STORE (`D4 2F`) variable opcodes, each followed by a
-  `<u16>` slot operand — variable identity is positional (first-use order,
-  slots 4 bytes apart starting at 0x1A), not name-based, confirmed by `x =
-  1` and `y = 1` compiling to byte-identical code; an integer
-  ADD/SUB/MUL opcode family (`D3`/`E1`/`EF`, evenly spaced by 14 — another
-  linear jump table) and unary negate (`0B 39`); confirmed `/` division
-  promotes to a separate floating-point encoding entirely (different
-  literal-push opcodes, different arithmetic suffix), consistent with real
-  VB semantics. Resolved an initial ADD ambiguity: it has two forms
-  depending on operand provenance (`D3 38` literal+literal, `DF 40`
-  LOAD+LOAD), with a small coercion opcode (`B0 0E`) bridging a mixed
-  literal+LOAD case — confirmed via `x = y + z` vs. `x = x + 1` vs. `x = 1
-  + 2`. First real opcode-level decode of VB3 p-code, anywhere. Details:
-  `docs/pcode-notes.md`.
+  All 34 `RT_RCDATA` form entries decoded (name-table/data-blob pairing,
+  fixed data-blob header, all 15/16 form captions recovered), embedded BMP
+  sprites extracted and verified. One open question (possible off-by-one
+  in caption/form pairing) and two unidentified resources (`id2`, `id4`)
+  flagged. Details: `docs/resource-format-notes.md`.
+- **Phase 3 (p-code disassembly): in progress.** 174 inline string
+  literals recovered from the segment table (VB3 embeds strings directly
+  in code, no string pool). A real VB3 compiler is now running locally
+  (via Wine, no installer needed), driving an empirical compile-and-diff
+  methodology that has decoded a real slice of the opcode set: variable
+  LOAD/STORE with positional (not name-based) slots, integer arithmetic
+  (ADD/SUB/MUL as a linear opcode table), integer and floating-point
+  literal encoding, unary negate. First real opcode-level decode of VB3
+  p-code, anywhere. Details: `docs/pcode-notes.md`.
+- **The general VB3 format/opcode tooling and findings (not specific to
+  this game) were split out into a companion repo,
+  [`vb3-decompiler`](https://github.com/vmartinv/vb3-decompiler)** — not
+  yet published (kept local at `~/vb3-decompiler` until the project owner
+  is ready). This repo's `tools/` no longer contains the NE/resource/
+  p-code parsers or the VB3 IDE automation scripts; clone `vb3-decompiler`
+  alongside this repo to regenerate anything referenced in `docs/`.
 - Phases 4-7: not started.
 
 ## Context

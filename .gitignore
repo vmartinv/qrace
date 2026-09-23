@@ -13,10 +13,18 @@ port/node_modules/
 port/dist/
 port/.vite/
 
-# Wine prefix(es) used for the reference oracle / VB3 IDE research
+# Wine prefix(es) used for the reference oracle, and for local VB3 IDE
+# research (that workflow now lives in the vb3-decompiler companion repo,
+# but this directory may still exist locally).
 .wine32/
 .winedefault/
 .winevb3/
+
+# Local VB3 IDE research workspace -- superseded by the vb3-decompiler
+# companion repo's work/ directory, but ignore here too in case it
+# lingers locally.
+vb3_install/
+*.7z
 
 # Editor/OS cruft
 .DS_Store
@@ -24,9 +32,3 @@ port/.vite/
 # Python
 __pycache__/
 *.pyc
-
-# VB3 IDE/compiler, used locally as an empirical research tool for Phase 3
-# p-code opcode discovery -- never redistribute (WinWorld-sourced abandonware,
-# same redistribution caveats as original/).
-vb3_install/
-*.7z
