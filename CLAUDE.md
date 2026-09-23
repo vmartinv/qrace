@@ -6,12 +6,20 @@
   (no `WINEARCH=win32`/extra packages needed — Wine's own
   `syswow64\winevdm.exe` handles it) and renders correctly, verified
   headlessly via Xvfb. Details: `docs/gameplay-notes.md`.
-- **Phase 2 (resource extraction): done.** `tools/ne_parser.py` +
-  `tools/extract_bitmaps.py` extract everything from the NE resource table
-  — 34 `RT_RCDATA` entries pairing a control name-table with a compiled
-  form/picture data blob per form (no `RT_STRING`/`RT_BITMAP`/`RT_DIALOG`
-  resources exist at all); embedded BMP sprites extract and open cleanly
-  (visually verified). Details: `docs/resource-format-notes.md`.
+- **Phase 2 (resource extraction): done, plus follow-up structural work.**
+  `tools/ne_parser.py` + `tools/extract_bitmaps.py` extract everything from
+  the NE resource table — 34 `RT_RCDATA` entries pairing a control
+  name-table with a compiled form/picture data blob per form (no
+  `RT_STRING`/`RT_BITMAP`/`RT_DIALOG` resources exist at all); embedded BMP
+  sprites extract and open cleanly (visually verified). Follow-up:
+  `tools/parse_form_headers.py` decoded the fixed-format header every data
+  blob starts with and recovered all 15/16 forms' real window captions
+  (`frmLoan` has no data-blob resource in the file at all — confirmed, not
+  just an empty slot); flagged one open question (possible off-by-one in
+  the name-table/data-blob pairing — captions read like they describe the
+  *next* form in ~12/15 cases, not conclusively resolved) and two
+  unidentified resources (`id2`, and `id4` — likely an orphaned duplicate
+  title-screen blob). Details: `docs/resource-format-notes.md`.
 - **Phase 3 (p-code disassembly): in progress, structural recovery done,
   opcode decoding not started.** `tools/segment_parser.py` parses the NE
   segment table and recovered 174 inline string literals (VB3 embeds
