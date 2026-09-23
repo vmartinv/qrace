@@ -55,8 +55,11 @@
   linear jump table) and unary negate (`0B 39`); confirmed `/` division
   promotes to a separate floating-point encoding entirely (different
   literal-push opcodes, different arithmetic suffix), consistent with real
-  VB semantics. One coercion-opcode ambiguity flagged as unresolved. First
-  real opcode-level decode of VB3 p-code, anywhere. Details:
+  VB semantics. Resolved an initial ADD ambiguity: it has two forms
+  depending on operand provenance (`D3 38` literal+literal, `DF 40`
+  LOAD+LOAD), with a small coercion opcode (`B0 0E`) bridging a mixed
+  literal+LOAD case — confirmed via `x = y + z` vs. `x = x + 1` vs. `x = 1
+  + 2`. First real opcode-level decode of VB3 p-code, anywhere. Details:
   `docs/pcode-notes.md`.
 - Phases 4-7: not started.
 

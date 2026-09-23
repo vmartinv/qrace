@@ -274,16 +274,18 @@ other for consistency:
   both `37` used by literal pushes and `38` used by binary arithmetic).
   Inserted directly after the pushed operand, before the store:
   `x = -1` → `PUSH 1, NEGATE, STORE`.
-- **An unidentified 2-byte opcode, `B0 0E`**, appears between a
-  freshly-computed Integer value (from a literal push or an arithmetic op)
-  and the following STORE — but is **absent** when storing a value that
-  came directly from a LOAD with no computation (`y = x` has no `B0 0E` at
-  all). Working hypothesis: some kind of "prepare freshly-computed Integer
-  for assignment" coercion step (VB3's variables are Variant-backed
-  internally even when holding what looks like a plain Integer), distinct
-  from a LOADed value which is presumably already in the right
-  representation. Not confirmed — `x = x + 1`'s exact instruction ordering
-  around `B0 0E` vs. the ADD opcode is still ambiguous (see below).
+- **`B0 0E` is a "coerce literal for use in a Variant op" opcode — confirmed.**
+  ADD has *two* forms depending on operand provenance: `D3 38` when both
+  operands came from literal pushes (`x = 1 + 2`), `DF 40` when both came
+  from LOADs (`x = y + z` → `LOAD y, LOAD z, DF40 (ADD), STORE x` — no
+  `B0 0E` anywhere). Mixing the two (`x = x + 1` → `LOAD x, PUSH 1, B00E,
+  DF40 (ADD), STORE x`) needs `B0 0E` to convert the freshly-pushed literal
+  into whatever representation LOAD results are already in before `DF 40`
+  can combine them — resolved by comparing `add_yz` (`x = y + z`, no
+  literal, no `B0 0E`) against `self_add` (`x = x + 1`, one literal, one
+  `B0 0E`) and `add_1_2` (`x = 1 + 2`, two literals, no `B0 0E`, uses the
+  literal-only `D3 38` form instead). Also confirms slot allocation extends
+  cleanly to 3 variables: `add_yz`'s y/z/x get slots `1A`/`1E`/`22`.
 - **Division (`/`) behaves completely differently**, consistent with real
   VB semantics where `/` always produces a floating-point result even for
   integer operands (unlike `\`, integer division, not yet tested): `x = 1
@@ -303,17 +305,6 @@ other for consistency:
   sequence itself (`15 4A 37 21 9A 38 08 00 0C 00` before the string, `00
   00 32 61` after it) is not yet decoded.
 
-`x = x + 1`'s full breakdown, still partially ambiguous:
-`4B49 | 212D 1A00 (LOAD x) | ED37 (PUSH 1) | B00E (?) | DF40 (ADD?) | D42F
-1A00 (STORE x) | <epilogue>`. `DF40` doesn't match `D338` (the ADD opcode
-found in `x = 1 + 2`) — plausibly a *different* ADD variant specific to
-"loaded-variable plus literal" vs. "literal plus literal" operand
-provenance (a common p-code technique — the compiler picking a specialized
-opcode per known operand-type combination rather than one generic op with
-runtime dispatch), but this is not confirmed. Next experiment to resolve
-it: `x = y + z` (two LOADs, no literal at all) should isolate ADD cleanly
-without `B0 0E` in the mix, if the coercion hypothesis is right.
-
 **Reproducing this**: `tools/vb3ide/compile_snippet.sh <name>
 <code-file>` — same mechanism as `sweep_literal.sh` but takes an arbitrary
 `Form_Load` body from a text file instead of just a literal value.
@@ -321,11 +312,6 @@ Snippets used for the above live in `vb3_install/snippets/` (gitignored).
 
 ### Next steps (not started)
 
-- Resolve the `x = x + 1` ADD-vs-coercion ambiguity (`x = y + z` test
-  above).
-- Decode the `B0 0E` / `F1 10` coercion-opcode hypothesis properly —
-  vary just the *source* of a stored value (literal vs. LOAD vs. arithmetic
-  result) while holding everything else constant.
 - Decode `Print`'s call sequence and the floating-point arithmetic family
   in the same way arithmetic-on-integers was decoded.
 - Extend to comparison operators (`=`, `<`, `>`), `If`/loop constructs, and
