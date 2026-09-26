@@ -211,8 +211,8 @@ export function End(throwSignal = true): never | void {
 }
 
 // Dragging a window by its title bar (not its icon or close button). Mouse
-// movement is divided by the desktop zoom, and part of the bar stays on
-// the screen.
+// movement is divided by the desktop zoom, and the window stays entirely
+// on the 800x600 screen.
 function makeDraggable(win: HTMLElement, bar: HTMLElement) {
   bar.addEventListener("pointerdown", (e) => {
     if (e.button !== 0 || (e.target as HTMLElement).closest(".vb-close, .vb-icon")) return;
@@ -224,8 +224,8 @@ function makeDraggable(win: HTMLElement, bar: HTMLElement) {
     win.style.top = `${y0}px`;
     const move = (m: PointerEvent) => {
       const x = x0 + (m.clientX - e.clientX) / zoom, y = y0 + (m.clientY - e.clientY) / zoom;
-      win.style.left = `${Math.round(Math.min(Math.max(x, 40 - win.offsetWidth), 800 - 40))}px`;
-      win.style.top = `${Math.round(Math.min(Math.max(y, 0), 600 - 20))}px`;
+      win.style.left = `${Math.round(Math.max(0, Math.min(x, 800 - win.offsetWidth)))}px`;
+      win.style.top = `${Math.round(Math.max(0, Math.min(y, 600 - win.offsetHeight)))}px`;
     };
     const up = () => {
       bar.removeEventListener("pointermove", move);
