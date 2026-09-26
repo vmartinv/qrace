@@ -95,7 +95,11 @@ def build(fnt: dict, path: Path):
         names.append(name)
         cmap[ord(ch)] = name
         glyf[name] = glyph_outline(width, rows, asc)
-        metrics[name] = (width * S, 0)
+        # the left side bearing must be the ink's left edge: rasterizers place
+        # the outline by it, so 0 here would pull glyphs with blank leading
+        # columns left, against the previous letter
+        ink = [x for x in range(width) if any(r[x] for r in rows)]
+        metrics[name] = (width * S, ink[0] * S if ink else 0)
     fb = FontBuilder(h * S, isTTF=True)
     fb.setupGlyphOrder(names)
     fb.setupCharacterMap(cmap)
