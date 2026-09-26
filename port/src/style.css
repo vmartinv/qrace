@@ -46,8 +46,10 @@ html, body {
   padding: 4px;
   box-shadow: var(--raised);
 }
+/* SM_CYCAPTION = 19: an 18 px bar plus a 1 px face-coloured line under it */
 .vb-caption {
   height: 18px;
+  margin-bottom: 1px;
   display: flex;
   align-items: center;
   gap: 3px;

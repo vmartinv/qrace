@@ -10,9 +10,10 @@ import { VBError } from "./errors.ts";
 import { cstr } from "./conv.ts";
 
 export const TWIPS = 15;
-// Windows 95 sizable frame and caption heights (px).
+// Windows 95 sizable frame (SM_CYFRAME) and caption (SM_CYCAPTION: 18 px
+// bar + 1 px line) heights, px.
 const FRAME = 4;
-const CAPTION = 18;
+const CAPTION = 19;
 const px = (tw: number) => `${tw / TWIPS}px`;
 
 // The OS timer's resolution: SetTimer on Windows 3.x/9x ticks at ~55 ms.
