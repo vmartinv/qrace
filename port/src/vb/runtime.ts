@@ -136,10 +136,11 @@ export function initDesktop(root: HTMLElement) {
   desktop = document.createElement("div");
   desktop.className = "vb-desktop";
   root.append(desktop);
+  // The 800x600 screen fills the window by default; ?zoom=N fixes the factor
+  // (whole numbers keep the pixel fonts perfectly even).
+  const zoom = Number(new URLSearchParams(location.search).get("zoom")) || 0;
   const fit = () => {
-    // Whole-number zoom keeps the pixel fonts and art crisp.
-    const fit = Math.min(window.innerWidth / 800, window.innerHeight / 600);
-    const s = fit >= 1 ? Math.floor(fit) : fit;
+    const s = zoom || Math.min(window.innerWidth / 800, window.innerHeight / 600);
     desktop.style.transform = `scale(${s})`;
     desktop.style.left = `${(window.innerWidth - 800 * s) / 2}px`;
     desktop.style.top = `${(window.innerHeight - 600 * s) / 2}px`;
