@@ -1,8 +1,8 @@
 /* Windows 95 look. The desktop is a 800x600 screen, zoomed by a whole
    number when the page is large enough (crisp pixels). */
-@font-face { font-family: QSans13; src: url("/fonts/sans-13.woff") format("woff"); }
-@font-face { font-family: QSans16; src: url("/fonts/sans-16.woff") format("woff"); }
-@font-face { font-family: QSans20; src: url("/fonts/sans-20.woff") format("woff"); }
+@font-face { font-family: QSans13; src: url("/fonts/sans-13.woff?v=2") format("woff"); }
+@font-face { font-family: QSans16; src: url("/fonts/sans-16.woff?v=2") format("woff"); }
+@font-face { font-family: QSans20; src: url("/fonts/sans-20.woff?v=2") format("woff"); }
 
 :root {
   --face: #c0c0c0;
