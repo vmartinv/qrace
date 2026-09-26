@@ -1,0 +1,4047 @@
+{
+ "frmTitle": {
+  "type": "Form",
+  "name": "frmTitle",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "Caption": "Quibbles v1.0",
+   "BackColor": 0,
+   "ClientLeft": 4290,
+   "ClientTop": 4005,
+   "ClientWidth": 5400,
+   "ClientHeight": 3255
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "Command2",
+    "props": {
+     "Caption": "OPTIONS",
+     "Left": 1920,
+     "Top": 2040,
+     "Width": 1575,
+     "Height": 735,
+     "FontName": "Times New Roman",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "Command1",
+    "props": {
+     "Caption": "HELP",
+     "Left": 3720,
+     "Top": 2040,
+     "Width": 1575,
+     "Height": 735,
+     "FontName": "Times New Roman",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdStart",
+    "props": {
+     "Caption": "START",
+     "Left": 120,
+     "Top": 2040,
+     "Width": 1572,
+     "Height": 732,
+     "FontName": "Times New Roman",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Timer",
+    "name": "Timer1",
+    "props": {
+     "Interval": 250,
+     "Left": 120,
+     "Top": 120
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label2",
+    "props": {
+     "Caption": "                                     ",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 2880,
+     "Width": 5175,
+     "Height": 255,
+     "TabIndex": 5,
+     "Alignment": 2
+    }
+   },
+   {
+    "type": "Image",
+    "name": "imgJump",
+    "props": {
+     "Picture": "frmTitle.imgJump",
+     "Left": 120,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgSquat",
+    "props": {
+     "Picture": "frmTitle.imgSquat",
+     "Left": 120,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmTitle.imgQuibble",
+     "Left": 0,
+     "Top": 720,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgTrack",
+    "props": {
+     "Picture": "frmTitle.imgTrack",
+     "Left": 0,
+     "Top": 720,
+     "Width": 11250,
+     "Height": 1125
+    },
+    "picSize": [
+     750,
+     75
+    ]
+   },
+   {
+    "type": "Label",
+    "name": "Label1",
+    "props": {
+     "Caption": "by Blackeye Software",
+     "ForeColor": 65535,
+     "Left": 120,
+     "Top": 480,
+     "Width": 5175,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3,
+     "Alignment": 2,
+     "BackStyle": 0
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblTitle",
+    "props": {
+     "Caption": "Quibbles v1.5",
+     "ForeColor": 192,
+     "Left": 120,
+     "Top": 0,
+     "Width": 5175,
+     "Height": 495,
+     "FontName": "Times New Roman",
+     "FontSize": 24,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4,
+     "Alignment": 2,
+     "BackStyle": 0
+    }
+   }
+  ]
+ },
+ "frmMain": {
+  "type": "Form",
+  "name": "frmMain",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "Caption": "Quibbles v1.0",
+   "BackColor": 0,
+   "ClientLeft": 2190,
+   "ClientTop": 2445,
+   "ClientWidth": 9495,
+   "ClientHeight": 5925
+  },
+  "controls": [
+   {
+    "type": "Timer",
+    "name": "Timer2",
+    "props": {
+     "Interval": 5,
+     "Left": 9000,
+     "Top": 600
+    }
+   },
+   {
+    "type": "Timer",
+    "name": "Timer1",
+    "props": {
+     "Interval": 1200,
+     "Left": 9000,
+     "Top": 120
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblKey",
+    "props": {
+     "Caption": "(Press any key.)",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 3960,
+     "Top": 5640,
+     "Width": 1455,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 22,
+     "Alignment": 2
+    }
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmMain.imgQuibble(0)",
+     "Left": 0,
+     "Top": 1440,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgJump",
+    "props": {
+     "Picture": "frmMain.imgJump",
+     "Left": 7320,
+     "Top": 5040,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgSquat",
+    "props": {
+     "Picture": "frmMain.imgSquat",
+     "Left": 6120,
+     "Top": 5040,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Label",
+    "name": "lblQuibble",
+    "props": {
+     "Caption": "Quibble #3",
+     "BackColor": 16777215,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 4200,
+     "Width": 3015,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 20,
+     "BackStyle": 0
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblQuibble",
+    "props": {
+     "Caption": "Quibble #2",
+     "BackColor": 16777215,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 3000,
+     "Width": 3015,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 21,
+     "BackStyle": 0
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblQuibble",
+    "props": {
+     "Caption": "Quibble #1",
+     "BackColor": 16777215,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 1800,
+     "Width": 3015,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 19,
+     "BackStyle": 0
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblRacerName",
+    "props": {
+     "Caption": "quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 8160,
+     "Top": 960,
+     "Width": 1215,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblPickLabel",
+    "props": {
+     "Caption": "Pick:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 7560,
+     "Top": 960,
+     "Width": 495,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblBet",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 8040,
+     "Top": 720,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblBetLabel",
+    "props": {
+     "Caption": "Bet:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 7560,
+     "Top": 720,
+     "Width": 495,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblPlayerName",
+    "props": {
+     "Caption": "Player Name",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 7560,
+     "Top": 240,
+     "Width": 1815,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblRacerName",
+    "props": {
+     "Caption": "quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 5040,
+     "Top": 960,
+     "Width": 1215,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblPickLabel",
+    "props": {
+     "Caption": "Pick:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 4440,
+     "Top": 960,
+     "Width": 495,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblBet",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 4920,
+     "Top": 720,
+     "Width": 1215,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblBetLabel",
+    "props": {
+     "Caption": "Bet:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 4440,
+     "Top": 720,
+     "Width": 495,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 8
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblPlayerName",
+    "props": {
+     "Caption": "Player Name",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 4440,
+     "Top": 240,
+     "Width": 1815,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 9
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblRacerName",
+    "props": {
+     "Caption": "quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1920,
+     "Top": 960,
+     "Width": 1215,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 10
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblPickLabel",
+    "props": {
+     "Caption": "Pick:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 960,
+     "Width": 495,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 11
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblBet",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1800,
+     "Top": 720,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 12
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblBetLabel",
+    "props": {
+     "Caption": "Bet:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 720,
+     "Width": 495,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 13
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblPlayerName",
+    "props": {
+     "Caption": "Player Name",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 1320,
+     "Top": 240,
+     "Width": 1815,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 14
+    },
+    "index": 0
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmMain.imgP(2)",
+     "Left": 6360,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmMain.imgP(1)",
+     "Left": 3240,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmMain.imgP(0)",
+     "Left": 120,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmMain.imgQuibble(2)",
+     "Left": 0,
+     "Top": 3840,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmMain.imgQuibble(1)",
+     "Left": 0,
+     "Top": 2640,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Label",
+    "name": "lblMessage",
+    "props": {
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 5160,
+     "Width": 9255,
+     "Height": 615,
+     "FontName": "MS Serif",
+     "FontSize": 18,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 15,
+     "Alignment": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblQuibbleName3",
+    "props": {
+     "ForeColor": 49152,
+     "Left": 120,
+     "Top": 4440,
+     "Width": 8895,
+     "Height": 255,
+     "FontName": "MS Serif",
+     "FontSize": 6.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 16,
+     "BackStyle": 0
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblQuibbleName2",
+    "props": {
+     "ForeColor": 49152,
+     "Left": 120,
+     "Top": 3360,
+     "Width": 8895,
+     "Height": 255,
+     "FontName": "MS Serif",
+     "FontSize": 6.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 17,
+     "BackStyle": 0
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblQuibbleName1",
+    "props": {
+     "ForeColor": 49152,
+     "Left": 120,
+     "Top": 2280,
+     "Width": 8895,
+     "Height": 255,
+     "FontName": "MS Serif",
+     "FontSize": 6.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 18,
+     "BackStyle": 0
+    }
+   },
+   {
+    "type": "Image",
+    "name": "imgTrack1",
+    "props": {
+     "Picture": "frmMain.imgTrack1",
+     "Left": 0,
+     "Top": 1440,
+     "Width": 11250,
+     "Height": 1125
+    },
+    "picSize": [
+     750,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgTrack2",
+    "props": {
+     "Picture": "frmMain.imgTrack2",
+     "Left": -360,
+     "Top": 2640,
+     "Width": 11250,
+     "Height": 1125
+    },
+    "picSize": [
+     750,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgTrack3",
+    "props": {
+     "Picture": "frmMain.imgTrack3",
+     "Left": 0,
+     "Top": 3840,
+     "Width": 11250,
+     "Height": 1125
+    },
+    "picSize": [
+     750,
+     75
+    ]
+   }
+  ]
+ },
+ "frmMenu": {
+  "type": "Form",
+  "name": "frmMenu",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "Caption": "Menu Screen",
+   "BackColor": 0,
+   "FontName": "MS Sans Serif",
+   "FontSize": 8.25,
+   "FontBold": -1,
+   "FontItalic": 0,
+   "FontUnderline": 0,
+   "ClientLeft": 3765,
+   "ClientTop": 3165,
+   "ClientWidth": 6480,
+   "ClientHeight": 4695
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdMax",
+    "props": {
+     "Caption": "Max",
+     "Left": 5880,
+     "Top": 840,
+     "Width": 495,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 25
+    }
+   },
+   {
+    "type": "Timer",
+    "name": "Timer2",
+    "props": {
+     "Interval": 1,
+     "Left": 2520,
+     "Top": 6000
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdRetire",
+    "props": {
+     "Caption": "Retire",
+     "Left": 4680,
+     "Top": 3120,
+     "Width": 1695,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 20
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdDone",
+    "props": {
+     "Caption": "Done",
+     "Left": 2760,
+     "Top": 3960,
+     "Width": 3615,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 19
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdInfo",
+    "props": {
+     "Caption": "Information",
+     "Left": 4680,
+     "Top": 2280,
+     "Width": 1695,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 17
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "Left": 2760,
+     "Top": 3120,
+     "Width": 1695,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 16
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdLoan",
+    "props": {
+     "Caption": "Loan Shark",
+     "Left": 2760,
+     "Top": 1440,
+     "Width": 1695,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 15
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdSpecial",
+    "props": {
+     "Caption": "Special",
+     "Left": 2760,
+     "Top": 2280,
+     "Width": 1695,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 14
+    }
+   },
+   {
+    "type": "TextBox",
+    "name": "txtBet",
+    "props": {
+     "Left": 4680,
+     "Top": 840,
+     "Width": 1215,
+     "Height": 360,
+     "Text": "100",
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 13
+    }
+   },
+   {
+    "type": "Timer",
+    "name": "Timer1",
+    "props": {
+     "Interval": 250,
+     "Left": 2520,
+     "Top": 5520
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "BackColor": 0,
+     "ForeColor": 8454143,
+     "Left": 1320,
+     "Top": 4320,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 22
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "BackColor": 0,
+     "ForeColor": 8454143,
+     "Left": 1320,
+     "Top": 3000,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 24
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "BackColor": 0,
+     "ForeColor": 8454143,
+     "Left": 1320,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 23,
+     "BackStyle": 0
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblDebt",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 5520,
+     "Top": 1560,
+     "Width": 855,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 21
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label4",
+    "props": {
+     "Caption": "DEBT:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 4680,
+     "Top": 1560,
+     "Width": 735,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 18
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label3",
+    "props": {
+     "Caption": "Place your BET: ",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 2760,
+     "Top": 840,
+     "Width": 1815,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 12
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 4080,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 11
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 2760,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 10
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 3840,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 9
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 2520,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 8
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 1440,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 1200,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblQname",
+    "props": {
+     "Caption": "Quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 3480,
+     "Width": 1215,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblQname",
+    "props": {
+     "Caption": "Quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 2160,
+     "Width": 1215,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblQname",
+    "props": {
+     "Caption": "Quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 840,
+     "Width": 1215,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    },
+    "index": 0
+   },
+   {
+    "type": "Shape",
+    "name": "shpBox",
+    "props": {
+     "BorderColor": 255,
+     "Left": 120,
+     "Top": 720,
+     "Width": 1095,
+     "Height": 1095
+    }
+   },
+   {
+    "type": "Shape",
+    "name": "Shape1",
+    "props": {
+     "BorderColor": 16777215,
+     "Left": 120,
+     "Top": 120,
+     "Width": 6255,
+     "Height": 495
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblCash",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 5280,
+     "Top": 240,
+     "Width": 975,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label1",
+    "props": {
+     "Caption": "CASH:",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 4320,
+     "Top": 240,
+     "Width": 855,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblPlayer",
+    "props": {
+     "Caption": "Player One, Place Your Bet!",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 240,
+     "Top": 240,
+     "Width": 3615,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmMenu.imgQuibble(2)",
+     "Left": 120,
+     "Top": 3360,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmMenu.imgQuibble(1)",
+     "Left": 120,
+     "Top": 2040,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgSquat",
+    "props": {
+     "Picture": "frmMenu.imgSquat",
+     "Left": 1320,
+     "Top": 5520,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgJump",
+    "props": {
+     "Picture": "frmMenu.imgJump",
+     "Left": 120,
+     "Top": 5520,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmMenu.imgQuibble(0)",
+     "Left": 120,
+     "Top": 720,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   }
+  ]
+ },
+ "frmAvailable": {
+  "type": "Form",
+  "name": "frmAvailable",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Sponsor a Quibble",
+   "BackColor": 0,
+   "ClientLeft": 4650,
+   "ClientTop": 3615,
+   "ClientWidth": 4560,
+   "ClientHeight": 3960
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdExit",
+    "props": {
+     "Caption": "Exit",
+     "Left": 240,
+     "Top": 3240,
+     "Width": 4095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 15
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "Left": 3120,
+     "Top": 2520,
+     "Width": 1215,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 14
+    },
+    "index": 2
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "Left": 1680,
+     "Top": 2520,
+     "Width": 1215,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 13
+    },
+    "index": 1
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdSponsor",
+    "props": {
+     "Caption": "Sponsor",
+     "Left": 240,
+     "Top": 2520,
+     "Width": 1215,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 12
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblPrice",
+    "props": {
+     "Caption": "Price:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 2160,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 11,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblPrice",
+    "props": {
+     "Caption": "Price:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 2160,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 10,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblPrice",
+    "props": {
+     "Caption": "Price:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 2160,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 9,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 1920,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 8,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 1920,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 1920,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblQname",
+    "props": {
+     "Caption": "Quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 1320,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblQname",
+    "props": {
+     "Caption": "Quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 1320,
+     "Width": 1215,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblQname",
+    "props": {
+     "Caption": "Quibble Name",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 1320,
+     "Width": 1095,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmAvailable.imgQuibble(2)",
+     "Left": 3120,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmAvailable.imgQuibble(1)",
+     "Left": 1680,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmAvailable.imgQuibble(0)",
+     "Left": 240,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   }
+  ]
+ },
+ "frmInfo": {
+  "type": "Form",
+  "name": "frmInfo",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Information",
+   "BackColor": 0,
+   "ForeColor": 0,
+   "ClientLeft": 4095,
+   "ClientTop": 4200,
+   "ClientWidth": 5745,
+   "ClientHeight": 2925
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdQuit",
+    "props": {
+     "Caption": "Nothing",
+     "Left": 120,
+     "Top": 2400,
+     "Width": 5535,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdBet",
+    "props": {
+     "Caption": "Betting Placement  ($10)",
+     "Left": 120,
+     "Top": 1920,
+     "Width": 5535,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdRank",
+    "props": {
+     "Caption": "Projected Rankings  ($10)",
+     "Left": 120,
+     "Top": 1440,
+     "Width": 5535,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblLine",
+    "props": {
+     "Caption": "3.",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1440,
+     "Top": 600,
+     "Width": 4095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblLine",
+    "props": {
+     "Caption": "2.",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1440,
+     "Top": 360,
+     "Width": 4095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblLine",
+    "props": {
+     "Caption": "1.",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1440,
+     "Top": 120,
+     "Width": 4095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblText",
+    "props": {
+     "Caption": "So it's information you want, eh?  Well you've come to the right man.  I can provide you with inside information on the race, but it won't be cheap.  What're you looking for?",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1440,
+     "Top": 120,
+     "Width": 4215,
+     "Height": 1215,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Image",
+    "name": "Image1",
+    "props": {
+     "Picture": "frmInfo.Image1",
+     "Left": 120,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   }
+  ]
+ },
+ "frmOptions": {
+  "type": "Form",
+  "name": "frmOptions",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Options",
+   "BackColor": 0,
+   "ForeColor": 0,
+   "ClientLeft": 4560,
+   "ClientTop": 3915,
+   "ClientWidth": 4965,
+   "ClientHeight": 3465
+  },
+  "controls": [
+   {
+    "type": "TextBox",
+    "name": "txtSpeed",
+    "props": {
+     "Left": 3840,
+     "Top": 1440,
+     "Width": 375,
+     "Height": 375,
+     "Text": "25",
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 18
+    }
+   },
+   {
+    "type": "TextBox",
+    "name": "txtGoal",
+    "props": {
+     "Left": 2400,
+     "Top": 960,
+     "Width": 495,
+     "Height": 360,
+     "Text": "100",
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 15
+    }
+   },
+   {
+    "type": "TextBox",
+    "name": "txtStart",
+    "props": {
+     "Left": 3840,
+     "Top": 960,
+     "Width": 735,
+     "Height": 375,
+     "Text": "100",
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 14
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdDone",
+    "props": {
+     "Caption": "Done",
+     "Left": 1800,
+     "Top": 2880,
+     "Width": 1455,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 11
+    }
+   },
+   {
+    "type": "CheckBox",
+    "name": "chkSponsor",
+    "props": {
+     "Caption": "Sponsoring",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3360,
+     "Top": 2400,
+     "Width": 1335,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 10,
+     "Value": 1
+    }
+   },
+   {
+    "type": "CheckBox",
+    "name": "chkInfo",
+    "props": {
+     "Caption": "Information",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3360,
+     "Top": 2040,
+     "Width": 1335,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 9,
+     "Value": 1
+    }
+   },
+   {
+    "type": "CheckBox",
+    "name": "chkSpecialLimit",
+    "props": {
+     "Caption": "Special Limit",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 2400,
+     "Width": 1575,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 8,
+     "Value": 1
+    }
+   },
+   {
+    "type": "CheckBox",
+    "name": "chkSpecial",
+    "props": {
+     "Caption": "Specials",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 2040,
+     "Width": 1335,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7,
+     "Value": 1
+    }
+   },
+   {
+    "type": "TextBox",
+    "name": "txtInterest",
+    "props": {
+     "Left": 2400,
+     "Top": 1440,
+     "Width": 375,
+     "Height": 375,
+     "Text": "15",
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    }
+   },
+   {
+    "type": "OptionButton",
+    "name": "optCash",
+    "props": {
+     "Caption": "Play for Cash Goal",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 120,
+     "Width": 2055,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "OptionButton",
+    "name": "optRound",
+    "props": {
+     "Caption": "Play for Rounds",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 480,
+     "Width": 2175,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label7",
+    "props": {
+     "Caption": "Speed:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 1440,
+     "Width": 735,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 17
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label6",
+    "props": {
+     "Caption": "Variables",
+     "BackColor": 0,
+     "ForeColor": 8454143,
+     "Left": 240,
+     "Top": 960,
+     "Width": 975,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 16
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label2",
+    "props": {
+     "Caption": "Start $:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 960,
+     "Width": 615,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 13
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label5",
+    "props": {
+     "Caption": "%",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 2760,
+     "Top": 1440,
+     "Width": 255,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 12
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label4",
+    "props": {
+     "Caption": "Settings",
+     "BackColor": 0,
+     "ForeColor": 8454143,
+     "Left": 240,
+     "Top": 2040,
+     "Width": 1575,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label3",
+    "props": {
+     "Caption": "Interest:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 1440,
+     "Width": 735,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblType",
+    "props": {
+     "Caption": "Goal:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1560,
+     "Top": 960,
+     "Width": 855,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label1",
+    "props": {
+     "Caption": "Game Type",
+     "BackColor": 0,
+     "ForeColor": 8454143,
+     "Left": 240,
+     "Top": 120,
+     "Width": 1575,
+     "Height": 255,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   }
+  ]
+ },
+ "frmPlayer": {
+  "type": "Form",
+  "name": "frmPlayer",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "Caption": "Player Setup",
+   "BackColor": 0,
+   "ForeColor": 0,
+   "ClientLeft": 5385,
+   "ClientTop": 4365,
+   "ClientWidth": 3225,
+   "ClientHeight": 2280
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdDone",
+    "props": {
+     "Caption": "Done",
+     "Left": 2280,
+     "Top": 1800,
+     "Width": 735,
+     "Height": 375,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    }
+   },
+   {
+    "type": "TextBox",
+    "name": "txtName",
+    "props": {
+     "BackColor": 16777215,
+     "ForeColor": 0,
+     "Left": 120,
+     "Top": 1800,
+     "Width": 2055,
+     "Height": 375,
+     "Visible": 0,
+     "Text": "Enter Name",
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdCom",
+    "props": {
+     "Caption": "Computer",
+     "Left": 1440,
+     "Top": 960,
+     "Width": 1575,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdHuman",
+    "props": {
+     "Caption": "Human",
+     "Left": 1440,
+     "Top": 240,
+     "Width": 1575,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblPlayer",
+    "props": {
+     "Caption": "Player One",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 120,
+     "Width": 1695,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Image",
+    "name": "imgPlayer",
+    "props": {
+     "Picture": "frmPlayer.imgPlayer",
+     "Left": 120,
+     "Top": 480,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmPlayer.imgP(1)",
+     "Left": 1680,
+     "Top": 3480,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmPlayer.imgP(2)",
+     "Left": 3000,
+     "Top": 3600,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmPlayer.imgP(0)",
+     "Left": 480,
+     "Top": 3480,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   }
+  ]
+ },
+ "frmRetire": {
+  "type": "Form",
+  "name": "frmRetire",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Retire",
+   "BackColor": 0,
+   "ClientLeft": 5505,
+   "ClientTop": 4875,
+   "ClientWidth": 3015,
+   "ClientHeight": 1470
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdNo",
+    "props": {
+     "Caption": "No",
+     "Left": 120,
+     "Top": 720,
+     "Width": 1335,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdYes",
+    "props": {
+     "Caption": "Yes",
+     "Left": 1560,
+     "Top": 720,
+     "Width": 1335,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label1",
+    "props": {
+     "Caption": "Are you sure you want to retire from the betting scene?",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 120,
+     "Width": 3015,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   }
+  ]
+ },
+ "frmSpecial": {
+  "type": "Form",
+  "name": "frmSpecial",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Special",
+   "BackColor": 0,
+   "ClientLeft": 4665,
+   "ClientTop": 4125,
+   "ClientWidth": 4785,
+   "ClientHeight": 2670
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdQuit",
+    "props": {
+     "Caption": "Quit",
+     "Left": 1680,
+     "Top": 1800,
+     "Width": 3015,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdTrain",
+    "props": {
+     "Caption": "Train $20",
+     "Left": 120,
+     "Top": 960,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdDrug",
+    "props": {
+     "Caption": "Drug $75",
+     "Left": 3240,
+     "Top": 960,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdSteroids",
+    "props": {
+     "Caption": "Steroids $50",
+     "Left": 120,
+     "Top": 120,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdWeights",
+    "props": {
+     "Caption": "Weights $30",
+     "Left": 1680,
+     "Top": 120,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdCripple",
+    "props": {
+     "Caption": "Cripple $35",
+     "Left": 1680,
+     "Top": 960,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdPoison",
+    "props": {
+     "Caption": "Poison $150",
+     "Left": 3240,
+     "Top": 120,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdGuard",
+    "props": {
+     "Caption": "Guard $25",
+     "Left": 120,
+     "Top": 1800,
+     "Width": 1455,
+     "Height": 735,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   }
+  ]
+ },
+ "frmSponsor": {
+  "type": "Form",
+  "name": "frmSponsor",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Sponsoring",
+   "BackColor": 0,
+   "ClientLeft": 5535,
+   "ClientTop": 3855,
+   "ClientWidth": 2865,
+   "ClientHeight": 3030
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdExit",
+    "props": {
+     "Caption": "Exit",
+     "Left": 120,
+     "Top": 2040,
+     "Width": 2655,
+     "Height": 855,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "Command2",
+    "props": {
+     "Caption": "Current Status",
+     "Left": 120,
+     "Top": 1080,
+     "Width": 2655,
+     "Height": 855,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "Command1",
+    "props": {
+     "Caption": "Sponsor a Quibble",
+     "Left": 120,
+     "Top": 120,
+     "Width": 2655,
+     "Height": 855,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   }
+  ]
+ },
+ "frmStatus": {
+  "type": "Form",
+  "name": "frmStatus",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Currently Sponsored Quibbles",
+   "BackColor": 0,
+   "ClientLeft": 4665,
+   "ClientTop": 3615,
+   "ClientWidth": 4515,
+   "ClientHeight": 3930
+  },
+  "controls": [
+   {
+    "type": "TextBox",
+    "name": "txtName",
+    "props": {
+     "Alignment": 2,
+     "BackColor": 16777215,
+     "ForeColor": 0,
+     "Left": 3120,
+     "Top": 1320,
+     "Width": 1095,
+     "Height": 285,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 16
+    },
+    "index": 2
+   },
+   {
+    "type": "TextBox",
+    "name": "txtName",
+    "props": {
+     "Alignment": 2,
+     "BackColor": 16777215,
+     "ForeColor": 0,
+     "Left": 240,
+     "Top": 1320,
+     "Width": 1095,
+     "Height": 285,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 13
+    },
+    "index": 1
+   },
+   {
+    "type": "TextBox",
+    "name": "txtName",
+    "props": {
+     "Alignment": 2,
+     "BackColor": 16777215,
+     "ForeColor": 0,
+     "Left": 1680,
+     "Top": 1320,
+     "Width": 1095,
+     "Height": 285,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 14
+    },
+    "index": 0
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdTrain",
+    "props": {
+     "Caption": "Train $20",
+     "Left": 1680,
+     "Top": 2520,
+     "Width": 1215,
+     "Height": 615,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    },
+    "index": 0
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdTrain",
+    "props": {
+     "Caption": "Train $20",
+     "Left": 240,
+     "Top": 2520,
+     "Width": 1215,
+     "Height": 615,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdTrain",
+    "props": {
+     "Caption": "Train $20",
+     "Left": 3120,
+     "Top": 2520,
+     "Width": 1215,
+     "Height": 615,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    },
+    "index": 2
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdExit",
+    "props": {
+     "Caption": "Exit",
+     "Left": 240,
+     "Top": 3240,
+     "Width": 4095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblNotice",
+    "props": {
+     "Caption": "You have not sponsored any quibbles.",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 1320,
+     "Width": 4095,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 15
+    }
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmStatus.imgQuibble(0)",
+     "Left": 1680,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmStatus.imgQuibble(1)",
+     "Left": 240,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgQuibble",
+    "props": {
+     "Picture": "frmStatus.imgQuibble(2)",
+     "Left": 3120,
+     "Top": 120,
+     "Width": 1125,
+     "Height": 1125,
+     "Visible": 0
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 12,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 11,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblWin",
+    "props": {
+     "Caption": "Win %:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 1680,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 10,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 1920,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 9,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 1920,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 8,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblRaces",
+    "props": {
+     "Caption": "Races:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 1920,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblSpeed",
+    "props": {
+     "Caption": "Speed:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1680,
+     "Top": 2160,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblSpeed",
+    "props": {
+     "Caption": "Speed:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 240,
+     "Top": 2160,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblSpeed",
+    "props": {
+     "Caption": "Speed:  000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 3120,
+     "Top": 2160,
+     "Width": 1095,
+     "Height": 255,
+     "Visible": 0,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4,
+     "Alignment": 2
+    },
+    "index": 2
+   }
+  ]
+ },
+ "frmTarget": {
+  "type": "Form",
+  "name": "frmTarget",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Select your target",
+   "BackColor": 0,
+   "ClientLeft": 5100,
+   "ClientTop": 4365,
+   "ClientWidth": 3525,
+   "ClientHeight": 2550
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdQuibble",
+    "props": {
+     "Caption": "Quibble #3",
+     "Left": 120,
+     "Top": 1560,
+     "Width": 3255,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    },
+    "index": 2
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdQuibble",
+    "props": {
+     "Caption": "Quibble #2",
+     "Left": 120,
+     "Top": 1080,
+     "Width": 3255,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    },
+    "index": 1
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdCancel",
+    "props": {
+     "Caption": "Cancel",
+     "Left": 120,
+     "Top": 2040,
+     "Width": 3255,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdQuibble",
+    "props": {
+     "Caption": "Quibble #1",
+     "Left": 120,
+     "Top": 600,
+     "Width": 3255,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "Label3",
+    "props": {
+     "Caption": "Select your target Quibble.",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 120,
+     "Top": 120,
+     "Width": 3255,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1,
+     "BorderStyle": 1,
+     "Alignment": 2
+    }
+   }
+  ]
+ },
+ "frmUpdate": {
+  "type": "Form",
+  "name": "frmUpdate",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "Caption": "Updates",
+   "BackColor": 0,
+   "ClientLeft": 4665,
+   "ClientTop": 4170,
+   "ClientWidth": 4725,
+   "ClientHeight": 3000
+  },
+  "controls": [
+   {
+    "type": "Timer",
+    "name": "Timer1",
+    "props": {
+     "Interval": 1,
+     "Left": 3000,
+     "Top": 2400
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdOK",
+    "props": {
+     "Caption": "OK",
+     "Left": 1800,
+     "Top": 2280,
+     "Width": 1095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblText",
+    "props": {
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 600,
+     "Width": 4455,
+     "Height": 1575,
+     "FontName": "MS Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1,
+     "Alignment": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblTitle",
+    "props": {
+     "Caption": "PRE-RACE UPDATES",
+     "BackColor": 0,
+     "ForeColor": 255,
+     "Left": 120,
+     "Top": 120,
+     "Width": 4455,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": -1,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0,
+     "Alignment": 2
+    }
+   }
+  ]
+ },
+ "frmUpdate2": {
+  "type": "Form",
+  "name": "frmUpdate2",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Updates",
+   "BackColor": 0,
+   "ClientLeft": 4695,
+   "ClientTop": 4185,
+   "ClientWidth": 4710,
+   "ClientHeight": 2985
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdOK",
+    "props": {
+     "Caption": "OK",
+     "Left": 1680,
+     "Top": 2280,
+     "Width": 1095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 8.25,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Timer",
+    "name": "Timer1",
+    "props": {
+     "Interval": 1,
+     "Left": 2880,
+     "Top": 2400
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblBonus",
+    "props": {
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 1560,
+     "Width": 4455,
+     "Height": 495,
+     "FontName": "MS Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5,
+     "Alignment": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblBonus",
+    "props": {
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 1080,
+     "Width": 4455,
+     "Height": 495,
+     "FontName": "MS Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4,
+     "Alignment": 2
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblBonus",
+    "props": {
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 600,
+     "Width": 4455,
+     "Height": 495,
+     "FontName": "MS Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3,
+     "Alignment": 2
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblTitle",
+    "props": {
+     "Caption": "POST-RACE UPDATES",
+     "BackColor": 0,
+     "ForeColor": 255,
+     "Left": 120,
+     "Top": 120,
+     "Width": 4455,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": -1,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2,
+     "Alignment": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblText",
+    "props": {
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 600,
+     "Width": 4455,
+     "Height": 1575,
+     "FontName": "MS Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1,
+     "Alignment": 2
+    }
+   }
+  ]
+ },
+ "frmWinners": {
+  "type": "Form",
+  "name": "frmWinners",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "Caption": "Game Over",
+   "BackColor": 0,
+   "ClientLeft": 3780,
+   "ClientTop": 2685,
+   "ClientWidth": 6465,
+   "ClientHeight": 5685
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdOK",
+    "props": {
+     "Caption": "OK",
+     "Left": 2160,
+     "Top": 5160,
+     "Width": 2055,
+     "Height": 375,
+     "TabIndex": 3
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblWinner",
+    "props": {
+     "Caption": "Player Has Won the Game!",
+     "BackColor": 0,
+     "ForeColor": 255,
+     "Left": 240,
+     "Top": 240,
+     "Width": 6015,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 18,
+     "FontBold": -1,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7,
+     "Alignment": 2
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblRank",
+    "props": {
+     "Caption": "#1",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 4200,
+     "Top": 3960,
+     "Width": 1095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 24,
+     "FontBold": -1,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblRank",
+    "props": {
+     "Caption": "#1",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 4200,
+     "Top": 2520,
+     "Width": 1095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 24,
+     "FontBold": -1,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblRank",
+    "props": {
+     "Caption": "#1",
+     "BackColor": 0,
+     "ForeColor": 65535,
+     "Left": 4200,
+     "Top": 1200,
+     "Width": 1095,
+     "Height": 615,
+     "FontName": "MS Sans Serif",
+     "FontSize": 24,
+     "FontBold": -1,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    },
+    "index": 0
+   },
+   {
+    "type": "Label",
+    "name": "lblCash",
+    "props": {
+     "Caption": "0000000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 2760,
+     "Top": 4080,
+     "Width": 1095,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    },
+    "index": 2
+   },
+   {
+    "type": "Label",
+    "name": "lblCash",
+    "props": {
+     "Caption": "0000000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 2760,
+     "Top": 2640,
+     "Width": 1095,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    },
+    "index": 1
+   },
+   {
+    "type": "Label",
+    "name": "lblCash",
+    "props": {
+     "Caption": "0000000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 2760,
+     "Top": 1320,
+     "Width": 1095,
+     "Height": 495,
+     "FontName": "MS Sans Serif",
+     "FontSize": 12,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    },
+    "index": 0
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmWinners.imgP(0)",
+     "Left": 1320,
+     "Top": 840,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 0,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmWinners.imgP(2)",
+     "Left": 1200,
+     "Top": 3720,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 2,
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Image",
+    "name": "imgP",
+    "props": {
+     "Picture": "frmWinners.imgP(1)",
+     "Left": 1200,
+     "Top": 2280,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "index": 1,
+    "picSize": [
+     75,
+     75
+    ]
+   }
+  ]
+ },
+ "frmLoan": {
+  "type": "Form",
+  "name": "frmLoan",
+  "props": {
+   "MaxButton": 0,
+   "MinButton": 0,
+   "ControlBox": 0,
+   "Caption": "Loan Shark",
+   "BackColor": 0,
+   "ClientLeft": 4095,
+   "ClientTop": 4365,
+   "ClientWidth": 5730,
+   "ClientHeight": 2340
+  },
+  "controls": [
+   {
+    "type": "CommandButton",
+    "name": "cmdPay",
+    "props": {
+     "Caption": "Pay Off",
+     "Left": 3360,
+     "Top": 1800,
+     "Width": 1575,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 2
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "cmdBorrow",
+    "props": {
+     "Caption": "Borrow",
+     "Left": 3360,
+     "Top": 1320,
+     "Width": 1575,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 7
+    }
+   },
+   {
+    "type": "CommandButton",
+    "name": "Command1",
+    "props": {
+     "Caption": "OK",
+     "Left": 5040,
+     "Top": 1320,
+     "Width": 615,
+     "Height": 855,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 8
+    }
+   },
+   {
+    "type": "TextBox",
+    "name": "txtBorrow",
+    "props": {
+     "Left": 1680,
+     "Top": 1320,
+     "Width": 1575,
+     "Height": 360,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 0
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblDebt",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 840,
+     "Top": 1800,
+     "Width": 855,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 6
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label4",
+    "props": {
+     "Caption": "Debt:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 1800,
+     "Width": 615,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 5
+    }
+   },
+   {
+    "type": "Label",
+    "name": "lblCash",
+    "props": {
+     "Caption": "00000",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 840,
+     "Top": 1320,
+     "Width": 855,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 4
+    }
+   },
+   {
+    "type": "Label",
+    "name": "Label2",
+    "props": {
+     "Caption": "Cash:",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 120,
+     "Top": 1320,
+     "Width": 615,
+     "Height": 375,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 3
+    }
+   },
+   {
+    "type": "Image",
+    "name": "Image1",
+    "props": {
+     "Picture": "frmLoan.Image1",
+     "Left": 120,
+     "Top": 0,
+     "Width": 1125,
+     "Height": 1125
+    },
+    "picSize": [
+     75,
+     75
+    ]
+   },
+   {
+    "type": "Label",
+    "name": "lblText",
+    "props": {
+     "Caption": "Need a little money, do ya?  I can give you a loan.  Of course, there's interest -- 15%, so you'd better be able to pay up when the time comes.    ",
+     "BackColor": 0,
+     "ForeColor": 16777215,
+     "Left": 1320,
+     "Top": 120,
+     "Width": 4215,
+     "Height": 975,
+     "FontName": "MS Sans Serif",
+     "FontSize": 9.75,
+     "FontBold": 0,
+     "FontItalic": 0,
+     "FontUnderline": 0,
+     "TabIndex": 1
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,37 @@
+{
+  "_comment": "Our names for qrace's anonymous symbols (decompiler name -> name). Globals apply everywhere; per-form keys apply only in that .FRM. Applied by tools/apply_names.py.",
+  "global": {
+    "gArrVar1": "PlayerType", "gArrVar2": "PlayerCash", "gArrVar3": "PlayerBet",
+    "gArrVar4": "PlayerPick", "gArrVar5": "PlayerDebt", "gArrVar6": "PlayerWinnings",
+    "gArrInt1": "StatusSlot", "gArrVar7": "PlayerName", "gArrStr1": "PlayerPickName",
+    "gArrVar8": "QAlive", "gArrVar9": "QSpeed", "gArrVar10": "QWins", "gArrInt2": "QRaces",
+    "gArrVar11": "QName", "gArrStr2": "QSponsor", "gArrInt10": "QMaxSpeed",
+    "gArrVar12": "RQuibble", "gArrVar13": "RSpeed", "gArrInt3": "RWinPct",
+    "gArrVar14": "RSteroids", "gArrVar15": "RSteroidsBy", "gArrVar16": "RWeights", "gArrInt4": "RWeightsBy",
+    "gArrVar17": "RPoison", "gArrVar18": "RPoisonBy", "gArrVar19": "RGuard", "gArrInt5": "RGuardBy",
+    "gArrVar20": "RDrug", "gArrVar21": "RDrugBy", "gArrVar22": "RConfused",
+    "gArrVar23": "RCripple", "gArrInt6": "RCrippleBy", "gArrVar24": "RTrain", "gArrVar25": "RTrainBy",
+    "gArrVar26": "RRunning", "gArrInt7": "RDir", "gArrVar27": "RBetCount", "gArrInt8": "RBetTotal",
+    "gArrVar28": "RName", "gArrStr3": "RSponsor",
+    "gArrVar29": "AvailQuibble", "gArrVar30": "AvailPrice", "gArrInt9": "AvailOpen",
+    "gArrVar31": "AISponsorCount",
+    "gInt1": "Winner", "gVar2": "T1", "gVar3": "T2", "gVar4": "T3", "gVar5": "Count",
+    "gVar10": "I", "gVar11": "J", "gVar12": "BonusStep", "gVar16": "ShellId", "gVar18": "K",
+    "gVar21": "UpdateBusy", "gVar22": "BonusBusy", "gVar24": "RandRacer",
+    "gInt2": "SpecialCost", "gStr1": "SpecialKind",
+    "gVar26": "GoalType", "gVar27": "Goal", "gVar28": "StartCash", "gInt3": "Interest",
+    "gVar29": "OptSpecial", "gVar30": "OptSpecialLimit", "gInt4": "OptInfo", "gVar32": "OptSponsor",
+    "gInt5": "Round", "gVar33": "TurnState", "gVar34": "CurPlayer", "gVar35": "RaceSpeed",
+    "gVar36": "NoneForSale", "gVar37": "AISponsorPending", "gVar38": "AITrainPending",
+    "gVar39": "AISponsorPick", "gInt6": "RaceState", "gInt7": "M"
+  },
+  "MENU.FRM": {
+    "aProc": "RefreshAvailable", "bProc": "RefreshStatus", "cProc": "SetCripple", "dProc": "SetDrug",
+    "fProc": "SetGuard", "iProc": "SetPoison", "jProc": "SetSteroids", "kProc": "ApplySpecial",
+    "tProc": "SetTrain", "uProc": "SetWeights", "argInt1": "Racer"
+  },
+  "AVAIL.FRM": {"eProc": "OldExit", "gProc": "AISponsor"},
+  "STATUS.FRM": {"gProc": "AITrain"},
+  "OPTIONS.FRM": {"optProc": "OldOptCash"},
+  "SPECIAL.FRM": {"c0Proc": "OldBribe", "cmddProc": "OldQuit"}
+}
