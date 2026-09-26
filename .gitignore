@@ -2,11 +2,9 @@
 # obtained copy locally to run the extraction pipeline (see README.md).
 original/
 
-# Raw assets extracted directly from the original binary — regenerated
-# locally by the extraction tooling, not redistributed.
-extraction/resources/
-extraction/forms/
-extraction/pcode/
+# Everything generated from the original binary (decompiled source, art):
+# local only, never committed.
+extraction/
 
 # Node / Vite
 port/node_modules/
@@ -16,6 +14,7 @@ port/.vite/
 # Wine prefixes used for the reference oracle.
 .wine32
 .winedefault
+.winevb3
 
 # Editor/OS cruft
 .DS_Store

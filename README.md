@@ -46,8 +46,9 @@ game itself, which isn't included here (see above).
 ## Layout
 
 - `original/` — (gitignored) your local copy of the original game files.
-- `extraction/` — output of `vb3-decompiler`'s tooling run against
-  `original/qrace.exe`. `strings/` is committed (recovered text);
-  `resources/`, `forms/`, `pcode/` are gitignored (raw binary-derived data).
-- `docs/` — recovered design spec, gameplay notes, resource-format notes.
+- `extraction/` — (gitignored) `tools/decompile.sh` output: the full VB3
+  project (`.mak`/`.frm`/`.bas`/`.frx`) reconstructed by `vb3-decompiler`.
+  It is a copy of the original code, so it is never committed.
+- `docs/` — recovered game spec (our own words) and oracle notes.
+- `tools/` — local pipeline scripts.
 - `port/` — the TypeScript + Phaser 3 + Vite port.
