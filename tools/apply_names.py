@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Renames the decompiler's generic symbols using names.json:
-extraction/decompiled/ -> extraction/named/ (whole words, outside strings)."""
+extraction/decompiled/ -> extraction/named/ (whole words, outside strings).
+
+For reading only: names reach the compiled code (procedure names set their
+sort order), so the named source doesn't rebuild the original."""
 import json
 import re
 import shutil
@@ -14,6 +17,6 @@ shutil.copytree(src, dst)
 for f in dst.glob("*.[FfBb][RrAa][MmSs]"):
     table = {**names["global"], **names.get(f.name, {})}
     word = re.compile(r'"[^"\n]*"|\b(' + "|".join(map(re.escape, table)) + r')\b')
-    text = f.read_text(encoding="latin-1")
-    f.write_text(word.sub(lambda m: table[m[1]] if m[1] else m[0], text), encoding="latin-1")
+    text = f.read_bytes().decode("latin-1")  # keeps CRLF: the VB3 IDE needs it
+    f.write_bytes(word.sub(lambda m: table[m[1]] if m[1] else m[0], text).encode("latin-1"))
 print(f"wrote {dst}")

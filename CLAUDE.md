@@ -2,8 +2,8 @@
 
 Faithful modern port of **Quibble Race v1.5** (Blackeye Software / Derek
 Yu), a 16-bit Windows 3.0 VB3 p-code exe in `original/`. Game rules come
-from the decompiled source, not guesses. The running original is used only
-as an automated correctness oracle. Target: TypeScript + Phaser 3 + Vite
+from the decompiled source, not guesses. The running original (Wine) is only a
+visual reference. Target: TypeScript + Phaser 3 + Vite
 (`port/`).
 
 The decompiler is the companion repo `~/vb3-decompiler` (public). Gaps it
@@ -37,13 +37,12 @@ node harness/play.mjs 2     # headless game to Game Over (needs the dev server)
 
 | phase | state | notes |
 |---|---|---|
-| 1 Reference oracle (Wine) | done | `docs/gameplay-notes.md` |
+| 1 Original under Wine | done | `docs/gameplay-notes.md` |
 | 2 Decompile | done | 16 forms + MODULE1.BAS, 101 procedures, all lifted |
 | 3 Verify (rebuild in IDE) | done | 88/101 procedures identical; see below |
 | 4 Names + spec (`docs/game-spec.md`) | done | `names.json`, `tools/apply_names.py` |
 | 5 Port (DOM forms + Phaser race) | playable | all 16 forms; rounds, race, payout checked in browser |
-| 6 Oracle diff harness | not started | |
-| 7 Polish & publish | not started | |
+| 6 Polish & publish | not started | |
 
 Rebuild differences left, none reproducible from source text. The 13
 procedures differ only in cross-form control operands (`SUBOBJ`). These are
@@ -51,13 +50,13 @@ name-table indices that follow qrace's design-session history, including
 holes for deleted controls. The form resources differ only because the IDE
 prefix lacks Times New Roman / MS Serif.
 
+`extraction/named/` is for reading only: names reach the compiled code
+(procedure names set their sort order), so never build from it.
+
 Port look: Windows 95 skin. MS Sans Serif 8/10/12 pt are pixel fonts
 converted from Wine's LGPL clone (`tools/fon2woff.py` ->
 `port/public/fonts/`). Serif and large sizes use Liberation look-alikes.
 
 ## Next steps
 
-1. Compare screens with the oracle by eye (Wine on its own display, e.g. :98).
-2. Phase 6: deterministic runs (fixed Timer clock + seed in both), then an
-   xdotool/Playwright diff harness. Verify VB3's Randomize mixing and
-   CStr/Str$ of fractions there.
+1. Polish and publish (phase 6).

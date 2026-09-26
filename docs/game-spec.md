@@ -176,6 +176,6 @@ Game!", each player's "$ cash" and rank. OK quits.
 - `Val` parses a leading number and ignores the rest (0 if none).
 - `Rnd`: 24-bit LCG `x = (x·0x43FD43FD + 0xC39EC3) mod 2^24`, returns
   x/2^24, initial x = 0x50000. `Randomize` mixes in `Timer` (the exact
-  mixing needs verifying against VB3 in phase 6).
+  mixing follows VB5/6 and is unverified for VB3).
 - Timers can't tick faster than the OS timer. The port ticks at
-  max(interval, 16) ms.
+  max(interval, 55) ms, like SetTimer on Windows 3.x/9x.

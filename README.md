@@ -49,6 +49,6 @@ game itself, which isn't included here (see above).
 - `extraction/` — (gitignored) `tools/decompile.sh` output: the full VB3
   project (`.mak`/`.frm`/`.bas`/`.frx`) reconstructed by `vb3-decompiler`.
   It is a copy of the original code, so it is never committed.
-- `docs/` — recovered game spec (our own words) and oracle notes.
+- `docs/` — recovered game spec (our own words) and notes on running the original.
 - `tools/` — local pipeline scripts.
 - `port/` — the TypeScript + Phaser 3 + Vite port.
