@@ -30,6 +30,7 @@ tools/decompile.sh          # original/qrace.exe -> extraction/decompiled/
 tools/apply_names.py        # -> extraction/named/ (names.json)
 python3 tools/gen_layouts.py  # -> port/src/forms/layouts.json, port/original-assets/
 cd port && npm run dev      # ?art=original (dev only), ?tick=ms, ?seed=n
+node harness/play.mjs 2     # headless game to Game Over (needs the dev server)
 ```
 
 ## Status
@@ -38,21 +39,25 @@ cd port && npm run dev      # ?art=original (dev only), ?tick=ms, ?seed=n
 |---|---|---|
 | 1 Reference oracle (Wine) | done | `docs/gameplay-notes.md` |
 | 2 Decompile | done | 16 forms + MODULE1.BAS, 101 procedures, all lifted |
-| 3 Verify (rebuild in IDE) | partial | 82/101 procedures identical; see below |
+| 3 Verify (rebuild in IDE) | done | 88/101 procedures identical; see below |
 | 4 Names + spec (`docs/game-spec.md`) | done | `names.json`, `tools/apply_names.py` |
 | 5 Port (DOM forms + Phaser race) | playable | all 16 forms; rounds, race, payout checked in browser |
 | 6 Oracle diff harness | not started | |
 | 7 Polish & publish | not started | |
 
-Rebuild differences left: forms use Times New Roman / MS Serif, which the
-IDE prefix lacks (it substitutes, so form resources differ). Global
-offsets are shifted by 2 in frmTitle. frmMenu's general procedures sort in
-a different order. Cross-form control indices (`SUBOBJ`) differ. None of
-these change the source's meaning.
+Rebuild differences left, none reproducible from source text. The 13
+procedures differ only in cross-form control operands (`SUBOBJ`). These are
+name-table indices that follow qrace's design-session history, including
+holes for deleted controls. The form resources differ only because the IDE
+prefix lacks Times New Roman / MS Serif.
+
+Port look: Windows 95 skin. MS Sans Serif 8/10/12 pt are pixel fonts
+converted from Wine's LGPL clone (`tools/fon2woff.py` ->
+`port/public/fonts/`). Serif and large sizes use Liberation look-alikes.
 
 ## Next steps
 
-1. Play a full game (game-over path untested) and compare with the oracle by eye.
+1. Compare screens with the oracle by eye (Wine on its own display, e.g. :98).
 2. Phase 6: deterministic runs (fixed Timer clock + seed in both), then an
    xdotool/Playwright diff harness. Verify VB3's Randomize mixing and
    CStr/Str$ of fractions there.

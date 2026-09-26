@@ -10,11 +10,12 @@ export class Picture {
   constructor(readonly key: string) {}
 }
 
-export type ArtKind = "jump" | "squat" | "track" | "p0" | "p1" | "p2" | "broker" | "shark";
+export type ArtKind = "jump" | "squat" | "track" | "p0" | "p1" | "p2" | "broker" | "shark" | "icon";
 
 // Picture key (`frmMain.imgP(1)`) -> which of the 8 pictures it is.
 export function artKind(key: string): ArtKind {
   const [form, ctl] = key.split(".");
+  if (ctl === "Icon") return "icon";
   if (ctl.startsWith("imgTrack")) return "track";
   const p = /^imgP\((\d)\)$/.exec(ctl);
   if (p) return `p${p[1]}` as ArtKind;
@@ -138,6 +139,20 @@ function draw(kind: ArtKind): string {
     dirt(g, 750, 75);
     g.fillStyle = "rgba(255,255,255,0.5)";
     for (let y = 0; y < 75; y += 8) g.fillRect(700, y, 4, 4);
+    return c.toDataURL();
+  }
+  if (kind === "icon") {
+    const [c, g] = canvas(16, 16);
+    g.fillStyle = "#3f8f2f";
+    g.beginPath();
+    g.ellipse(8, 9, 6, 6, 0, 0, Math.PI * 2);
+    g.fill();
+    g.fillStyle = "#fff";
+    g.fillRect(9, 6, 3, 3);
+    g.fillStyle = "#000";
+    g.fillRect(10, 7, 1, 1);
+    g.fillStyle = "#e0c020";
+    g.fillRect(7, 1, 2, 2);
     return c.toDataURL();
   }
   const [c, g] = canvas(75, 75);

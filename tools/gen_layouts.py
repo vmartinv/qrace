@@ -78,6 +78,13 @@ def parse(frm: Path, manifest: dict) -> dict:
                 if not (ART / name).exists():
                     img.convert("RGB").save(ART / name)
                 manifest[key] = name
+            elif k == "Icon" and (p := re.fullmatch(r"\w+\.FRX:([0-9A-F]+)", v.strip())) and node is form:
+                key = f"{form['name']}.Icon"
+                img = picture(frx, int(p[1], 16))
+                node["props"]["Icon"] = key
+                name = f"icon-{form['name']}.png"
+                img.convert("RGBA").resize((16, 16)).save(ART / name)
+                manifest[key] = name
             elif k in KEEP:
                 node["props"][k] = value(v)
     return form

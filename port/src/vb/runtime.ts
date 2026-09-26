@@ -10,6 +10,9 @@ import { VBError } from "./errors.ts";
 import { cstr } from "./conv.ts";
 
 export const TWIPS = 15;
+// Windows 95 sizable frame and caption heights (px).
+const FRAME = 4;
+const CAPTION = 18;
 const px = (tw: number) => `${tw / TWIPS}px`;
 
 // The OS timer's resolution: SetTimer on Windows 3.x/9x ticks at ~55 ms.
@@ -41,11 +44,22 @@ export function cssColor(c: number): string {
   return `rgb(${r},${g},${b})`;
 }
 
-const FONTS: Record<string, string> = {
-  "MS Sans Serif": '"MS Sans Serif", "Microsoft Sans Serif", Arial, sans-serif',
-  "MS Serif": '"MS Serif", "Times New Roman", Times, serif',
-  "Times New Roman": '"Times New Roman", Times, serif',
-};
+// MS Sans Serif at 8, 10 and 12 pt uses the bitmap fonts in public/fonts
+// (converted from Wine's clone; the em is the bitmap cell, so they're set
+// at that pixel size). Other sizes and the serif faces use TrueType
+// look-alikes (Liberation has Arial / Times New Roman metrics).
+const SANS = '"Liberation Sans", Arial, sans-serif';
+const SERIF = '"Times New Roman", "Liberation Serif", Times, serif';
+
+export function fontCss(name: string, pt: number): { family: string; size: string } {
+  if (name === "MS Sans Serif") {
+    if (pt <= 9) return { family: `QSans13, ${SANS}`, size: "13px" };
+    if (pt <= 11) return { family: `QSans16, ${SANS}`, size: "16px" };
+    if (pt <= 13) return { family: `QSans20, ${SANS}`, size: "20px" };
+    return { family: SANS, size: `${(pt * 96) / 72}px` };
+  }
+  return { family: /serif/i.test(name) || /Times/.test(name) ? SERIF : SANS, size: `${(pt * 96) / 72}px` };
+}
 
 // Caption text with `&` access keys: "&&" is a literal "&", "&x" underlines x.
 function setMnemonicText(el: HTMLElement, text: string) {
@@ -68,6 +82,44 @@ function setMnemonicText(el: HTMLElement, text: string) {
   }
 }
 
+// Centered text can land on half pixels, which blurs the pixel fonts: text
+// sits in a span.vb-text that is shifted back onto whole pixels after layout.
+const toSnap = new Set<HTMLElement>();
+let snapPending = false;
+
+function textSpan(el: HTMLElement, text: string) {
+  let span = el.querySelector<HTMLElement>(":scope > .vb-text");
+  if (!span) {
+    span = document.createElement("span");
+    span.className = "vb-text";
+    el.textContent = "";
+    el.append(span);
+  }
+  setMnemonicText(span, text);
+  span.style.left = span.style.top = "0";
+  toSnap.add(span);
+  if (!snapPending) {
+    snapPending = true;
+    queueMicrotask(snapAll);
+  }
+}
+
+function snapAll() {
+  snapPending = false;
+  for (const span of toSnap) {
+    const parent = span.parentElement;
+    const r = span.getClientRects()[0];
+    if (!parent || !r || !span.isConnected) continue;
+    const pr = parent.getBoundingClientRect();
+    const zoom = pr.width / (parent.offsetWidth || 1) || 1;
+    const fx = (((r.left - pr.left) / zoom) % 1 + 1) % 1;
+    const fy = (((r.top - pr.top) / zoom) % 1 + 1) % 1;
+    span.style.left = `${-(fx > 0.5 ? fx - 1 : fx)}px`;
+    span.style.top = `${-(fy > 0.5 ? fy - 1 : fy)}px`;
+  }
+  toSnap.clear();
+}
+
 // ---------------------------------------------------------------- program state
 
 class EndSignal extends Error {}
@@ -84,13 +136,20 @@ export function initDesktop(root: HTMLElement) {
   desktop.className = "vb-desktop";
   root.append(desktop);
   const fit = () => {
-    const s = Math.min(window.innerWidth / 800, window.innerHeight / 600);
+    // Whole-number zoom keeps the pixel fonts and art crisp.
+    const fit = Math.min(window.innerWidth / 800, window.innerHeight / 600);
+    const s = fit >= 1 ? Math.floor(fit) : fit;
     desktop.style.transform = `scale(${s})`;
     desktop.style.left = `${(window.innerWidth - 800 * s) / 2}px`;
     desktop.style.top = `${(window.innerHeight - 600 * s) / 2}px`;
   };
-  window.addEventListener("resize", fit);
+  window.addEventListener("resize", () => {
+    fit();
+    resnap();
+  });
   fit();
+  document.fonts?.ready.then(resnap);
+  document.fonts?.addEventListener("loadingdone", resnap);
   document.addEventListener("keydown", (e) => {
     if (modal) {
       if (e.key === "Enter" || e.key === "Escape") modal.querySelector("button")?.click();
@@ -102,6 +161,14 @@ export function initDesktop(root: HTMLElement) {
     if (t.closest?.(".vb-window") && t.matches("input, textarea, button")) return;
     entry(() => f.fire("Form_KeyDown", e.keyCode, (e.shiftKey ? 1 : 0) | (e.ctrlKey ? 2 : 0) | (e.altKey ? 4 : 0)));
   });
+}
+
+function resnap() {
+  for (const span of desktop.querySelectorAll<HTMLElement>(".vb-text")) {
+    span.style.left = span.style.top = "0";
+    toSnap.add(span);
+  }
+  snapAll();
 }
 
 // Every entry from the outside (DOM events, timers) goes through here: a
@@ -160,7 +227,7 @@ export function msgBox(text: string, title = "QUIBBLES", then?: () => void) {
   shade.className = "vb-modal";
   const w = document.createElement("div");
   w.className = "vb-window active vb-msgbox";
-  w.innerHTML = `<div class="vb-caption"><span class="vb-sysbox"></span><span class="vb-title"></span></div>
+  w.innerHTML = `<div class="vb-caption"><span class="vb-title"></span><button class="vb-close"></button></div>
     <div class="vb-msgbody"><p></p></div>`;
   w.querySelector(".vb-title")!.textContent = title;
   w.querySelector("p")!.textContent = text;
@@ -173,6 +240,7 @@ export function msgBox(text: string, title = "QUIBBLES", then?: () => void) {
     if (then) entry(then);
   };
   w.querySelector(".vb-msgbody")!.append(ok);
+  w.querySelector(".vb-close")!.addEventListener("click", () => ok.click());
   shade.append(w);
   desktop.append(shade);
   modal = shade;
@@ -220,8 +288,9 @@ export abstract class Control {
   protected applyFont() {
     if (!this.el || this.p.FontName === undefined) return;
     const s = this.el.style;
-    s.fontFamily = FONTS[String(this.p.FontName)] ?? `"${this.p.FontName}", sans-serif`;
-    s.fontSize = `${(Number(this.p.FontSize ?? 8.25) * 96) / 72}px`;
+    const f = fontCss(String(this.p.FontName), Number(this.p.FontSize ?? 8.25));
+    s.fontFamily = f.family;
+    s.fontSize = f.size;
     s.fontWeight = Number(this.p.FontBold ?? -1) ? "bold" : "normal";
     s.fontStyle = Number(this.p.FontItalic ?? 0) ? "italic" : "normal";
     s.textDecoration = Number(this.p.FontUnderline ?? 0) ? "underline" : "none";
@@ -256,7 +325,11 @@ export abstract class Control {
   get Visible(): boolean { return !!Number(this.p.Visible); }
   set Visible(v: boolean | number) {
     this.p.Visible = v ? -1 : 0;
-    if (this.el) this.el.style.display = v ? "" : "none";
+    if (this.el) {
+      this.el.style.display = v ? "" : "none";
+      const t = this.el.querySelector<HTMLElement>(":scope > .vb-text");
+      if (v && t) textSpan(this.el, String(this.p.Caption ?? ""));
+    }
   }
   get Enabled(): boolean { return !!Number(this.p.Enabled); }
   set Enabled(v: boolean | number) {
@@ -293,7 +366,7 @@ export class Label extends Control {
     if (Number(this.p.BorderStyle ?? 0)) s.border = "1px solid black";
   }
   private applyCaption() {
-    if (this.el) setMnemonicText(this.el, String(this.p.Caption ?? ""));
+    if (this.el) textSpan(this.el, String(this.p.Caption ?? ""));
   }
   get Caption(): string { return String(this.p.Caption ?? ""); }
   set Caption(v: string | number) { this.p.Caption = cstr(v); this.applyCaption(); }
@@ -308,7 +381,7 @@ export class CommandButton extends Control {
     el.className = "vb-button";
     el.addEventListener("click", this.click);
     this.place(el);
-    setMnemonicText(el, this.Caption);
+    textSpan(el, this.Caption);
     this.applyEnabled();
     parent.append(el);
   }
@@ -319,7 +392,7 @@ export class CommandButton extends Control {
   get Caption(): string { return String(this.p.Caption ?? ""); }
   set Caption(v: string | number) {
     this.p.Caption = cstr(v);
-    if (this.el) setMnemonicText(this.el, this.p.Caption);
+    if (this.el) textSpan(this.el, this.p.Caption);
   }
 }
 
@@ -561,19 +634,28 @@ export class VBForm {
     w.style.display = "none";
     const caption = document.createElement("div");
     caption.className = "vb-caption";
-    if (Number(p.ControlBox ?? -1)) {
-      const box = document.createElement("span");
-      box.className = "vb-sysbox";
-      box.title = "Close";
-      box.addEventListener("click", () => {
-        if (!modal) entry(() => this.Unload(0));
-      });
-      caption.append(box);
+    const close = () => {
+      if (!modal) entry(() => this.Unload(0));
+    };
+    const hasBox = !!Number(p.ControlBox ?? -1);
+    if (hasBox) {
+      const icon = document.createElement("img");
+      icon.className = "vb-icon";
+      icon.src = artUrl(String(p.Icon ?? `${this.name}.Icon`));
+      icon.addEventListener("dblclick", close);
+      caption.append(icon);
     }
     const title = document.createElement("span");
     title.className = "vb-title";
     title.textContent = String(p.Caption ?? "");
     caption.append(title);
+    if (hasBox) {
+      const x = document.createElement("button");
+      x.className = "vb-close";
+      x.title = "Close";
+      x.addEventListener("click", close);
+      caption.append(x);
+    }
     const client = document.createElement("div");
     client.className = "vb-client";
     client.style.width = px(Number(p.ClientWidth));
@@ -596,8 +678,8 @@ export class VBForm {
         });
       }
     });
-    w.style.left = `${Number(p.ClientLeft) / TWIPS - 4}px`;
-    w.style.top = `${Number(p.ClientTop) / TWIPS - 22}px`;
+    w.style.left = `${Number(p.ClientLeft) / TWIPS - FRAME}px`;
+    w.style.top = `${Number(p.ClientTop) / TWIPS - FRAME - CAPTION}px`;
     desktop.append(w);
     this.win = w;
     this.client = client;
@@ -663,11 +745,11 @@ let taskId = 0;
 export function notepad(title: string, text: string): number {
   const w = document.createElement("div");
   w.className = "vb-window active vb-notepad";
-  w.innerHTML = `<div class="vb-caption"><span class="vb-sysbox" title="Close"></span><span class="vb-title"></span></div>
+  w.innerHTML = `<div class="vb-caption"><span class="vb-title"></span><button class="vb-close" title="Close"></button></div>
     <textarea readonly></textarea>`;
   w.querySelector(".vb-title")!.textContent = `Notepad - ${title}`;
   w.querySelector("textarea")!.value = text;
-  w.querySelector(".vb-sysbox")!.addEventListener("click", () => w.remove());
+  w.querySelector(".vb-close")!.addEventListener("click", () => w.remove());
   w.style.zIndex = "900";
   desktop.append(w);
   return ++taskId;

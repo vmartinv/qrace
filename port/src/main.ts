@@ -21,11 +21,13 @@ import { FrmWinners } from "./forms/frmWinners.ts";
 import { FrmLoan } from "./forms/frmLoan.ts";
 import { entry, initDesktop, type FormLayout } from "./vb/runtime.ts";
 import { setSeed } from "./vb/rnd.ts";
+import { G } from "./state.ts";
 
 const L = layouts as unknown as Record<string, FormLayout>;
 
 async function main() {
-  await Promise.all([loadArt(), loadData()]);
+  await Promise.all([loadArt(), loadData(),
+    ...["13px QSans13", "16px QSans16", "20px QSans20"].map((f) => document.fonts.load(f).catch(() => []))]);
   const seed = new URLSearchParams(location.search).get("seed");
   if (seed !== null) setSeed(Number(seed));
   initDesktop(document.querySelector("#app")!);
@@ -47,6 +49,8 @@ async function main() {
     frmWinners: new FrmWinners(L.frmWinners),
     frmLoan: new FrmLoan(L.frmLoan),
   });
+  // Game state for the test harness.
+  if (import.meta.env.DEV) (window as unknown as Record<string, unknown>).__G = G;
   // The startup form.
   entry(() => F.frmTitle.Show());
 }

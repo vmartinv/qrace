@@ -1,4 +1,21 @@
-/* Windows 3.1 look. The desktop is a 800x600 screen scaled to fit. */
+/* Windows 95 look. The desktop is a 800x600 screen, zoomed by a whole
+   number when the page is large enough (crisp pixels). */
+@font-face { font-family: QSans13; src: url("/fonts/sans-13.woff") format("woff"); }
+@font-face { font-family: QSans16; src: url("/fonts/sans-16.woff") format("woff"); }
+@font-face { font-family: QSans20; src: url("/fonts/sans-20.woff") format("woff"); }
+
+:root {
+  --face: #c0c0c0;
+  --light: #dfdfdf;
+  --hilite: #fff;
+  --shadow: #808080;
+  --dark: #000;
+  --caption: #000080;
+  --caption-off: #808080;
+  --raised: inset -1px -1px var(--dark), inset 1px 1px var(--light), inset -2px -2px var(--shadow), inset 2px 2px var(--hilite);
+  --sunken: inset -1px -1px var(--hilite), inset 1px 1px var(--shadow), inset -2px -2px var(--light), inset 2px 2px var(--dark);
+  --pressed: inset -1px -1px var(--hilite), inset 1px 1px var(--dark), inset -2px -2px var(--light), inset 2px 2px var(--shadow);
+}
 html, body {
   margin: 0;
   height: 100%;
@@ -16,45 +33,70 @@ html, body {
   transform-origin: 0 0;
   background: #008080;
   overflow: hidden;
-  font-family: "MS Sans Serif", "Microsoft Sans Serif", Arial, sans-serif;
-  font-size: 11px;
+  font: 13px QSans13, "Liberation Sans", Arial, sans-serif;
   user-select: none;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
 }
+
+/* windows: a 4 px sizable frame (2 px bevel + 2 px face) */
 .vb-window {
   position: absolute;
-  background: #c0c0c0;
-  border: 1px solid #000;
-  padding: 3px;
-  box-shadow: inset 0 0 0 1px #fff;
+  background: var(--face);
+  padding: 4px;
+  box-shadow: var(--raised);
 }
 .vb-caption {
   height: 18px;
   display: flex;
   align-items: center;
-  background: #fff;
-  color: #000;
-  border-bottom: 1px solid #000;
-  font-weight: bold;
-  font-size: 12px;
+  gap: 3px;
+  padding: 0 2px;
+  background: var(--caption-off);
+  color: var(--face);
+  font: bold 13px QSans13, "Liberation Sans", Arial, sans-serif;
 }
 .vb-window.active > .vb-caption {
-  background: #000080;
+  background: var(--caption);
   color: #fff;
+}
+.vb-icon {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
 }
 .vb-title {
   flex: 1;
-  text-align: center;
   white-space: nowrap;
   overflow: hidden;
+  padding-left: 1px;
 }
-.vb-sysbox {
-  width: 18px;
-  height: 18px;
-  box-sizing: border-box;
-  border-right: 1px solid #000;
-  background: #c0c0c0 linear-gradient(#fff, #fff) center / 10px 3px no-repeat;
-  box-shadow: inset 0 -1px #808080;
-  cursor: pointer;
+.vb-close {
+  width: 16px;
+  height: 14px;
+  padding: 0;
+  border: 0;
+  background: var(--face);
+  box-shadow: var(--raised);
+  cursor: default;
+  position: relative;
+}
+.vb-close::before,
+.vb-close::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 8px;
+  height: 2px;
+  background: #000;
+  transform: rotate(45deg);
+}
+.vb-close::after {
+  transform: rotate(-45deg);
+}
+.vb-close:active {
+  box-shadow: var(--pressed);
 }
 .vb-client {
   position: relative;
@@ -64,56 +106,87 @@ html, body {
   position: absolute;
   inset: 0;
 }
+
+/* controls */
 .vb-label {
   overflow: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
-  line-height: 1.15;
+  line-height: normal;
+}
+.vb-text {
+  position: relative;
 }
 .vb-image {
   image-rendering: pixelated;
 }
 .vb-button {
   box-sizing: border-box;
-  background: #c0c0c0;
+  background: var(--face);
   color: #000;
-  border: 1px solid #000;
-  border-radius: 2px;
-  box-shadow: inset 1px 1px #fff, inset -2px -2px #808080;
+  border: 0;
+  box-shadow: var(--raised);
   padding: 0 4px;
   font: inherit;
-  cursor: pointer;
-}
-.vb-button:active:not(:disabled) {
-  box-shadow: inset 1px 1px #808080;
-  padding: 2px 2px 0 6px;
-}
-.vb-button:disabled {
-  color: #808080;
   cursor: default;
 }
-.vb-button:focus-visible {
+.vb-button:active:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--dark), inset 1px 1px 0 1px var(--shadow);
+  padding: 1px 3px 0 5px;
+}
+.vb-button:focus {
   outline: 1px dotted #000;
   outline-offset: -5px;
 }
+.vb-button:focus:not(:active) {
+  box-shadow: inset 0 0 0 1px var(--dark), inset -2px -2px var(--dark), inset 2px 2px var(--hilite),
+    inset -3px -3px var(--shadow), inset 3px 3px var(--light);
+}
+.vb-button:disabled {
+  color: var(--shadow);
+  text-shadow: 1px 1px var(--hilite);
+}
 .vb-textbox {
   box-sizing: border-box;
-  border: 1px solid #000;
-  padding: 1px 3px;
+  border: 0;
+  box-shadow: var(--sunken);
+  padding: 2px 4px;
   font: inherit;
   outline: none;
 }
 .vb-check {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   box-sizing: border-box;
-  padding-left: 2px;
-  cursor: pointer;
+  padding-left: 1px;
 }
 .vb-check input {
+  appearance: none;
   margin: 0;
+  width: 13px;
+  height: 13px;
+  flex: none;
+  background: #fff;
+  box-shadow: var(--sunken);
 }
+.vb-check input[type="checkbox"]:checked {
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zm4 0h2v1H4zM0 3h2v1H0zm3 0h2v1H3zM0 4h4v1H0zM1 5h2v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E")
+    center / 7px 7px no-repeat;
+}
+.vb-check input[type="radio"] {
+  border-radius: 50%;
+  box-shadow: inset 1px 1px var(--shadow), inset -1px -1px var(--hilite), inset 2px 2px var(--dark), inset -2px -2px var(--light);
+}
+.vb-check input[type="radio"]:checked {
+  background: radial-gradient(circle, #000 0 2px, #fff 2.5px);
+}
+.vb-check:focus-within span {
+  outline: 1px dotted #000;
+}
+
+/* MsgBox, Notepad, End */
 .vb-modal {
   position: absolute;
   inset: 0;
@@ -123,22 +196,21 @@ html, body {
   left: 50%;
   top: 45%;
   transform: translate(-50%, -50%);
-  min-width: 220px;
+  min-width: 200px;
   max-width: 420px;
 }
 .vb-msgbody {
-  background: #fff;
-  padding: 14px 16px 10px;
+  padding: 16px 16px 12px;
   text-align: center;
 }
 .vb-msgbody p {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   white-space: pre-wrap;
   text-align: left;
 }
 .vb-msgbody .vb-button {
-  width: 70px;
-  height: 24px;
+  width: 75px;
+  height: 23px;
 }
 .vb-notepad {
   left: 80px;
@@ -151,7 +223,9 @@ html, body {
   height: 420px;
   box-sizing: border-box;
   border: 0;
-  font: 13px "Fixedsys", "Courier New", monospace;
+  box-shadow: var(--sunken);
+  padding: 4px;
+  font: 13px "Fixedsys", "Liberation Mono", "Courier New", monospace;
   resize: none;
 }
 .vb-ended {
@@ -161,11 +235,11 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   color: #fff;
-  font-size: 16px;
   z-index: 2000;
 }
 .vb-ended .vb-button {
   width: 110px;
-  height: 28px;
+  height: 25px;
 }
