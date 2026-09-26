@@ -200,6 +200,9 @@ html, body {
   min-width: 200px;
   max-width: 420px;
 }
+.vb-msgbox.vb-moved {
+  transform: none;
+}
 .vb-msgbody {
   padding: 16px 16px 12px;
   text-align: center;

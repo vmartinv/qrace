@@ -210,6 +210,34 @@ export function End(throwSignal = true): never | void {
   if (throwSignal) throw new EndSignal();
 }
 
+// Dragging a window by its title bar (not its icon or close button). Mouse
+// movement is divided by the desktop zoom, and part of the bar stays on
+// the screen.
+function makeDraggable(win: HTMLElement, bar: HTMLElement) {
+  bar.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 || (e.target as HTMLElement).closest(".vb-close, .vb-icon")) return;
+    const zoom = desktop.getBoundingClientRect().width / 800 || 1;
+    const r = win.getBoundingClientRect(), d = desktop.getBoundingClientRect();
+    const x0 = (r.left - d.left) / zoom, y0 = (r.top - d.top) / zoom;
+    win.classList.add("vb-moved"); // drops the MsgBox's centring transform
+    win.style.left = `${x0}px`;
+    win.style.top = `${y0}px`;
+    const move = (m: PointerEvent) => {
+      const x = x0 + (m.clientX - e.clientX) / zoom, y = y0 + (m.clientY - e.clientY) / zoom;
+      win.style.left = `${Math.round(Math.min(Math.max(x, 40 - win.offsetWidth), 800 - 40))}px`;
+      win.style.top = `${Math.round(Math.min(Math.max(y, 0), 600 - 20))}px`;
+    };
+    const up = () => {
+      bar.removeEventListener("pointermove", move);
+      bar.removeEventListener("pointerup", up);
+    };
+    bar.setPointerCapture(e.pointerId);
+    bar.addEventListener("pointermove", move);
+    bar.addEventListener("pointerup", up);
+    e.preventDefault();
+  });
+}
+
 function activate(f: VBForm | null) {
   if (f === active) return;
   active = f;
@@ -245,6 +273,7 @@ export function msgBox(text: string, title = "QUIBBLES", then?: () => void) {
   w.querySelector(".vb-close")!.addEventListener("click", () => ok.click());
   shade.append(w);
   desktop.append(shade);
+  makeDraggable(w, w.querySelector<HTMLElement>(".vb-caption")!);
   modal = shade;
   ok.focus();
 }
@@ -671,6 +700,7 @@ export class VBForm {
         entry(() => this.fire("Form_MouseDown", e.button === 2 ? 2 : 1, 0, e.offsetX * TWIPS, e.offsetY * TWIPS));
     });
     w.append(caption, client);
+    makeDraggable(w, caption);
     w.addEventListener("mousedown", () => {
       if (this.visible && !modal) {
         entry(() => {
@@ -754,5 +784,6 @@ export function notepad(title: string, text: string): number {
   w.querySelector(".vb-close")!.addEventListener("click", () => w.remove());
   w.style.zIndex = "900";
   desktop.append(w);
+  makeDraggable(w, w.querySelector<HTMLElement>(".vb-caption")!);
   return ++taskId;
 }
