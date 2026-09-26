@@ -27,6 +27,9 @@ CLAUDE.md); qrace is never its pass/fail target.
 
 ```sh
 tools/decompile.sh          # original/qrace.exe -> extraction/decompiled/
+tools/apply_names.py        # -> extraction/named/ (names.json)
+python3 tools/gen_layouts.py  # -> port/src/forms/layouts.json, port/original-assets/
+cd port && npm run dev      # ?art=original (dev only), ?tick=ms, ?seed=n
 ```
 
 ## Status
@@ -36,8 +39,8 @@ tools/decompile.sh          # original/qrace.exe -> extraction/decompiled/
 | 1 Reference oracle (Wine) | done | `docs/gameplay-notes.md` |
 | 2 Decompile | done | 16 forms + MODULE1.BAS, 101 procedures, all lifted |
 | 3 Verify (rebuild in IDE) | partial | 82/101 procedures identical; see below |
-| 4 Names + spec (`docs/game-spec.md`) | not started | |
-| 5 Port (DOM forms + Phaser race) | not started | |
+| 4 Names + spec (`docs/game-spec.md`) | done | `names.json`, `tools/apply_names.py` |
+| 5 Port (DOM forms + Phaser race) | playable | all 16 forms; rounds, race, payout checked in browser |
 | 6 Oracle diff harness | not started | |
 | 7 Polish & publish | not started | |
 
@@ -49,5 +52,7 @@ these change the source's meaning.
 
 ## Next steps
 
-1. Name globals/procedures (`names.json`, applied by a script), write the spec.
-2. Port: `vb/` runtime (Rnd LCG, conversions, forms), forms 1:1, race scene.
+1. Play a full game (game-over path untested) and compare with the oracle by eye.
+2. Phase 6: deterministic runs (fixed Timer clock + seed in both), then an
+   xdotool/Playwright diff harness. Verify VB3's Randomize mixing and
+   CStr/Str$ of fractions there.

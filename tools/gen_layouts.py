@@ -3,7 +3,7 @@
 
 Writes port/src/forms/layouts.json (committed: control geometry, captions,
 fonts, colors; our own data file) and, locally only, the original pictures
-as PNGs under port/original-art/ (gitignored) with a manifest mapping each
+as PNGs under port/original-assets/ (gitignored, with qnames.txt and help.txt) with a manifest mapping each
 picture key (`frmMain.imgTrack1`, `frmMain.imgP(0)`) to its file. The port
 draws placeholder art unless it runs in dev mode with `?art=original`.
 """
@@ -11,6 +11,7 @@ import hashlib
 import io
 import json
 import re
+import shutil
 import struct
 from pathlib import Path
 
@@ -19,7 +20,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "extraction/named"
 OUT = ROOT / "port/src/forms/layouts.json"
-ART = ROOT / "port/original-art"
+ART = ROOT / "port/original-assets"
 
 KEEP = {"Caption", "Text", "Left", "Top", "Width", "Height", "FontName", "FontSize", "FontBold",
         "FontItalic", "FontUnderline", "ForeColor", "BackColor", "BackStyle", "Alignment", "Visible",
@@ -92,6 +93,8 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(forms, indent=1))
     (ART / "manifest.json").write_text(json.dumps(manifest, indent=1))
+    for f in ("qnames.txt", "help.txt"):
+        shutil.copy(ROOT / "original" / f, ART / f)
     print(f"{len(forms)} forms -> {OUT.relative_to(ROOT)}; {len(set(manifest.values()))} pictures -> {ART.relative_to(ROOT)}")
 
 

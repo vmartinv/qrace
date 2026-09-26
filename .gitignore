@@ -22,4 +22,4 @@ port/.vite/
 # Python
 __pycache__/
 *.pyc
-port/original-art/
+port/original-assets/
