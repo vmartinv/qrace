@@ -29,6 +29,7 @@ CLAUDE.md); qrace is never its pass/fail target.
 tools/decompile.sh          # original/qrace.exe -> extraction/decompiled/
 tools/apply_names.py        # -> extraction/named/ (names.json)
 python3 tools/gen_layouts.py  # -> port/src/forms/layouts.json, port/original-assets/
+python3 tools/serif2woff.py --times  # Times New Roman pixel fonts -> port/original-assets/fonts/
 cd port && npm run dev      # ?art=original (dev only), ?tick=ms, ?seed=n
 node harness/play.mjs 2     # headless game to Game Over (needs the dev server)
 tools/deploy.sh [original|own]  # build -> gh-pages branch (GitHub Pages)
@@ -54,12 +55,13 @@ prefix lacks Times New Roman / MS Serif.
 `extraction/named/` is for reading only: names reach the compiled code
 (procedure names set their sort order), so never build from it.
 
-Port look: Windows 95 skin, zoomed to fit up to 1.2x (phones zoom onto
-the windows). MS Sans Serif 8/10/12 pt are pixel fonts converted from
-Wine's LGPL clone (`tools/fon2woff.py`); Times New Roman and MS Serif are
-Liberation Serif rasterized without anti-aliasing (`tools/serif2woff.py`),
-both into `port/public/fonts/`. Large sans sizes use Liberation Sans. The
-original's Wine prefix (`.winedefault`) has corefonts for comparison.
+Port look: Windows 95 skin, zoomed to fit up to about 1.2x, snapped to
+whole device pixels (phones zoom onto the windows). MS Sans Serif 8/10/12
+pt are pixel fonts converted from Wine's LGPL clone (`tools/fon2woff.py`).
+Times New Roman and MS Serif are monochrome pixel fonts from
+`tools/serif2woff.py`: real Times New Roman (corefonts in `.winedefault`,
+local only, deployed with the original art) or, without it, Liberation
+Serif (committed; heavier strokes). Large sans sizes use Liberation Sans.
 
 ## Next steps
 

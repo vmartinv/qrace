@@ -50,7 +50,16 @@ export async function loadArt(): Promise<void> {
   } catch {
     original = null;
   }
+  // Real Times New Roman pixel fonts (tools/serif2woff.py --times), if made.
+  await Promise.all(SERIF_PX.map(async (px) => {
+    try {
+      const face = new FontFace(`QTimes${px}`, `url(${ASSETS}fonts/times-${px}.woff)`);
+      document.fonts.add(await face.load());
+    } catch { /* not generated: the Liberation pixel fonts stand in */ }
+  }));
 }
+
+const SERIF_PX = [9, 11, 16, 24, 32];
 
 // ---------------------------------------------------------------- placeholders
 

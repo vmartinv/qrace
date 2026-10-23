@@ -51,9 +51,9 @@ export function cssColor(c: number): string {
 
 // MS Sans Serif at 8, 10 and 12 pt uses the bitmap fonts in public/fonts
 // (converted from Wine's clone; the em is the bitmap cell, so they're set
-// at that pixel size). Times New Roman and MS Serif use Liberation Serif
-// rasterized without anti-aliasing (tools/serif2woff.py; SERIF_CELL maps
-// the em in px to the cell). Other sizes use TrueType look-alikes
+// at that pixel size). Times New Roman and MS Serif use pixel fonts from
+// tools/serif2woff.py: real Times New Roman with the original assets, else
+// Liberation Serif (same metrics; SERIF_CELL maps the em in px to the cell). Other sizes use TrueType look-alikes
 // (Liberation has Arial / Times New Roman metrics).
 const SANS = '"Liberation Sans", Arial, sans-serif';
 const SERIF = '"Times New Roman", "Liberation Serif", Times, serif';
@@ -68,7 +68,7 @@ export function fontCss(name: string, pt: number): { family: string; size: strin
   }
   const px = Math.round((pt * 96) / 72);
   const serif = /serif/i.test(name) || /Times/.test(name);
-  if (serif && SERIF_CELL[px]) return { family: `QSerif${px}, ${SERIF}`, size: `${SERIF_CELL[px]}px` };
+  if (serif && SERIF_CELL[px]) return { family: `QTimes${px}, QSerif${px}, ${SERIF}`, size: `${SERIF_CELL[px]}px` };
   return { family: serif ? SERIF : SANS, size: `${(pt * 96) / 72}px` };
 }
 
@@ -171,8 +171,9 @@ export function initDesktop(root: HTMLElement) {
   });
 }
 
-// The 800x600 screen zooms to fit the window, up to MAX_ZOOM; ?zoom=N fixes
-// the factor (whole numbers keep the pixel fonts perfectly even). A phone (a side
+// The 800x600 screen zooms to fit the window, up to about MAX_ZOOM, snapped
+// so each game pixel covers a whole number of device pixels (otherwise
+// pixels come out unevenly 1 and 2 wide); ?zoom=N fixes the factor. A phone (a side
 // under PHONE px) zooms onto the visible windows instead (all of
 // them, so a small popup never cuts off the window behind it), framing at least FOCUS_MIN px so small dialogs don't
 // jump in size.
@@ -183,7 +184,8 @@ let scale = 0;
 
 function refit() {
   const vw = window.innerWidth, vh = window.innerHeight;
-  let s = ZOOM || Math.min(vw / 800, vh / 600, MAX_ZOOM);
+  const dpr = window.devicePixelRatio || 1, fit = Math.min(vw / 800, vh / 600);
+  let s = ZOOM || (fit * dpr < 1 ? fit : Math.min(Math.floor(fit * dpr), Math.max(1, Math.round(MAX_ZOOM * dpr))) / dpr);
   let cx = 400, cy = 300;
   const box = !ZOOM && Math.min(vw, vh) < PHONE && focusBox();
   if (box) {
@@ -192,8 +194,8 @@ function refit() {
     cy = box.y + box.h / 2;
   }
   // Centre on the focus, but keep the desktop's edges outside the view.
-  const place = (v: number, size: number, c: number) =>
-    size * s <= v ? (v - size * s) / 2 : Math.min(0, Math.max(v - size * s, v / 2 - c * s));
+  const place = (v: number, size: number, c: number) => Math.round(dpr *
+    (size * s <= v ? (v - size * s) / 2 : Math.min(0, Math.max(v - size * s, v / 2 - c * s)))) / dpr;
   desktop.style.transform = `scale(${s})`;
   desktop.style.left = `${place(vw, 800, cx)}px`;
   desktop.style.top = `${place(vh, 600, cy)}px`;
