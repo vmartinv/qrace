@@ -162,19 +162,19 @@ export function initDesktop(root: HTMLElement) {
 }
 
 // The 800x600 screen fills the window by default; ?zoom=N fixes the factor
-// (whole numbers keep the pixel fonts perfectly even). A screen smaller
-// than 800x600 (a phone) zooms onto the visible windows instead (all of
+// (whole numbers keep the pixel fonts perfectly even). A phone (a side
+// under PHONE px) zooms onto the visible windows instead (all of
 // them, so a small popup never cuts off the window behind it), framing at least FOCUS_MIN px so small dialogs don't
 // jump in size.
 const ZOOM = Number(new URLSearchParams(location.search).get("zoom")) || 0;
-const FOCUS_MIN = 440, FOCUS_PAD = 8;
+const PHONE = 500, FOCUS_MIN = 440, FOCUS_PAD = 8;
 let scale = 0;
 
 function refit() {
   const vw = window.innerWidth, vh = window.innerHeight;
   let s = ZOOM || Math.min(vw / 800, vh / 600);
   let cx = 400, cy = 300;
-  const box = !ZOOM && s < 1 && focusBox();
+  const box = !ZOOM && Math.min(vw, vh) < PHONE && focusBox();
   if (box) {
     s = Math.min(vw / (Math.max(box.w, FOCUS_MIN) + 2 * FOCUS_PAD), vh / (Math.max(box.h, FOCUS_MIN * 0.6) + 2 * FOCUS_PAD));
     cx = box.x + box.w / 2;
