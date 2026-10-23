@@ -27,7 +27,8 @@ const L = layouts as unknown as Record<string, FormLayout>;
 
 async function main() {
   await Promise.all([loadArt(), loadData(),
-    ...["13px QSans13", "16px QSans16", "20px QSans20"].map((f) => document.fonts.load(f).catch(() => []))]);
+    ...["13px QSans13", "16px QSans16", "20px QSans20",
+      "11px QSerif9", "13px QSerif11", "19px QSerif16", "28px QSerif24", "36px QSerif32"].map((f) => document.fonts.load(f).catch(() => []))]);
   const seed = new URLSearchParams(location.search).get("seed");
   if (seed !== null) setSeed(Number(seed));
   initDesktop(document.querySelector("#app")!);

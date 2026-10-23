@@ -1,8 +1,13 @@
-/* Windows 95 look. The desktop is a 800x600 screen, shrunk to fit a
-   smaller page (?zoom=N fixes the factor). */
+/* Windows 95 look. The desktop is a 800x600 screen zoomed to fit the
+   page, up to 1.2x (?zoom=N fixes the factor). */
 @font-face { font-family: QSans13; src: url("/fonts/sans-13.woff?v=2") format("woff"); }
 @font-face { font-family: QSans16; src: url("/fonts/sans-16.woff?v=2") format("woff"); }
 @font-face { font-family: QSans20; src: url("/fonts/sans-20.woff?v=2") format("woff"); }
+@font-face { font-family: QSerif9; src: url("/fonts/serif-9.woff") format("woff"); }
+@font-face { font-family: QSerif11; src: url("/fonts/serif-11.woff") format("woff"); }
+@font-face { font-family: QSerif16; src: url("/fonts/serif-16.woff") format("woff"); }
+@font-face { font-family: QSerif24; src: url("/fonts/serif-24.woff") format("woff"); }
+@font-face { font-family: QSerif32; src: url("/fonts/serif-32.woff") format("woff"); }
 
 :root {
   --face: #c0c0c0;

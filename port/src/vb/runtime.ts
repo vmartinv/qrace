@@ -51,10 +51,13 @@ export function cssColor(c: number): string {
 
 // MS Sans Serif at 8, 10 and 12 pt uses the bitmap fonts in public/fonts
 // (converted from Wine's clone; the em is the bitmap cell, so they're set
-// at that pixel size). Other sizes and the serif faces use TrueType
-// look-alikes (Liberation has Arial / Times New Roman metrics).
+// at that pixel size). Times New Roman and MS Serif use Liberation Serif
+// rasterized without anti-aliasing (tools/serif2woff.py; SERIF_CELL maps
+// the em in px to the cell). Other sizes use TrueType look-alikes
+// (Liberation has Arial / Times New Roman metrics).
 const SANS = '"Liberation Sans", Arial, sans-serif';
 const SERIF = '"Times New Roman", "Liberation Serif", Times, serif';
+const SERIF_CELL: Record<number, number> = { 9: 11, 11: 13, 16: 19, 24: 28, 32: 36 };
 
 export function fontCss(name: string, pt: number): { family: string; size: string } {
   if (name === "MS Sans Serif") {
@@ -63,7 +66,10 @@ export function fontCss(name: string, pt: number): { family: string; size: strin
     if (pt <= 13) return { family: `QSans20, ${SANS}`, size: "20px" };
     return { family: SANS, size: `${(pt * 96) / 72}px` };
   }
-  return { family: /serif/i.test(name) || /Times/.test(name) ? SERIF : SANS, size: `${(pt * 96) / 72}px` };
+  const px = Math.round((pt * 96) / 72);
+  const serif = /serif/i.test(name) || /Times/.test(name);
+  if (serif && SERIF_CELL[px]) return { family: `QSerif${px}, ${SERIF}`, size: `${SERIF_CELL[px]}px` };
+  return { family: serif ? SERIF : SANS, size: `${(pt * 96) / 72}px` };
 }
 
 // Caption text with `&` access keys: "&&" is a literal "&", "&x" underlines x.
@@ -165,19 +171,19 @@ export function initDesktop(root: HTMLElement) {
   });
 }
 
-// The 800x600 screen shrinks to fit a smaller window, but never grows past
-// its real size; ?zoom=N fixes the factor (whole numbers keep the pixel
-// fonts perfectly even). A phone (a side
+// The 800x600 screen zooms to fit the window, up to MAX_ZOOM; ?zoom=N fixes
+// the factor (whole numbers keep the pixel fonts perfectly even). A phone (a side
 // under PHONE px) zooms onto the visible windows instead (all of
 // them, so a small popup never cuts off the window behind it), framing at least FOCUS_MIN px so small dialogs don't
 // jump in size.
 const ZOOM = Number(new URLSearchParams(location.search).get("zoom")) || 0;
+const MAX_ZOOM = 1.2;
 const PHONE = 500, FOCUS_MIN = 440, FOCUS_PAD = 8;
 let scale = 0;
 
 function refit() {
   const vw = window.innerWidth, vh = window.innerHeight;
-  let s = ZOOM || Math.min(vw / 800, vh / 600, 1);
+  let s = ZOOM || Math.min(vw / 800, vh / 600, MAX_ZOOM);
   let cx = 400, cy = 300;
   const box = !ZOOM && Math.min(vw, vh) < PHONE && focusBox();
   if (box) {
