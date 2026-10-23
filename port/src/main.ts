@@ -1,6 +1,6 @@
 import "./style.css";
 import layouts from "./forms/layouts.json";
-import { loadArt } from "./art.ts";
+import { artUrl, loadArt } from "./art.ts";
 import { loadData } from "./data.ts";
 import { F } from "./forms/registry.ts";
 import { FrmTitle } from "./forms/frmTitle.ts";
@@ -31,6 +31,7 @@ async function main() {
   const seed = new URLSearchParams(location.search).get("seed");
   if (seed !== null) setSeed(Number(seed));
   initDesktop(document.querySelector("#app")!);
+  setFavicon();
   Object.assign(F, {
     frmTitle: new FrmTitle(L.frmTitle),
     frmMain: new FrmMain(L.frmMain),
@@ -53,6 +54,23 @@ async function main() {
   if (import.meta.env.DEV) (window as unknown as Record<string, unknown>).__G = G;
   // The startup form.
   entry(() => F.frmTitle.Show());
+}
+
+// The page icon is the game's window icon, scaled up without smoothing.
+function setFavicon() {
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d")!;
+    g.imageSmoothingEnabled = false;
+    g.drawImage(img, 0, 0, 64, 64);
+    const link = document.createElement("link");
+    link.rel = "icon";
+    link.href = c.toDataURL();
+    document.head.append(link);
+  };
+  img.src = artUrl("frmTitle.Icon");
 }
 
 main();
