@@ -54,7 +54,7 @@ prefix lacks Times New Roman / MS Serif.
 `extraction/named/` is for reading only: names reach the compiled code
 (procedure names set their sort order), so never build from it.
 
-Port look: Windows 95 skin. MS Sans Serif 8/10/12 pt are pixel fonts
+Port look: Windows 95 skin at real size (shrinks to fit; phones zoom onto the windows). MS Sans Serif 8/10/12 pt are pixel fonts
 converted from Wine's LGPL clone (`tools/fon2woff.py` ->
 `port/public/fonts/`). Serif and large sizes use Liberation look-alikes.
 

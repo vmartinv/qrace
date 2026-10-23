@@ -1,5 +1,5 @@
-/* Windows 95 look. The desktop is a 800x600 screen zoomed to fill the
-   page (?zoom=N fixes the factor). */
+/* Windows 95 look. The desktop is a 800x600 screen, shrunk to fit a
+   smaller page (?zoom=N fixes the factor). */
 @font-face { font-family: QSans13; src: url("/fonts/sans-13.woff?v=2") format("woff"); }
 @font-face { font-family: QSans16; src: url("/fonts/sans-16.woff?v=2") format("woff"); }
 @font-face { font-family: QSans20; src: url("/fonts/sans-20.woff?v=2") format("woff"); }

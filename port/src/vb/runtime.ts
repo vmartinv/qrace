@@ -165,8 +165,9 @@ export function initDesktop(root: HTMLElement) {
   });
 }
 
-// The 800x600 screen fills the window by default; ?zoom=N fixes the factor
-// (whole numbers keep the pixel fonts perfectly even). A phone (a side
+// The 800x600 screen shrinks to fit a smaller window, but never grows past
+// its real size; ?zoom=N fixes the factor (whole numbers keep the pixel
+// fonts perfectly even). A phone (a side
 // under PHONE px) zooms onto the visible windows instead (all of
 // them, so a small popup never cuts off the window behind it), framing at least FOCUS_MIN px so small dialogs don't
 // jump in size.
@@ -176,7 +177,7 @@ let scale = 0;
 
 function refit() {
   const vw = window.innerWidth, vh = window.innerHeight;
-  let s = ZOOM || Math.min(vw / 800, vh / 600);
+  let s = ZOOM || Math.min(vw / 800, vh / 600, 1);
   let cx = 400, cy = 300;
   const box = !ZOOM && Math.min(vw, vh) < PHONE && focusBox();
   if (box) {
