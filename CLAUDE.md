@@ -31,6 +31,7 @@ tools/apply_names.py        # -> extraction/named/ (names.json)
 python3 tools/gen_layouts.py  # -> port/src/forms/layouts.json, port/original-assets/
 cd port && npm run dev      # ?art=original (dev only), ?tick=ms, ?seed=n
 node harness/play.mjs 2     # headless game to Game Over (needs the dev server)
+tools/deploy.sh [original|own]  # build -> gh-pages branch (GitHub Pages)
 ```
 
 ## Status

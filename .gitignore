@@ -9,6 +9,7 @@ extraction/
 # Node / Vite
 port/node_modules/
 port/dist/
+port/dist-original/
 port/.vite/
 
 # Wine prefixes used for the reference oracle.

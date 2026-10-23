@@ -1,7 +1,7 @@
 // The game's two data files. The original's qnames.txt and help.txt load
 // in dev mode with `?art=original` (see art.ts); otherwise these stand-ins
 // (our own) are used.
-import { useOriginal } from "./art.ts";
+import { ASSETS, useOriginal } from "./art.ts";
 
 export let qnames: string[] = [
   "Bumble", "Sprocket", "Dizzy Lou", "Mudpie", "Zippo", "Gherkin", "Old Toby", "Wobbler",
@@ -26,7 +26,7 @@ richest player wins.`;
 export async function loadData(): Promise<void> {
   if (!useOriginal()) return;
   const text = async (f: string) => {
-    const r = await fetch(`/original-assets/${f}`);
+    const r = await fetch(`${ASSETS}${f}`);
     if (!r.ok) throw new Error(f);
     return r.text();
   };

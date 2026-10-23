@@ -1,7 +1,8 @@
 // Screenshots of the title and the first menu screen: node harness/shot.mjs <outdir> [query]
 import { chromium } from "playwright-core";
 const out = process.argv[2], q = process.argv[3] ?? "";
-const browser = await chromium.launch({ executablePath: "/usr/bin/chromium" });
+// SwiftShader: the default headless GL leaves parts of the race canvas unpainted.
+const browser = await chromium.launch({ executablePath: "/usr/bin/chromium", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 const page = await browser.newPage({ viewport: { width: 800, height: 600 } });
 await page.goto(`http://localhost:5199/?tick=10${q}`);
 await page.waitForFunction(() => document.querySelector(".vb-window"));

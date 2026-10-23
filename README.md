@@ -7,6 +7,10 @@ build (TypeScript + Phaser 3). This is the original Visual Basic 3.0 release
 and as far as we've found, nobody has published a decompile or port of this
 specific version before.
 
+**Play it:** https://vmartinv.github.io/qrace/ (the hosted build uses the
+original pictures; they live only on the `gh-pages` branch, built by
+`tools/deploy.sh`, never in `main`).
+
 Full roadmap: [`CLAUDE.md`](./CLAUDE.md).
 
 The general VB3 executable format tooling this relies on (NE resource

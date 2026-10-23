@@ -1,7 +1,8 @@
 // Pictures. The port ships placeholder art drawn here (re-authored, same
 // sizes as the original's 8 pictures). In dev mode `?art=original` loads
 // the original pictures from port/original-assets/ (local only, generated
-// by tools/gen_layouts.py from your own copy of the game).
+// by tools/gen_layouts.py from your own copy of the game); so does a build
+// with VITE_ART=original (`npm run build:original`, never deployed from git).
 
 // A picture value. Controls get their own at load, and assigning one
 // control's Picture to another shares it, so `=` compares identity as
@@ -30,19 +31,22 @@ const urls = new Map<string, string>();
 let original: Record<string, string> | null = null;
 
 export function artUrl(key: string): string {
-  if (original?.[key]) return `/original-assets/${original[key]}`;
+  if (original?.[key]) return `${ASSETS}${original[key]}`;
   const kind = artKind(key);
   if (!urls.has(kind)) urls.set(kind, draw(kind));
   return urls.get(kind)!;
 }
 
+export const ASSETS = `${import.meta.env.BASE_URL}original-assets/`;
+
 export const useOriginal = () =>
-  import.meta.env.DEV && new URLSearchParams(location.search).get("art") === "original";
+  import.meta.env.VITE_ART === "original" ||
+  (import.meta.env.DEV && new URLSearchParams(location.search).get("art") === "original");
 
 export async function loadArt(): Promise<void> {
   if (!useOriginal()) return;
   try {
-    original = await (await fetch("/original-assets/manifest.json")).json();
+    original = await (await fetch(`${ASSETS}manifest.json`)).json();
   } catch {
     original = null;
   }

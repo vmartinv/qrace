@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:original": "tsc && VITE_ART=original vite build --base=./ --outDir=dist-original && cp -r original-assets dist-original/"
   },
   "devDependencies": {
     "playwright-core": "^1.63.0",

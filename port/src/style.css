@@ -38,6 +38,14 @@ html, body {
   -webkit-font-smoothing: none;
   font-smooth: never;
 }
+.vb-credit {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  text-align: right;
+  color: #fff;
+}
+.vb-credit a { color: inherit; }
 
 /* windows: a 4 px sizable frame (2 px bevel + 2 px face) */
 .vb-window {

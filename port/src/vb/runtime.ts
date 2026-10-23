@@ -136,6 +136,12 @@ export function initDesktop(root: HTMLElement) {
   desktop = document.createElement("div");
   desktop.className = "vb-desktop";
   root.append(desktop);
+  // Credits, in the desktop corner like Windows' version watermark.
+  const credit = document.createElement("div");
+  credit.className = "vb-credit";
+  credit.innerHTML = 'Quibble Race &copy; Derek Yu / Blackeye Software<br>' +
+    'Unofficial fan port &middot; <a href="https://derekyu.com" target="_blank" rel="noopener">derekyu.com</a>';
+  desktop.append(credit);
   // The 800x600 screen fills the window by default; ?zoom=N fixes the factor
   // (whole numbers keep the pixel fonts perfectly even).
   const zoom = Number(new URLSearchParams(location.search).get("zoom")) || 0;
