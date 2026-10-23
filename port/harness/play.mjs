@@ -1,12 +1,17 @@
 // Plays the port headless: one human (bets a fixed amount on racer 0)
 // and two computers, until Game Over. Prints one line per round.
 //   node harness/play.mjs [rounds] [url]
+// VIEWPORT=390x844 plays on a phone screen; SHOTS=dir saves a screenshot of
+// each new set of visible windows.
 import { chromium } from "playwright-core";
 
 const rounds = process.argv[2] ?? "2";
 const url = process.argv[3] ?? "http://localhost:5199/?tick=5";
 const browser = await chromium.launch({ executablePath: "/usr/bin/chromium" });
-const page = await browser.newPage({ viewport: { width: 1000, height: 750 } });
+const [vw, vh] = (process.env.VIEWPORT ?? "1000x750").split("x").map(Number);
+const phone = process.env.VIEWPORT ? { isMobile: true, hasTouch: true, deviceScaleFactor: 3 } : {};
+const page = await browser.newPage({ viewport: { width: vw, height: vh }, ...phone });
+const shots = new Set();
 const errors = [];
 page.on("pageerror", (e) => errors.push(String(e)));
 await page.goto(url);
@@ -48,6 +53,11 @@ for (;;) {
       ended: !!document.querySelector(".vb-ended") };
   });
   if (s.ended) { console.log("ended"); break; }
+  const key = s.titles.join("+") + (s.msg ? "+MsgBox" : "");
+  if (process.env.SHOTS && !shots.has(key)) {
+    shots.add(key);
+    await page.screenshot({ path: `${process.env.SHOTS}/${String(shots.size).padStart(2, "0")} ${key}.png` });
+  }
   if (s.msg) { await js(() => document.querySelector(".vb-modal button").click()); continue; }
   if (s.titles.includes("Game Over")) {
     const txt = await js(() => vis().map((w) => w.innerText.replace(/\s+/g, " ")).join(" | "));

@@ -163,8 +163,8 @@ export function initDesktop(root: HTMLElement) {
 
 // The 800x600 screen fills the window by default; ?zoom=N fixes the factor
 // (whole numbers keep the pixel fonts perfectly even). A screen smaller
-// than 800x600 (a phone) zooms onto the active window and any MsgBox or
-// Notepad instead, framing at least FOCUS_MIN px so small dialogs don't
+// than 800x600 (a phone) zooms onto the visible windows instead (all of
+// them, so a small popup never cuts off the window behind it), framing at least FOCUS_MIN px so small dialogs don't
 // jump in size.
 const ZOOM = Number(new URLSearchParams(location.search).get("zoom")) || 0;
 const FOCUS_MIN = 440, FOCUS_PAD = 8;
@@ -192,9 +192,9 @@ function refit() {
   }
 }
 
-// The bounding box, in desktop pixels, of the windows the player is using.
+// The bounding box, in desktop pixels, of the visible windows.
 function focusBox() {
-  const wins = [active?.win, ...desktop.querySelectorAll<HTMLElement>(".vb-msgbox, .vb-notepad")];
+  const wins = [...zOrder.map((f) => f.win), ...desktop.querySelectorAll<HTMLElement>(".vb-msgbox, .vb-notepad")];
   const d = desktop.getBoundingClientRect(), z = d.width / 800 || 1;
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const w of wins) {
@@ -774,6 +774,7 @@ export class VBForm {
     zOrder = [...zOrder.filter((f) => f !== this), this];
     restack();
     activate(this);
+    refit();
   }
 
   Hide() {
@@ -783,6 +784,7 @@ export class VBForm {
     this.win.style.display = "none";
     zOrder = zOrder.filter((f) => f !== this);
     if (active === this) activate(zOrder[zOrder.length - 1] ?? null);
+    refit();
   }
 
   // The Unload statement (mode 1) or the user closing the window (mode 0).
@@ -798,6 +800,7 @@ export class VBForm {
       active = null;
       activate(zOrder[zOrder.length - 1] ?? null);
     }
+    refit();
   }
 
   destroy() {
