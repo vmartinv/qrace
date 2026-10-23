@@ -14,6 +14,10 @@ export const TWIPS = 15;
 // bar + 1 px line) heights, px.
 const FRAME = 4;
 const CAPTION = 19;
+// The game's forms are all centred near (466, 362), off the middle of an
+// 800x600 screen (the code never reads or moves form positions); they're
+// shifted by this much to centre them.
+const CENTRE_X = 66, CENTRE_Y = 62;
 const px = (tw: number) => `${tw / TWIPS}px`;
 
 // The OS timer's resolution: SetTimer on Windows 3.x/9x ticks at ~55 ms.
@@ -188,6 +192,7 @@ function refit() {
   desktop.style.top = `${place(vh, 600, cy)}px`;
   if (s !== scale) {
     scale = s;
+    document.documentElement.style.setProperty("--zoom", String(s));
     resnap();
   }
 }
@@ -757,8 +762,8 @@ export class VBForm {
         });
       }
     });
-    w.style.left = `${Number(p.ClientLeft) / TWIPS - FRAME}px`;
-    w.style.top = `${Number(p.ClientTop) / TWIPS - FRAME - CAPTION}px`;
+    w.style.left = `${Number(p.ClientLeft) / TWIPS - FRAME - CENTRE_X}px`;
+    w.style.top = `${Number(p.ClientTop) / TWIPS - FRAME - CAPTION - CENTRE_Y}px`;
     desktop.append(w);
     this.win = w;
     this.client = client;
