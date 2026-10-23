@@ -136,26 +136,15 @@ export function initDesktop(root: HTMLElement) {
   desktop = document.createElement("div");
   desktop.className = "vb-desktop";
   root.append(desktop);
-  // Credits, in the desktop corner like Windows' version watermark.
+  // Credits, in the screen corner like Windows' version watermark (outside
+  // the zoomed desktop, so the phone zoom never pushes it off screen).
   const credit = document.createElement("div");
   credit.className = "vb-credit";
   credit.innerHTML = 'Quibble Race &copy; Derek Yu / Blackeye Software<br>' +
     'Unofficial fan port &middot; <a href="https://derekyu.com" target="_blank" rel="noopener">derekyu.com</a>';
-  desktop.append(credit);
-  // The 800x600 screen fills the window by default; ?zoom=N fixes the factor
-  // (whole numbers keep the pixel fonts perfectly even).
-  const zoom = Number(new URLSearchParams(location.search).get("zoom")) || 0;
-  const fit = () => {
-    const s = zoom || Math.min(window.innerWidth / 800, window.innerHeight / 600);
-    desktop.style.transform = `scale(${s})`;
-    desktop.style.left = `${(window.innerWidth - 800 * s) / 2}px`;
-    desktop.style.top = `${(window.innerHeight - 600 * s) / 2}px`;
-  };
-  window.addEventListener("resize", () => {
-    fit();
-    resnap();
-  });
-  fit();
+  root.append(credit);
+  window.addEventListener("resize", refit);
+  refit();
   document.fonts?.ready.then(resnap);
   document.fonts?.addEventListener("loadingdone", resnap);
   document.addEventListener("keydown", (e) => {
@@ -169,6 +158,54 @@ export function initDesktop(root: HTMLElement) {
     if (t.closest?.(".vb-window") && t.matches("input, textarea, button")) return;
     entry(() => f.fire("Form_KeyDown", e.keyCode, (e.shiftKey ? 1 : 0) | (e.ctrlKey ? 2 : 0) | (e.altKey ? 4 : 0)));
   });
+}
+
+// The 800x600 screen fills the window by default; ?zoom=N fixes the factor
+// (whole numbers keep the pixel fonts perfectly even). A screen smaller
+// than 800x600 (a phone) zooms onto the active window and any MsgBox or
+// Notepad instead, framing at least FOCUS_MIN px so small dialogs don't
+// jump in size.
+const ZOOM = Number(new URLSearchParams(location.search).get("zoom")) || 0;
+const FOCUS_MIN = 440, FOCUS_PAD = 8;
+let scale = 0;
+
+function refit() {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let s = ZOOM || Math.min(vw / 800, vh / 600);
+  let cx = 400, cy = 300;
+  const box = !ZOOM && s < 1 && focusBox();
+  if (box) {
+    s = Math.min(vw / (Math.max(box.w, FOCUS_MIN) + 2 * FOCUS_PAD), vh / (Math.max(box.h, FOCUS_MIN * 0.6) + 2 * FOCUS_PAD));
+    cx = box.x + box.w / 2;
+    cy = box.y + box.h / 2;
+  }
+  // Centre on the focus, but keep the desktop's edges outside the view.
+  const place = (v: number, size: number, c: number) =>
+    size * s <= v ? (v - size * s) / 2 : Math.min(0, Math.max(v - size * s, v / 2 - c * s));
+  desktop.style.transform = `scale(${s})`;
+  desktop.style.left = `${place(vw, 800, cx)}px`;
+  desktop.style.top = `${place(vh, 600, cy)}px`;
+  if (s !== scale) {
+    scale = s;
+    resnap();
+  }
+}
+
+// The bounding box, in desktop pixels, of the windows the player is using.
+function focusBox() {
+  const wins = [active?.win, ...desktop.querySelectorAll<HTMLElement>(".vb-msgbox, .vb-notepad")];
+  const d = desktop.getBoundingClientRect(), z = d.width / 800 || 1;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const w of wins) {
+    if (!w || !w.isConnected) continue;
+    const r = w.getBoundingClientRect();
+    if (!r.width) continue;
+    x0 = Math.min(x0, (r.left - d.left) / z);
+    y0 = Math.min(y0, (r.top - d.top) / z);
+    x1 = Math.max(x1, (r.right - d.left) / z);
+    y1 = Math.max(y1, (r.bottom - d.top) / z);
+  }
+  return x0 < x1 ? { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } : null;
 }
 
 function resnap() {
@@ -248,6 +285,7 @@ function activate(f: VBForm | null) {
   if (f === active) return;
   active = f;
   for (const g of forms) g.win?.classList.toggle("active", g === f);
+  refit();
   f?.fire("Form_Activate");
 }
 
@@ -273,6 +311,7 @@ export function msgBox(text: string, title = "QUIBBLES", then?: () => void) {
   ok.onclick = () => {
     shade.remove();
     modal = null;
+    refit();
     if (then) entry(then);
   };
   w.querySelector(".vb-msgbody")!.append(ok);
@@ -281,6 +320,7 @@ export function msgBox(text: string, title = "QUIBBLES", then?: () => void) {
   desktop.append(shade);
   makeDraggable(w, w.querySelector<HTMLElement>(".vb-caption")!);
   modal = shade;
+  refit();
   ok.focus();
 }
 
@@ -787,9 +827,13 @@ export function notepad(title: string, text: string): number {
     <textarea readonly></textarea>`;
   w.querySelector(".vb-title")!.textContent = `Notepad - ${title}`;
   w.querySelector("textarea")!.value = text;
-  w.querySelector(".vb-close")!.addEventListener("click", () => w.remove());
+  w.querySelector(".vb-close")!.addEventListener("click", () => {
+    w.remove();
+    refit();
+  });
   w.style.zIndex = "900";
   desktop.append(w);
+  refit();
   makeDraggable(w, w.querySelector<HTMLElement>(".vb-caption")!);
   return ++taskId;
 }

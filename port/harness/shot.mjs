@@ -1,9 +1,12 @@
-// Screenshots of the title and the first menu screen: node harness/shot.mjs <outdir> [query]
+// Screenshots of the title and the first menu screen:
+// node harness/shot.mjs <outdir> [query] [WxH: a phone viewport, e.g. 390x844]
 import { chromium } from "playwright-core";
 const out = process.argv[2], q = process.argv[3] ?? "";
+const [w, h] = (process.argv[4] ?? "800x600").split("x").map(Number);
+const phone = process.argv[4] ? { isMobile: true, hasTouch: true, deviceScaleFactor: 3 } : {};
 // SwiftShader: the default headless GL leaves parts of the race canvas unpainted.
 const browser = await chromium.launch({ executablePath: "/usr/bin/chromium", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
-const page = await browser.newPage({ viewport: { width: 800, height: 600 } });
+const page = await browser.newPage({ viewport: { width: w, height: h }, ...phone });
 await page.goto(`http://localhost:5199/?tick=10${q}`);
 await page.waitForFunction(() => document.querySelector(".vb-window"));
 await page.waitForTimeout(500);

@@ -39,13 +39,16 @@ html, body {
   font-smooth: never;
 }
 .vb-credit {
-  position: absolute;
+  position: fixed;
   right: 8px;
   bottom: 6px;
+  z-index: 1;
   text-align: right;
   color: #fff;
+  font: 13px QSans13, "Liberation Sans", Arial, sans-serif;
+  pointer-events: none;
 }
-.vb-credit a { color: inherit; }
+.vb-credit a { color: inherit; pointer-events: auto; }
 
 /* windows: a 4 px sizable frame (2 px bevel + 2 px face) */
 .vb-window {
