@@ -31,7 +31,6 @@ html, body {
   width: 800px;
   height: 600px;
   transform-origin: 0 0;
-  background: #008080;
   overflow: hidden;
   font: 13px QSans13, "Liberation Sans", Arial, sans-serif;
   user-select: none;
@@ -42,13 +41,14 @@ html, body {
   position: fixed;
   right: 8px;
   bottom: 6px;
-  z-index: 1;
   text-align: right;
   color: #fff;
   font: 13px QSans13, "Liberation Sans", Arial, sans-serif;
-  pointer-events: none;
 }
-.vb-credit a { color: inherit; pointer-events: auto; }
+.vb-credit a { color: inherit; }
+/* The desktop is see-through to clicks too, so the credit link works. */
+.vb-desktop { pointer-events: none; }
+.vb-desktop > * { pointer-events: auto; }
 
 /* windows: a 4 px sizable frame (2 px bevel + 2 px face) */
 .vb-window {

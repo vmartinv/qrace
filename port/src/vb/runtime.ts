@@ -133,16 +133,17 @@ let modal: HTMLElement | null = null;
 export let desktop: HTMLElement;
 
 export function initDesktop(root: HTMLElement) {
-  desktop = document.createElement("div");
-  desktop.className = "vb-desktop";
-  root.append(desktop);
-  // Credits, in the screen corner like Windows' version watermark (outside
-  // the zoomed desktop, so the phone zoom never pushes it off screen).
+  // Credits, in the screen corner like Windows' version watermark: behind
+  // the (transparent) desktop, and outside it so the phone zoom never pushes
+  // it off screen.
   const credit = document.createElement("div");
   credit.className = "vb-credit";
   credit.innerHTML = 'Quibble Race &copy; Derek Yu / Blackeye Software<br>' +
     'Unofficial fan port &middot; <a href="https://derekyu.com" target="_blank" rel="noopener">derekyu.com</a>';
   root.append(credit);
+  desktop = document.createElement("div");
+  desktop.className = "vb-desktop";
+  root.append(desktop);
   window.addEventListener("resize", refit);
   refit();
   document.fonts?.ready.then(resnap);
