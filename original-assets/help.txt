@@ -1,0 +1,234 @@
+Quibble Race v1.5 by Blackeye Software
+
+
+Contents:
+
+1.	What is a Quibble?
+2.	The Concept
+3.	How to Play 
+4.	Betting Mechanics
+5.	Special Desriptions
+6.	Options
+
+--------------------------------------------------------
+
+What is a Quibble?
+
+Quibbles are the small and green, domesticated amimals
+of the future.  Many live as household pets, while
+others are treated as mere beasts of burden.  Still
+others are trained to race for the betting enjoyment of
+half the galaxy.  It is these quibbles, which comprise
+a kind of futuristic horse-racing, that this game is
+about.
+
+--------------------------------------------------------
+
+The Concept
+
+In this game you control a professional gambler.  
+Quibble racing is your life, and it is your goal to make
+smarter bets, better decisions, and ultimately more cash
+than your two opponents.  Fortunately, you have more
+than a few tricks up your sleeve in order to accomplish
+this...  
+
+--------------------------------------------------------
+
+How to Play
+
+A	Setting up the Game
+
+First of all, for all you mentally challenged people out 
+there, hit 'Start' to begin the game.  But before you do
+so, feel free to admire the amazingly animated quibble
+running across the top of the screen.
+
+Next, you can setup the players.  There will always be 
+three characters in the game, each of whom can be either
+human or computer controlled.  If you select 'Human,'
+you will be asked to enter that player's name.  Easy
+enough.
+
+B	Taking Your Turn
+
+Once the game has started, you will be brought to the 
+menu screen.  At the top of the window, you will be 
+informed as to whose turn it is.  Pictured on the left
+will be the three quibbles participating in the next
+race.  To bet on a quibble, simply click on it and
+enter how much you want to bet in the relevant box.  
+
+There are several buttons on the menu screen which I
+will proceed to explain in detail:
+
+i.	Loan Shark
+
+If you find that you're strapped for cash during the
+course of the game, you can borrow money from the Loan
+Shark.  To borrow money, enter the amount you want in
+the text box and click the "Borrow" button.  To pay back
+the Loan Shark, enter the amount you want to pay back
+and click "Pay Off."  Once  you've borrowed money, your
+debt will go up accordingly, factoring in the current 
+interest.
+
+ii.	Special	
+
+Clicking the "Special" button will give you a list of
+actions you can take which will affect the outcome of
+the race.  Choose the action you want (provided you can
+afford it of course) and then select the quibble you
+wish to use it on.  What exactly all these actions do
+will be explained later on in this text file. If you
+absolutely have to know now, go on and scroll ahead.
+
+iii.	Information
+
+Here you can purchase two kinds of information.
+"Projected  Rankings" will give you a fairly accurate
+prediction of the next race's outcome.  This is much
+more reliable than basing your bets solely on win
+percentages.  
+
+"Betting Placement" will give you a report of how many
+bets each racer has received and how much money they
+total up to.  This is useful for determining what the
+pay off will be if your quibble wins the race.
+
+iv.	Sponsoring
+
+There are two options here: "Sponsor a Quibble" and
+"Current Status." The first option will show you three
+quibbles available for sponsorship.  Once you've
+sponsored a quibble it will show up under "Current
+Status," where you can change it's name, or have it
+trained.  You can only sponsor three quibbles at any one
+time.
+
+Any time a quibble you sponsored is involved in a race,
+you will earn cash proportional to the quibble's win
+percentage.  If your quibble actually wins a race, you
+will receive a $100 cut of the prize money.
+
+v.	Retire
+
+If you're totally broke, and the Loan Shark won't loan
+you any more money, you can quit the game early by 
+hitting "Retire".  
+
+When you're done with your turn hit "done" and the race
+will begin!
+
+
+--------------------------------------------------------
+
+Betting Mechanics
+
+All the money that people bet (that would be you, your
+opponents, and 12 invisible gamblers) goes into a common
+pool, which the winners divide.  How big a portion you 
+will receive depends on how many other people placed
+winning bets, and how big your bet was.  This means 
+that quibbles which few people have chosen, while 
+probably slow, will yield a much larger reward.
+
+--------------------------------------------------------
+
+Special Descriptions
+
+Although training your quibble is sanctioned by the
+NQA (Nat'l Quibble Association), almost any other form
+of tampering is strictly illegal.  However, if a gambler
+is crafty enough, he can get away with anything,
+provided he has the money...
+
+1.  Steroids     $50     Illegal
+
+A careful blend of chlorophetamines and wasp extracts
+injected into the rump of a sleeping quibble can
+drastically augment its stamina, if only for one race.
+
+2.  Weights      $30     Illegal
+
+These large, bulky, lead ankle weights can be attached
+to the legs of a quibble to slow down performance.
+
+3.  Poison       $150    Illegal
+
+Although harmless to most humanoids, the milk of your
+average goat is extremely deadly to the sensitive
+skin of quibbles, killing them instantly upon touch.
+In fact, even the smell of goat's milk can
+sometimes force a relatively healthy quibble into
+dementia.  Use with extreme caution.
+
+4.  Train        $20     Legal
+
+The NQA recommends a strict diet of Peanut M&M's to
+give your quibble's pelt a healthy luster.  This,
+accompanied by an aggressive training schedule and
+an occasional beating to callous your quibble to the
+harshness of racing, will have a positive effect on
+its performance in future races.
+
+5.   Cripple     $35     Illegal
+
+Make a fist - that is the size of your average quibble's
+kneecaps.  To break them, thugs use a special club made
+from a tough titanium alloy. A quibble will never fully
+recover from these attacks.
+
+6.   Drug        $75     Illegal
+
+One Wilma Flintstone vitamin, carefully dissolved in a
+quibble's drinking water will render it to become
+confused, and temporarily lose its sense of direction.
+Drugged quibbles have a tendency to run backward during
+a race.
+
+7.   Guard       $25     Legal
+
+While the NQA doesn't usually take an active stance
+toward race tampering, getting an opponent caught in the
+act by hiring someone to guard your quibble will result
+in a substantial fine.
+
+Additional Note on specials:
+
+Specials do not occur the second you purchase them.
+All specials take effect simultaneously before the
+race begins.  This means that you can guard a quibble
+from an action taken on a turn prior to yours.
+
+--------------------------------------------------------
+
+Options
+
+A.  Game Type
+
+Play for Goal - The game ends when one player acquires
+                specified amount of money.
+
+Play for Rounds - The game ends after a certain number
+		  of rounds.  The winner is the player
+                  with the most money.
+
+Start $ - The amount of money each player starts with.
+
+Interest - The amount of money the loan shark will
+           charge for each loan.
+
+Speed - Specifies how fast the races will be.
+	Range: 1-30
+
+B.  Settings
+
+Specials - Toggle Specials On/Off
+
+Special Limit - Toggles whether or not you can use
+                Specials more than once per round.
+
+Information - Toggle Information On/Off
+
+Sponsoring - Toggle Sponsoring On/Off
