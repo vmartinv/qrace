@@ -29,6 +29,8 @@ export function artKind(key: string): ArtKind {
 
 const urls = new Map<string, string>();
 let original: Record<string, string> | null = null;
+// Preloaded pictures, kept referenced so they stay decoded.
+const loaded: HTMLImageElement[] = [];
 
 export function artUrl(key: string): string {
   if (original?.[key]) return `${ASSETS}${original[key]}`;
@@ -50,6 +52,14 @@ export async function loadArt(): Promise<void> {
   } catch {
     original = null;
   }
+  // Load and decode every picture up front, as the exe has them all in its
+  // resources: forms then show them without waiting on the network.
+  await Promise.all([...new Set(Object.values(original ?? {}))].map((f) => {
+    const img = new Image();
+    img.src = `${ASSETS}${f}`;
+    loaded.push(img);
+    return img.decode().catch(() => {});
+  }));
   // Real Times New Roman pixel fonts (tools/serif2woff.py --times), if made.
   await Promise.all(SERIF_PX.map(async (px) => {
     try {
